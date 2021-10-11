@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/login/login_viewmodel.dart';
+import 'package:flutter_pat_shop/login_test_mvvm/login_viewmodel.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginPageState extends State<LoginPage> {
   // late ProgressDialog progressDialog;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Login"),
-      ),
       body: BodyWidget(),
     );
   }
@@ -55,10 +52,17 @@ class _BodyWidgetState extends State<BodyWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 50),
+      padding: EdgeInsets.fromLTRB(50, 25, 50, 0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Container(
+            padding: EdgeInsets.only(bottom: 50),
+            child: Image(
+              width: 100,
+              image: AssetImage("assets/images/logo_app.png"),
+            ),
+          ),
           StreamBuilder<String>(
               stream: loginViewModel.phoneNumberStream,
               builder: (context, snapshot) {
@@ -72,9 +76,6 @@ class _BodyWidgetState extends State<BodyWidget> {
                   ),
                 );
               }),
-          SizedBox(
-            height: 20,
-          ),
           StreamBuilder<String>(
               stream: loginViewModel.passwordStream,
               builder: (context, snapshot) {
@@ -89,7 +90,7 @@ class _BodyWidgetState extends State<BodyWidget> {
                 );
               }),
           SizedBox(
-            height: 100,
+            height: 30,
           ),
           SizedBox(
             width: 200,
@@ -99,9 +100,9 @@ class _BodyWidgetState extends State<BodyWidget> {
                   return RaisedButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
-                    onPressed:
-                        snapshot.data == true ? () => {print("Login " + snapshot.data.toString())} :
-                        null,
+                    onPressed: snapshot.data == true
+                        ? () => {print("Login " + snapshot.data.toString())}
+                        : null,
                     child: Text(
                       "Login",
                       style: TextStyle(color: Colors.white),
