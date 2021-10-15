@@ -32,6 +32,7 @@ class User extends Database
 		$stmt->execute();
 
 		return $stmt;
+
 	}
 	// Select user by userPhone and userPass
 	public function read_signle(){
@@ -44,26 +45,26 @@ class User extends Database
 		$stmt->bindParam(1, $this->userPhone);
 		$stmt->bindParam(2, $this->userPass);
 		$stmt->execute();
-		if ($stmt->rowCount() == 1) {
-			$row = $stmt->fetch(PDO::FETCH_ASSOC);
-			$this->userID = $row['userID'];
-			$this->userName = $row['userName'];
-			$this->userEmail = $row['userEmail'];
-			$this->userAvatar = $row['userAvatar'];
-			$this->userRole = $row['userRole'];
-		}
+
+		$row = $stmt->fetch(PDO::FETCH_ASSOC);
+		$this->userID = $row['userID'];
+		$this->userName = $row['userName'];
+		$this->userEmail = $row['userEmail'];
+		$this->userAvatar = $row['userAvatar'];
+		$this->userRole = $row['userRole'];
+
 		return $stmt;
 	}
 	// Create User
 	public function create(){
 		// Create query
 		$query = 'INSERT INTO '.$this->table.' SET 
-		userName = :userName,
-		userPhone = :userPhone,
-		userPass = :userPass,
-		userEmail = :userEmail,
-		userAvatar = :userAvatar,
-		userRole = :userRole;';
+			userName = :userName,
+			userPhone = :userPhone,
+			userPass = :userPass,
+			userEmail = :userEmail,
+			userAvatar = :userAvatar,
+			userRole = :userRole;';
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
@@ -89,13 +90,13 @@ class User extends Database
 	public function update(){
 		// Create query
 		$query = 'UPDATE '.$this->table.' SET 
-		userName = :userName,
-		userPhone = :userPhone,
-		userPass = :userPass,
-		userEmail = :userEmail,
-		userAvatar = :userAvatar,
-		userRole = :userRole 
-		WHERE userID = :userID;';
+			userName = :userName,
+			userPhone = :userPhone,
+			userPass = :userPass,
+			userEmail = :userEmail,
+			userAvatar = :userAvatar,
+			userRole = :userRole 
+			WHERE userID = :userID;';
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
