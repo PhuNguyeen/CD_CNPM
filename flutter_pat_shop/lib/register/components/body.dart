@@ -6,10 +6,10 @@ import 'package:flutter_pat_shop/register/components/socal_icon.dart';
 import 'package:flutter_pat_shop/widgets/already_have_an_account.dart';
 import 'package:flutter_pat_shop/widgets/rounded_button.dart';
 import 'package:flutter_pat_shop/widgets/rounded_input_field.dart';
-import 'package:flutter_svg/svg.dart';
 
 class Body extends StatelessWidget {
-  const Body({
+  final controllerPhoneNumber = TextEditingController();
+  Body({
     Key? key,
   }) : super(key: key);
 
@@ -34,7 +34,10 @@ class Body extends StatelessWidget {
               RoundedInputField(
                 hintText: "0123XXXX89",
                 textInputType: TextInputType.phone,
-                onChanged: (value) {},
+                controller: controllerPhoneNumber,
+                onChanged: (value) {
+                  //TODO Check số điện thoại đúng định dạng hay chưa sau đó gửi số điện thoại check xem tồn tại User này chưa
+                },
               ),
               SizedBox(
                 height: size.height * 0.01,
@@ -49,7 +52,7 @@ class Body extends StatelessWidget {
               AlreadyHaveAnAccountCheck(
                 login: false,
                 press: () {
-                  Navigator.push(context, MaterialPageRoute(
+                  Navigator.pop(context, MaterialPageRoute(
                     builder: (context) {
                       return LoginScreen();
                     },
@@ -77,4 +80,3 @@ class Body extends StatelessWidget {
     );
   }
 }
-
