@@ -8,7 +8,7 @@
 		{
 			// headers
 			header('Access-Control-Allow-Origin: *');
-			header('Content-Type: application/json; charset: UTF-8;');
+			header('Content-Type: application/json');
 			if(file_exists(realpath(dirname(__FILE__) . '/../model/'. $model .'.php'))){
 				require_once(realpath(dirname(__FILE__) . '/../core/Database.php'));
 				require_once(realpath(dirname(__FILE__) . '/../model/'. $model .'.php'));
