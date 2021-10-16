@@ -21,5 +21,6 @@ samples, guidance on mobile development, and a full API reference.
 |___________________________________________________________________________________________________|
 
 #References
-- link youtube 	tutorial login/ register: https://www.youtube.com/watch?v=ExKYjqgswJg&t=578s
-		call api: https://www.youtube.com/watch?v=4swhVu-ZomI&t=15s
+- link youtube 	
+  tutorial login/ register: https://www.youtube.com/watch?v=ExKYjqgswJg&t=578s
+  call api: 				https://www.youtube.com/watch?v=4swhVu-ZomI&t=15s

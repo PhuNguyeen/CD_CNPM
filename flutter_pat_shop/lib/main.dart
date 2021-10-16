@@ -1,12 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pat_shop/constants.dart';
+import 'package:flutter_pat_shop/home/home_screen.dart';
 import 'package:flutter_pat_shop/login/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isLogin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _setData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,7 +31,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: LoginScreen(),
+      home: isLogin ? HomeScreen() : LoginScreen(),
     );
+  }
+
+  _setData() async {
+    final saveData = await SharedPreferences.getInstance();
+    isLogin = saveData.getBool(IS_LOGIN) ?? false;
+    print(isLogin.toString());
   }
 }
