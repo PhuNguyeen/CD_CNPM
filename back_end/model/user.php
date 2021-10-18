@@ -35,23 +35,25 @@ class User extends Database
 
 	}
 	// Select user by userPhone and userPass
-	public function read_signle(){
+	public function read_single(){
 		// Create query
-		$query = 'SELECT * FROM '. $this->table .' u WHERE u.userPhone = ? and u.userPass = ? LIMIT 1;';
+		$query = 'SELECT * FROM '. $this->table .' u WHERE u.userPhone = ? LIMIT 1;';
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
 		// binding param
 		$stmt->bindParam(1, $this->userPhone);
-		$stmt->bindParam(2, $this->userPass);
 		$stmt->execute();
-
-		$row = $stmt->fetch(PDO::FETCH_ASSOC);
-		$this->userID = $row['userID'];
-		$this->userName = $row['userName'];
-		$this->userEmail = $row['userEmail'];
-		$this->userAvatar = $row['userAvatar'];
-		$this->userRole = $row['userRole'];
+		if ($stmt->countRow() == 1) {
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			$this->userID = $row['userID'];
+			$this->userName = $row['userName'];
+			$this->userPass = $row['userPass'];
+			$this->userEmail = $row['userEmail'];
+			$this->userAvatar = $row['userAvatar'];
+			$this->userRole = $row['userRole'];
+		}
+		
 
 		return $stmt;
 	}
@@ -59,12 +61,12 @@ class User extends Database
 	public function create(){
 		// Create query
 		$query = 'INSERT INTO '.$this->table.' SET 
-			userName = :userName,
-			userPhone = :userPhone,
-			userPass = :userPass,
-			userEmail = :userEmail,
-			userAvatar = :userAvatar,
-			userRole = :userRole;';
+		userName = :userName,
+		userPhone = :userPhone,
+		userPass = :userPass,
+		userEmail = :userEmail,
+		userAvatar = :userAvatar,
+		userRole = :userRole;';
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
@@ -90,13 +92,13 @@ class User extends Database
 	public function update(){
 		// Create query
 		$query = 'UPDATE '.$this->table.' SET 
-			userName = :userName,
-			userPhone = :userPhone,
-			userPass = :userPass,
-			userEmail = :userEmail,
-			userAvatar = :userAvatar,
-			userRole = :userRole 
-			WHERE userID = :userID;';
+		userName = :userName,
+		userPhone = :userPhone,
+		userPass = :userPass,
+		userEmail = :userEmail,
+		userAvatar = :userAvatar,
+		userRole = :userRole 
+		WHERE userID = :userID;';
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);

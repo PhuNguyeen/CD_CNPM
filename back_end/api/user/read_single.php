@@ -6,9 +6,8 @@ $bridge = new Bridge($model);
 $user = new User();
 // get value
 $user->userPhone = $bridge->validateValueGet('userPhone');
-$user->userPass = $bridge->validateValueGet('userPass');
 // api
-$user->read_signle();
+$user->read_single();
 if (is_null($user->userID)) {
 	$bridge->message('No '.$model.' found.');
 }else{
