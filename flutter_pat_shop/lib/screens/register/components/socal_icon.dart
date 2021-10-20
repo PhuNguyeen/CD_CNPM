@@ -18,10 +18,13 @@ class SocalIcon extends StatelessWidget {
         border: Border.all(width: 1, color: kPrimaryColor),
         shape: BoxShape.circle,
       ),
-      child: SvgPicture.asset(
-        iconSrc,
-        height: 20,
-        width: 20,
+      child: GestureDetector(
+        onTap: press,
+        child: SvgPicture.asset(
+          iconSrc,
+          height: 20,
+          width: 20,
+        ),
       ),
     );
   }

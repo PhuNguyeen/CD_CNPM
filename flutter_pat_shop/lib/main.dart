@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/constants.dart';
-import 'package:flutter_pat_shop/home/home_screen.dart';
-import 'package:flutter_pat_shop/login/login_screen.dart';
+import 'package:flutter_pat_shop/screens/home/home_screen.dart';
+import 'package:flutter_pat_shop/screens/login/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

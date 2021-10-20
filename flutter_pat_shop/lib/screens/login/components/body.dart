@@ -2,17 +2,18 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/constants.dart';
-import 'package:flutter_pat_shop/home/home_screen.dart';
-import 'package:flutter_pat_shop/login/validation_login.dart';
 import 'package:flutter_pat_shop/model/user.dart';
-import 'package:flutter_pat_shop/register/register_screen.dart';
+import 'package:flutter_pat_shop/screens/home/home_screen.dart';
+import 'package:flutter_pat_shop/screens/register/register_screen.dart';
 import 'package:flutter_pat_shop/widgets/already_have_an_account.dart';
 import 'package:flutter_pat_shop/widgets/rounded_button.dart';
-import 'package:flutter_pat_shop/widgets/rounded_input_field.dart';
 import 'package:flutter_pat_shop/widgets/rounded_password_field.dart';
+import 'package:flutter_pat_shop/widgets/rounded_phone_field.dart';
 import 'package:http/http.dart' as http;
+import 'package:phone_form_field/phone_form_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../until/validation_login.dart';
 import 'background.dart';
 
 class Body extends StatefulWidget {
@@ -48,17 +49,14 @@ class _BodyState extends State<Body> {
           SizedBox(
             height: size.height * 0.03,
           ),
-          RoundedInputField(
+          RoundedPhoneField(
             textInputType: TextInputType.phone,
-            hintText: "0123XXXX89",
+            hintText: "123XXXX89",
             onChanged: (value) {
               setState(() {
-                phoneNumber = value;
-                if (phoneNumber.isNotEmpty && password.isNotEmpty) {
-                  filledAll = true;
-                } else {
-                  filledAll = false;
-                }
+                PhoneNumber pn = value;
+                phoneNumber = pn.international.substring(1);
+                print(pn.international.substring(1));
               });
             },
             errorText: ValidationLogin.validateMobile(phoneNumber),
@@ -108,7 +106,7 @@ class _BodyState extends State<Body> {
 
   void getDataUser() async {
     String url = LINK_API +
-        "user/login.php?userPhone=${phoneNumber.trim()}&userPass=${password.trim()}";
+        "user/screens.login.php?userPhone=${phoneNumber.trim()}&userPass=${password.trim()}";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       try {
