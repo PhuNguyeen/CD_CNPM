@@ -41,6 +41,8 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
             icon: Icon(Icons.lock),
             errorText: widget.errorText,
             hintStyle: widget.hintStyle,
+            errorMaxLines: 2,
+            suffixIconConstraints: BoxConstraints(),
             suffixIcon: GestureDetector(
               onTap: () {
                 setState(() {

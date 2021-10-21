@@ -23,9 +23,9 @@ class Validation {
 
   static String? validateName(String name) {
     if ((name.length > 0 && name.length < 6) || name.length > 30) {
-      return "*Name must be between 6 - 30 characters";
+      return "*Your name must be between 6 - 30 characters";
     } else if (name.length == 0) {
-      return "*Please enter your first & last name";
+      return "*Please enter your name";
     }
     return null;
   }

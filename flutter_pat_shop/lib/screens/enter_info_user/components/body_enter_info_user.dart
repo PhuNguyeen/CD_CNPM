@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/model/user.dart';
 import 'package:flutter_pat_shop/screens/enter_info_user/components/background_enter_info_user.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_pat_shop/widgets/profile_widget.dart';
 import 'package:flutter_pat_shop/widgets/rounded_button.dart';
 import 'package:flutter_pat_shop/widgets/rounded_input_field.dart';
 import 'package:flutter_pat_shop/widgets/rounded_password_field.dart';
+import 'package:http/http.dart' as http;
 
 class BodyEnterInfoUser extends StatefulWidget {
   final String phoneNumber;
@@ -53,7 +56,7 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
             height: size.height * 0.1,
           ),
           RoundedInputField(
-            hintText: "First & last name",
+            hintText: "Your name",
             onChanged: (value) {
               setState(() {
                 userName = value.toString();
@@ -98,7 +101,9 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
             text: "Save",
             press: isValidateAll()
                 ? () {
-                    print("onPress");
+                    Map<String, dynamic> jsonData = _user.toJson();
+                    createUser(jsonData);
+                    // print(_user.toJson());
                   }
                 : null,
           ),
@@ -110,13 +115,38 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
   bool isValidateAll() {
     if (userName == null || userPass == null || userConfPass == null) {
       return false;
-    }else{
+    } else {
       if (Validation.validateName(userName!) != null ||
           Validation.validatePassword(userPass!) != null ||
-          Validation.validateConfirmPassword(userPass!, userConfPass!) != null) {
+          Validation.validateConfirmPassword(userPass!, userConfPass!) !=
+              null) {
         return false;
       }
     }
     return true;
+  }
+
+  createUser(Map<String, dynamic> jsonData) async {
+    String apiLink = LINK_API + "user/create.php";
+    final response = await http.post(Uri.parse(apiLink),
+        body: jsonEncode(jsonData));
+    if (response.statusCode == 200) {
+      try {
+        var json = jsonDecode(response.body);
+        snackBar(json['message']);
+        print(json['message']);
+      } catch (_) {}
+    } else {
+      print("eeeeeeeeee");
+    }
+  }
+
+  snackBar(String? message) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message!),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 }

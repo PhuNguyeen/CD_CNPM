@@ -7,7 +7,6 @@ class EnterInfoUserScreen extends StatelessWidget {
   final String phoneNumber;
   EnterInfoUserScreen({Key? key, required this.phoneNumber}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

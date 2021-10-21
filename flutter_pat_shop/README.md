@@ -22,6 +22,10 @@ For help getting started with Flutter, view our [online documentation](https://f
 [shared_preferences](https://pub.dev/packages/shared_preferences)
 [http](https://pub.dev/packages/http)
 [image_picker](https://pub.dev/packages/image_picker)
+[GetX](https://github.com/jonataslaw/getx/blob/master/README-vi.md)
+[json_serializable](https://pub.dev/packages/json_serializable)
+[json_annotation](https://pub.dev/packages/json_annotation)
+[build_runner](https://pub.dev/packages/build_runner) 
 
 [========]
 # Tutorial Link
@@ -30,4 +34,5 @@ For help getting started with Flutter, view our [online documentation](https://f
 3. [Flutter-Firebase](https://firebase.flutter.dev/docs/auth/phone/#verificationCompleted)
 4. [Tutorial Firebase](https://www.youtube.com/watch?v=W19IfZ-nqB8)
 5. [Upload Image To Server](https://www.youtube.com/watch?v=g8WEXj6xvsY)
+6. [Convert Json](https://www.youtube.com/watch?v=v5xGLrhzDGE)
 
