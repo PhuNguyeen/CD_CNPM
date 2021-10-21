@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
-class Background extends StatelessWidget{
+class BackgroundEnterInfoUser extends StatelessWidget {
   final Widget child;
-  const Background({Key? key, required this.child}) : super(key: key);
+
+  const BackgroundEnterInfoUser({Key? key, required this.child})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class Background extends StatelessWidget{
       child: Stack(
         alignment: Alignment.center,
         children: [
-            child,
+          child,
         ],
       ),
     );

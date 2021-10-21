@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/constants.dart';
+import 'package:flutter_pat_shop/until/constants.dart';
 import 'package:flutter_pat_shop/screens/enter_info_user/enter_info_user_screen.dart';
 import 'package:flutter_pat_shop/until/show_dialog_loading.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -199,7 +199,7 @@ class _EnterOtpScreenState extends State<EnterOtpScreen> {
                       onPressed: () {
                         ShowDialogLoading.showDialogLoading(context);
                         resendOTP();
-                      } ,
+                      },
                       child: Text(
                         "RESEND",
                         style: TextStyle(
@@ -265,11 +265,11 @@ class _EnterOtpScreenState extends State<EnterOtpScreen> {
                 children: <Widget>[
                   Flexible(
                       child: TextButton(
-                        child: Text("Clear"),
-                        onPressed: () {
-                          textEditingController.clear();
-                        },
-                      )),
+                    child: Text("Clear"),
+                    onPressed: () {
+                      textEditingController.clear();
+                    },
+                  )),
                   // Flexible(
                   //     child: TextButton(
                   //       child: Text("Set Text"),
@@ -301,7 +301,9 @@ class _EnterOtpScreenState extends State<EnterOtpScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => EnterInfoUserScreen(),
+              builder: (context) => EnterInfoUserScreen(
+                phoneNumber: widget.phoneNumber,
+              ),
             ));
       }
     } on FirebaseAuthException catch (e) {
@@ -314,7 +316,7 @@ class _EnterOtpScreenState extends State<EnterOtpScreen> {
     }
   }
 
-  resendOTP() async{
+  resendOTP() async {
     await widget.auth.verifyPhoneNumber(
       phoneNumber: "+" + widget.phoneNumber,
       verificationCompleted: (credential) async {

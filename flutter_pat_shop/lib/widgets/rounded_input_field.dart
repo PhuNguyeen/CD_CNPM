@@ -3,22 +3,25 @@ import 'package:flutter_pat_shop/widgets/text_field_container.dart';
 
 class RoundedInputField extends StatelessWidget {
   final String hintText;
-  final IconData icon;
-
+  final TextStyle? hintStyle;
   final String? errorText;
-  final ValueChanged<String> onChanged;
-
+  final String? labelText;
   final TextInputType? textInputType;
+  final Icon? icon;
+
+  final ValueChanged<String> onChanged;
   final TextEditingController? controller;
 
   const RoundedInputField(
       {Key? key,
       required this.hintText,
-      this.icon = Icons.phone,
+      this.icon,
       required this.onChanged,
       this.textInputType,
       this.controller,
-      this.errorText})
+      this.errorText,
+      this.labelText,
+      this.hintStyle})
       : super(key: key);
 
   @override
@@ -30,9 +33,11 @@ class RoundedInputField extends StatelessWidget {
         keyboardType: textInputType,
         decoration: InputDecoration(
           hintText: hintText,
-          icon: Icon(icon),
+          icon: icon,
           border: InputBorder.none,
           errorText: errorText,
+          labelText: labelText,
+          hintStyle: hintStyle,
         ),
       ),
     );

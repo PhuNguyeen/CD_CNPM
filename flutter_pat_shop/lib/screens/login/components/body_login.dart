@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/constants.dart';
+import 'package:flutter_pat_shop/until/constants.dart';
 import 'package:flutter_pat_shop/model/user.dart';
 import 'package:flutter_pat_shop/screens/home/home_screen.dart';
 import 'package:flutter_pat_shop/screens/register/register_screen.dart';
@@ -13,17 +13,17 @@ import 'package:http/http.dart' as http;
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../until/validation_login.dart';
-import 'background.dart';
+import '../../../until/validation.dart';
+import 'background_login.dart';
 
-class Body extends StatefulWidget {
-  Body({Key? key}) : super(key: key);
+class BodyLogin extends StatefulWidget {
+  BodyLogin({Key? key}) : super(key: key);
 
   @override
-  _BodyState createState() => _BodyState();
+  _BodyLoginState createState() => _BodyLoginState();
 }
 
-class _BodyState extends State<Body> {
+class _BodyLoginState extends State<BodyLogin> {
   var phoneNumber = "";
   var password = "";
   bool filledAll = false;
@@ -38,7 +38,7 @@ class _BodyState extends State<Body> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return SingleChildScrollView(
-      child: Background(
+      child: BackgroundLogin(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -59,13 +59,13 @@ class _BodyState extends State<Body> {
                 print(pn.international.substring(1));
               });
             },
-            errorText: ValidationLogin.validateMobile(phoneNumber),
+            errorText: Validation.validateMobile(phoneNumber),
           ),
           SizedBox(
             height: size.height * 0.01,
           ),
           RoundedPasswordField(
-            onChange: (value) {
+            onChanged: (value) {
               setState(() {
                 password = value;
                 if (phoneNumber.isNotEmpty && password.isNotEmpty) {
@@ -74,7 +74,7 @@ class _BodyState extends State<Body> {
                   filledAll = false;
                 }
               });
-            },
+            }, hintText: "Password",
           ),
           SizedBox(
             height: size.height * 0.03,

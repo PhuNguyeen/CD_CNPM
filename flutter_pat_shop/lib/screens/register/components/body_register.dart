@@ -8,26 +8,26 @@ import 'package:flutter_pat_shop/screens/enter_otp/enter_opt_screen.dart';
 import 'package:flutter_pat_shop/screens/login/login_screen.dart';
 import 'package:flutter_pat_shop/screens/register/components/socal_icon.dart';
 import 'package:flutter_pat_shop/until/show_dialog_loading.dart';
-import 'package:flutter_pat_shop/until/validation_login.dart';
+import 'package:flutter_pat_shop/until/validation.dart';
 import 'package:flutter_pat_shop/widgets/already_have_an_account.dart';
 import 'package:flutter_pat_shop/widgets/rounded_button.dart';
 import 'package:flutter_pat_shop/widgets/rounded_phone_field.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
-import 'background.dart';
+import 'background_register.dart';
 import 'or_divider.dart';
 
-class Body extends StatefulWidget {
-  Body({
+class BodyRegister extends StatefulWidget {
+  BodyRegister({
     Key? key,
   }) : super(key: key);
 
   @override
-  _BodyState createState() => _BodyState();
+  _BodyRegisterState createState() => _BodyRegisterState();
 }
 
-class _BodyState extends State<Body> {
+class _BodyRegisterState extends State<BodyRegister> {
   var phoneNumber = "";
   final controllerPhoneNumber = TextEditingController();
   String _verificationId = "";
@@ -54,7 +54,7 @@ class _BodyState extends State<Body> {
       child: Container(
         height: size.height,
         width: double.infinity,
-        child: Background(
+        child: BackgroundRegister(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -92,14 +92,14 @@ class _BodyState extends State<Body> {
                     phoneNumber = pn.international.substring(1);
                   });
                 },
-                errorText: ValidationLogin.validateMobile(phoneNumber),
+                errorText: Validation.validateMobile(phoneNumber),
               ),
               SizedBox(
                 height: size.height * 0.01,
               ),
               RoundedButton(
                 text: "SIGNUP",
-                press: ValidationLogin.isValidatedMobile(phoneNumber)
+                press: Validation.isValidatedMobile(phoneNumber)
                     ? () {
                         // showDialog(
                         //     context: context,

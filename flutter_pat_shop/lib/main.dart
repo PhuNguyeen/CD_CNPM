@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/constants.dart';
+import 'package:flutter_pat_shop/until/constants.dart';
+import 'package:flutter_pat_shop/screens/enter_info_user/enter_info_user_screen.dart';
 import 'package:flutter_pat_shop/screens/home/home_screen.dart';
 import 'package:flutter_pat_shop/screens/login/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,7 +32,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: isLogin ? HomeScreen() : LoginScreen(),
+      // home: isLogin ? HomeScreen() : LoginScreen(),
+      home: EnterInfoUserScreen(phoneNumber: "0000",)
     );
   }
 

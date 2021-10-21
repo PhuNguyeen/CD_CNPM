@@ -24,6 +24,7 @@ class RoundedButton extends StatelessWidget {
       ),
     );
   }
+
   Widget newElevatedButton() {
     return ElevatedButton(
       child: Text(
