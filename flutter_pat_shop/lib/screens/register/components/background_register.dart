@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Background extends StatelessWidget {
+class BackgroundRegister extends StatelessWidget {
   final Widget child;
-  const Background({Key? key, required this.child}) : super(key: key);
+  const BackgroundRegister({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
