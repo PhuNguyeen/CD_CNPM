@@ -153,4 +153,3 @@ class User extends Database
 		$this->userID 	= htmlspecialchars(strip_tags($this->userID));
 	}
 }
-?>
