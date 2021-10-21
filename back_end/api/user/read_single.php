@@ -22,4 +22,3 @@ if (is_null($user->userID)) {
 	);
 	echo json_encode($user_arr);
 }
-?>

@@ -1,7 +1,4 @@
-<?php 
-/**
- * 
- */
+<?php
 
 class User extends Database
 {
@@ -16,35 +13,34 @@ class User extends Database
 	public $userAvatar;
 	public $userRole;
 
-
 	public function __construct()
 	{
 		$this->connect();
 	}
 	// Select All User
-	public function read(){
+	public function read()
+	{
 		// Create query
-		$query = 'SELECT * FROM '.$this->table.';';
-
+		$query = 'SELECT * FROM ' . $this->table . ';';
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
 		// execute query
 		$stmt->execute();
 
 		return $stmt;
-
 	}
 	// Select user by userPhone and userPass
-	public function read_single(){
+	public function read_single()
+	{
 		// Create query
-		$query = 'SELECT * FROM '. $this->table .' u WHERE u.userPhone = ? LIMIT 1;';
+		$query = 'SELECT * FROM ' . $this->table . ' u WHERE u.userPhone = ? LIMIT 1;';
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
 		// binding param
 		$stmt->bindParam(1, $this->userPhone);
 		$stmt->execute();
-		if ($stmt->countRow() == 1) {
+		if ($stmt->rowCount() == 1) {
 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
 			$this->userID = $row['userID'];
 			$this->userName = $row['userName'];
@@ -53,14 +49,13 @@ class User extends Database
 			$this->userAvatar = $row['userAvatar'];
 			$this->userRole = $row['userRole'];
 		}
-		
-
 		return $stmt;
 	}
 	// Create User
-	public function create(){
+	public function create()
+	{
 		// Create query
-		$query = 'INSERT INTO '.$this->table.' SET 
+		$query = 'INSERT INTO ' . $this->table . ' SET 
 		userName = :userName,
 		userPhone = :userPhone,
 		userPass = :userPass,
@@ -70,10 +65,10 @@ class User extends Database
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
-		
+
 		// Clean data
 		$this->cleanData();
-		
+
 		// binding param
 		$stmt->bindParam(':userName', $this->userName);
 		$stmt->bindParam(':userPhone', $this->userPhone);
@@ -85,13 +80,14 @@ class User extends Database
 		if ($stmt->execute()) {
 			return true;
 		}
-		echo 'Error: '.$stmt->error;
+		echo 'Error: ' . $stmt->error;
 		return false;
 	}
 	// Update User
-	public function update(){
+	public function update()
+	{
 		// Create query
-		$query = 'UPDATE '.$this->table.' SET 
+		$query = 'UPDATE ' . $this->table . ' SET 
 		userName = :userName,
 		userPhone = :userPhone,
 		userPass = :userPass,
@@ -102,7 +98,7 @@ class User extends Database
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
-		
+
 		// Clean data
 		$this->cleanData();
 
@@ -118,17 +114,18 @@ class User extends Database
 		if ($stmt->execute()) {
 			return true;
 		}
-		echo 'Error: '.$stmt->error;
+		echo 'Error: ' . $stmt->error;
 		return false;
 	}
 	// Delete User
-	public function delete(){
+	public function delete()
+	{
 		// Create query
-		$query = 'DELETE FROM '.$this->table.' WHERE userID = :userID;';
+		$query = 'DELETE FROM ' . $this->table . ' WHERE userID = :userID;';
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
-		
+
 		// Clean data
 		$this->cleanData();
 
@@ -138,11 +135,12 @@ class User extends Database
 		if ($stmt->execute()) {
 			return true;
 		}
-		echo 'Error: '.$stmt->error;
+		echo 'Error: ' . $stmt->error;
 		return false;
 	}
 
-	public function cleanData(){
+	public function cleanData()
+	{
 		// Clean data
 		$this->userName 	= htmlspecialchars(strip_tags($this->userName));
 		$this->userPhone 	= htmlspecialchars(strip_tags($this->userPhone));
@@ -150,6 +148,6 @@ class User extends Database
 		$this->userEmail 	= htmlspecialchars(strip_tags($this->userEmail));
 		$this->userAvatar 	= htmlspecialchars(strip_tags($this->userAvatar));
 		$this->userRole 	= htmlspecialchars(strip_tags($this->userRole));
-		$this->userID 	= htmlspecialchars(strip_tags($this->userID));
+		$this->userID 		= htmlspecialchars(strip_tags($this->userID));
 	}
 }
