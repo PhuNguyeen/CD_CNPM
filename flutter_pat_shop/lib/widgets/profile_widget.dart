@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/until/constants.dart';
 
 class ProfileWidget extends StatelessWidget {
-  final String imagePath;
+  final Image? image;
   final VoidCallback onClicked;
   final Icon icon;
 
   const ProfileWidget(
-      {Key? key, required this.imagePath, required this.onClicked, required this.icon})
+      {Key? key, required this.image, required this.onClicked, required this.icon})
       : super(key: key);
 
   @override
@@ -23,12 +23,12 @@ class ProfileWidget extends StatelessWidget {
   }
 
   Widget buildImage() {
-    final image = NetworkImage(imagePath);
+    // final image = NetworkImage(imagePath);
     return ClipOval(
       child: Material(
         color: Colors.transparent,
         child: Ink.image(
-          image: image,
+          image: image == null ? NetworkImage(LINK_IMAGE_TEST): image!.image,
           fit: BoxFit.cover,
           width: 128,
           height: 128,

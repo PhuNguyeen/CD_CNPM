@@ -33,7 +33,6 @@ class _BodyWidgetState extends State<BodyWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     phoneNumberController.addListener(() {
       loginViewModel.phoneNumberSink.add(phoneNumberController.text);
     });

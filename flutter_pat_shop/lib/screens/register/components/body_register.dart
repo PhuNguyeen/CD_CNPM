@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_pat_shop/screens/enter_otp/enter_opt_screen.dart';
 import 'package:flutter_pat_shop/screens/login/login_screen.dart';
 import 'package:flutter_pat_shop/screens/register/components/socal_icon.dart';
+import 'package:flutter_pat_shop/until/my_snack_bar.dart';
 import 'package:flutter_pat_shop/until/show_dialog_loading.dart';
 import 'package:flutter_pat_shop/until/validation.dart';
 import 'package:flutter_pat_shop/widgets/already_have_an_account.dart';
@@ -36,15 +35,6 @@ class _BodyRegisterState extends State<BodyRegister> {
   @override
   void initState() {
     super.initState();
-  }
-
-  snackBar(String? message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message!),
-        duration: Duration(seconds: 2),
-      ),
-    );
   }
 
   @override
@@ -180,7 +170,7 @@ class _BodyRegisterState extends State<BodyRegister> {
       },
       verificationFailed: (verificationFailed) async {
         Navigator.pop(context);
-        snackBar(verificationFailed.message.toString());
+        MySnackBar.snackBar(verificationFailed.message.toString(), context);
         print(verificationFailed.message.toString());
       },
       codeSent: (verificationId, resendingToken) async {
@@ -199,7 +189,7 @@ class _BodyRegisterState extends State<BodyRegister> {
       },
       codeAutoRetrievalTimeout: (verificationId) async {
         Navigator.pop(context);
-        snackBar("Error timeout!");
+        MySnackBar.snackBar("Error timeout!", context);
       },
       timeout: const Duration(seconds: 60),
     );
