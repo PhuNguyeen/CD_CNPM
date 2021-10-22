@@ -16,7 +16,6 @@ $user->userPhone 	= $data->userPhone;
 $user->userPass 	= $data->userPass;
 $user->userEmail 	= $data->userEmail;
 $user->userAvatar 	= $data->userAvatar;
-$user->userRole 	= $data->userRole;
 
 if ($user->update()) {
 	$bridge->message('Update '.$model.' successful.');

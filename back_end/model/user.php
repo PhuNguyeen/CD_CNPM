@@ -87,7 +87,9 @@ class User extends Database
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
-
+		if (!is_null($this->userAvatar)) {
+			$this->userAvatar = "avatarTeam.png";
+		}
 		// Clean data
 		$this->cleanData();
 
@@ -100,6 +102,14 @@ class User extends Database
 		$stmt->bindParam(':userRole', $this->userRole);
 
 		if ($stmt->execute()) {
+			if (!is_null($this->userAvatar)) {
+				$message = $this->uploadAvatar();
+				if ($message == 'Success') {
+					return true;
+				} else {
+					echo $message;
+				}
+			}
 			return true;
 		}
 		echo 'Error: ' . $stmt->error;
@@ -134,10 +144,45 @@ class User extends Database
 		$stmt->bindParam(':userID', $this->userID);
 
 		if ($stmt->execute()) {
+			if (!is_null($this->userAvatar)) {
+				$message = $this->uploadAvatar();
+				if ($message == 'Success') {
+					return true;
+				} else {
+					echo $message;
+				}
+			}
 			return true;
 		}
 		echo 'Error: ' . $stmt->error;
 		return false;
+	}
+	// Update User
+	public function uploadAvatar()
+	{
+		$allowedExts = array("gif", "jpeg", "jpg", "png");
+		$temp = explode(".", $_FILES["file"]["name"]);
+		$extension = end($temp);
+		if ((($_FILES["file"]["type"] == "image/gif")
+				|| ($_FILES["file"]["type"] == "image/jpeg")
+				|| ($_FILES["file"]["type"] == "image/jpg")
+				|| ($_FILES["file"]["type"] == "image/pjpeg")
+				|| ($_FILES["file"]["type"] == "image/x-png")
+				|| ($_FILES["file"]["type"] == "image/png"))
+			&& in_array($extension, $allowedExts)
+		) {
+
+			if ($_FILES["file"]["error"] > 0) {
+				return 'Error: ' . $_FILES["file"]["error"];
+			} else {
+				//Move the file to the uploads folder
+				move_uploaded_file($_FILES["file"]["tmp_name"], "./../..//public/image/" . $_FILES["file"]["name"]);
+				return "Success";
+			}
+		} else {
+			//File type was invalid, so throw up a red flag!
+			return "Invalid File Type";
+		}
 	}
 	// Delete User
 	public function delete()
