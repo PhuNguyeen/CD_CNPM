@@ -8,7 +8,7 @@ $model = 'User';
 $bridge = new Bridge($model);
 $user = new User();
 // get raw posted data
-$data = json_decode(file_get_contents("php://input"));
+$data = json_decode($_POST['data']);
 //
 $user->userName 	= $data->userName;
 $user->userPhone 	= $data->userPhone;
