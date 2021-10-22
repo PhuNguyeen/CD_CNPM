@@ -6,19 +6,19 @@ $bridge = new Bridge($model);
 $user = new User();
 // get value
 $user->userPhone = $bridge->validateValueGet('userPhone');
+$user->userPass = $bridge->validateValueGet('userPass');
 // api
-$user->read_single();
+$user->read_single_login();
 if (is_null($user->userID)) {
-	$bridge->message('No ' . $model . ' found.');
+	$bridge->message('Login fail.');
 } else {
-	$user_arr = array(
-		'userID' => $user->userID,
-		'userName' => $user->userName,
-		'userPhone' => $user->userPhone,
-		'userPass' => $user->userPass,
-		'userEmail' => $user->userEmail,
-		'userAvatar' => $user->userAvatar,
-		'userRole' => $user->userRole
+	$user_item = array(
+		'userID' => $userID,
+		'userName' => $userName,
+		'userPhone' => $userPhone,
+		'userEmail' => $userEmail,
+		'userAvatar' => $userAvatar,
+		'userRole' => $userRole
 	);
 	echo json_encode(array("message" => "Have data", "data" => $user_arr));
 }

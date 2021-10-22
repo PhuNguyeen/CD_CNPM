@@ -1,34 +1,35 @@
 <?php
-	/**
-	 * require model
-	 */
-	class Bridge
+
+/**
+ * require model
+ */
+class Bridge
+{
+	function __construct($model)
 	{
-		function __construct($model)
-		{
-			// headers
-			header('Access-Control-Allow-Origin: *');
-			header('Content-Type: application/json');
-			if(file_exists(realpath(dirname(__FILE__) . '/../model/'. $model .'.php'))){
-				require_once(realpath(dirname(__FILE__) . '/../core/Database.php'));
-				require_once(realpath(dirname(__FILE__) . '/../model/'. $model .'.php'));
-			}else{
-				$this->message('No found model');
-			}
-		}
-
-		function message($message)
-		{
-			echo json_encode(array('message'=>$message));
-		}
-
-		function validateValueGet($index)
-		{
-			if (isset($_GET[$index])) {
-				return $_GET[$index];
-			}else{
-				$this->message($index." cann't empty");
-				die();
-			}
+		// headers
+		header('Access-Control-Allow-Origin: *');
+		header('Content-Type: application/json');
+		if (file_exists(realpath(dirname(__FILE__) . '/../model/' . $model . '.php'))) {
+			require_once(realpath(dirname(__FILE__) . '/../core/Database.php'));
+			require_once(realpath(dirname(__FILE__) . '/../model/' . $model . '.php'));
+		} else {
+			$this->message('No found model');
 		}
 	}
+
+	function message($message)
+	{
+		echo json_encode(array('message' => $message, 'data' => null));
+	}
+
+	function validateValueGet($index)
+	{
+		if (isset($_GET[$index])) {
+			return $_GET[$index];
+		} else {
+			$this->message($index . " can't empty");
+			die();
+		}
+	}
+}

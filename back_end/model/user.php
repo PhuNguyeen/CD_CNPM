@@ -30,7 +30,7 @@ class User extends Database
 		return $stmt;
 	}
 	// Select user by userPhone and userPass
-	public function read_single()
+	public function read_single_signup()
 	{
 		// Create query
 		$query = 'SELECT * FROM ' . $this->table . ' u WHERE u.userPhone = ? LIMIT 1;';
@@ -44,7 +44,29 @@ class User extends Database
 			$row = $stmt->fetch(PDO::FETCH_ASSOC);
 			$this->userID = $row['userID'];
 			$this->userName = $row['userName'];
+			$this->userEmail = $row['userEmail'];
 			$this->userPass = $row['userPass'];
+			$this->userAvatar = $row['userAvatar'];
+			$this->userRole = $row['userRole'];
+		}
+		return $stmt;
+	}
+	// Select user by userPhone and userPass
+	public function read_single_login()
+	{
+		// Create query
+		$query = 'SELECT * FROM ' . $this->table . ' u WHERE u.userPhone = ? and u.userPass = ? LIMIT 1;';
+
+		// prepare statement
+		$stmt = $this->conn->prepare($query);
+		// binding param
+		$stmt->bindParam(1, $this->userPhone);
+		$stmt->bindParam(2, $this->userPass);
+		$stmt->execute();
+		if ($stmt->rowCount() == 1) {
+			$row = $stmt->fetch(PDO::FETCH_ASSOC);
+			$this->userID = $row['userID'];
+			$this->userName = $row['userName'];
 			$this->userEmail = $row['userEmail'];
 			$this->userAvatar = $row['userAvatar'];
 			$this->userRole = $row['userRole'];
