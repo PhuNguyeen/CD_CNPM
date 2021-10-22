@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/until/constants.dart';
 import 'package:flutter_pat_shop/screens/enter_info_user/enter_info_user_screen.dart';
+import 'package:flutter_pat_shop/until/my_snack_bar.dart';
 import 'package:flutter_pat_shop/until/show_dialog_loading.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -48,16 +49,6 @@ class _EnterOtpScreenState extends State<EnterOtpScreen> {
     errorController!.close();
 
     super.dispose();
-  }
-
-  // snackBar Widget
-  snackBar(String? message) {
-    return ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message!),
-        duration: Duration(seconds: 2),
-      ),
-    );
   }
 
   @override
@@ -297,7 +288,7 @@ class _EnterOtpScreenState extends State<EnterOtpScreen> {
     try {
       final authCredential = await widget.auth.signInWithCredential(credential);
       if (authCredential.user != null) {
-        snackBar("OTP Verified!!");
+        MySnackBar.snackBar("OTP Verified!!", context);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -307,7 +298,7 @@ class _EnterOtpScreenState extends State<EnterOtpScreen> {
             ));
       }
     } on FirebaseAuthException catch (e) {
-      snackBar(e.message);
+      MySnackBar.snackBar(e.message, context);
       print(e.message);
       setState(() {
         errorController!.add(ErrorAnimationType.shake);
@@ -329,17 +320,17 @@ class _EnterOtpScreenState extends State<EnterOtpScreen> {
       },
       verificationFailed: (verificationFailed) async {
         Navigator.pop(context);
-        snackBar(verificationFailed.message.toString());
+        MySnackBar.snackBar(verificationFailed.message.toString(), context);
         print(verificationFailed.message.toString());
       },
       codeSent: (verificationId, resendingToken) async {
         _verificationId = verificationId;
         print(verificationId);
-        snackBar("Resend OTP!");
+        MySnackBar.snackBar("Resend OTP!", context);
       },
       codeAutoRetrievalTimeout: (verificationId) async {
         Navigator.pop(context);
-        snackBar("Error timeout!");
+        MySnackBar.snackBar("Error timeout!", context);
       },
       timeout: const Duration(seconds: 60),
     );

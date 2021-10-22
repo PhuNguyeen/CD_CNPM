@@ -74,7 +74,8 @@ class _BodyLoginState extends State<BodyLogin> {
                   filledAll = false;
                 }
               });
-            }, hintText: "Password",
+            },
+            hintText: "Password",
           ),
           SizedBox(
             height: size.height * 0.03,
@@ -106,38 +107,32 @@ class _BodyLoginState extends State<BodyLogin> {
 
   void getDataUser() async {
     String url = LINK_API +
-        "user/screens.login.php?userPhone=${phoneNumber.trim()}&userPass=${password.trim()}";
+        "user/read_single.php?userPhone=${phoneNumber.trim()}&userPass=${password.trim()}";
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
-      try {
-        var jsonData = jsonDecode(response.body);
-        if (jsonData['message'] == "No User found.") {
-          print("No user");
-        } else {
-          print("there is user");
-          User user = User(
-            jsonData['userID'],
-            jsonData['userName'],
-            jsonData['userPhone'],
-            jsonData['userPass'],
-            jsonData['userEmail'],
-            jsonData['userAvatar'],
-            jsonData['userRole'],
+      var json = jsonDecode(response.body);
+      if (json['message']
+          .toString()
+          .toUpperCase()
+          .contains("No User found.".toUpperCase())) {
+        print(json['message']);
+        //TODO sai tài khoản mật khẩu
+      } else {
+        print(json['message']);
+        User user = User.fromJson(json['data']);
+        print(user.toString());
+        setState(() {
+          _saveInfoUser(user: user);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => HomeScreen(),
+            ),
+            (route) => false,
           );
-
-          setState(() {
-            _saveInfoUser(user: user);
-            Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (BuildContext context) => HomeScreen(),
-              ),
-              (route) => false,
-            );
-          });
-        }
-        print("${jsonData.toString()}");
-      } catch (_) {}
+        });
+      }
+      print("${json.toString()}");
     } else {
       print("Fail");
     }
