@@ -9,8 +9,8 @@ $user->userPhone = $bridge->validateValueGet('userPhone');
 // api
 $user->read_single();
 if (is_null($user->userID)) {
-	$bridge->message('No '.$model.' found.');
-}else{
+	$bridge->message('No ' . $model . ' found.');
+} else {
 	$user_arr = array(
 		'userID' => $user->userID,
 		'userName' => $user->userName,
@@ -20,5 +20,5 @@ if (is_null($user->userID)) {
 		'userAvatar' => $user->userAvatar,
 		'userRole' => $user->userRole
 	);
-	echo json_encode($user_arr);
+	echo json_encode(array("message" => "Have data", "data" => $user_arr));
 }

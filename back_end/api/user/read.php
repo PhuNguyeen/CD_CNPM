@@ -23,7 +23,7 @@ if($len > 0){
 		);
 		array_push($user_arr[$model], $user_item);
 	}
-	echo json_encode($user_arr);
+	echo json_encode(array("message" => "Have data", "data" => $user_arr));
 }else{
 	$bridge->message('No '.$model.' found.');
 }
