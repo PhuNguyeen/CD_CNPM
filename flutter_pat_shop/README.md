@@ -33,6 +33,7 @@ For help getting started with Flutter, view our [online documentation](https://f
 2. [Call API](https://www.youtube.com/watch?v=4swhVu-ZomI&t=15s)
 3. [Flutter-Firebase](https://firebase.flutter.dev/docs/auth/phone/#verificationCompleted)
 4. [Tutorial Firebase](https://www.youtube.com/watch?v=W19IfZ-nqB8)
-5. [Upload Image To Server](https://www.youtube.com/watch?v=g8WEXj6xvsY)
-6. [Convert Json](https://www.youtube.com/watch?v=v5xGLrhzDGE)
+5. [Upload Image To Server](https://www.youtube.com/watch?v=0MO1QyEGIt0&t=248s)
+6. [Uploading a File to a Server from Flutter Using a Multi-Part (form-data) POST Request](https://bitly.com.vn/bqo9wn)
+7. [Convert Json](https://www.youtube.com/watch?v=v5xGLrhzDGE)
 

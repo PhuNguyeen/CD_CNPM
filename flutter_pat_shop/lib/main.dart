@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/screens/home/home_screen.dart';
+import 'package:flutter_pat_shop/main/main_application.dart';
 import 'package:flutter_pat_shop/screens/login/login_screen.dart';
 import 'package:flutter_pat_shop/until/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: isLogin ? HomeScreen() : LoginScreen(),
+      home: isLogin ? MainApplication() : LoginScreen(),
     );
   }
 

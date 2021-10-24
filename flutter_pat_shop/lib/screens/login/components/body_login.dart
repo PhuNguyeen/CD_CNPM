@@ -1,15 +1,14 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_pat_shop/main/main_application.dart';
 import 'package:flutter_pat_shop/until/constants.dart';
 import 'package:flutter_pat_shop/model/user.dart';
-import 'package:flutter_pat_shop/screens/home/home_screen.dart';
 import 'package:flutter_pat_shop/screens/register/register_screen.dart';
+import 'package:flutter_pat_shop/until/show_dialog_loading.dart';
 import 'package:flutter_pat_shop/widgets/already_have_an_account.dart';
 import 'package:flutter_pat_shop/widgets/rounded_button.dart';
 import 'package:flutter_pat_shop/widgets/rounded_password_field.dart';
 import 'package:flutter_pat_shop/widgets/rounded_phone_field.dart';
-import 'package:http/http.dart' as http;
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,6 +27,7 @@ class _BodyLoginState extends State<BodyLogin> {
   var password = "";
   bool filledAll = false;
   bool verified = false;
+  bool incorrecet = true;
 
   @override
   void initState() {
@@ -56,7 +56,6 @@ class _BodyLoginState extends State<BodyLogin> {
               setState(() {
                 PhoneNumber pn = value;
                 phoneNumber = pn.international.substring(1);
-                print(pn.international.substring(1));
               });
             },
             errorText: Validation.validateMobile(phoneNumber),
@@ -77,12 +76,21 @@ class _BodyLoginState extends State<BodyLogin> {
             },
             hintText: "Password",
           ),
+          Container(
+            child: incorrecet
+                ? null
+                : Text(
+                    "The username or password is incorrect. Try again",
+                    style: TextStyle(color: Colors.red),
+                  ),
+          ),
           SizedBox(
             height: size.height * 0.03,
           ),
           RoundedButton(
-            press: filledAll
+            press: (filledAll && Validation.isValidatedMobile(phoneNumber))
                 ? () {
+                    ShowDialogLoading.showDialogLoading(context);
                     getDataUser();
                   }
                 : null,
@@ -106,36 +114,42 @@ class _BodyLoginState extends State<BodyLogin> {
   }
 
   void getDataUser() async {
-    String url = LINK_API +
-        "user/read_single.php?userPhone=${phoneNumber.trim()}&userPass=${password.trim()}";
-    final response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      if (json['message']
-          .toString()
-          .toUpperCase()
-          .contains("No User found.".toUpperCase())) {
-        print(json['message']);
-        //TODO sai tài khoản mật khẩu
-      } else {
-        print(json['message']);
-        User user = User.fromJson(json['data']);
-        print(user.toString());
-        setState(() {
-          _saveInfoUser(user: user);
+    //TODO fix link
+    // String url = LINK_API +
+    //     "user/read_single_login.php?userPhone=${phoneNumber.trim()}&userPass=${password.trim()}";
+    // final response = await http.get(Uri.parse(url));
+    // if (response.statusCode == 200) {
+    //   var json = jsonDecode(response.body);
+    //   if (json['message']
+    //       .toString()
+    //       .toUpperCase()
+    //       .contains("No User found.".toUpperCase())) {
+    //     print(json['message']);
+    //     setState(() {
+    //       incorrecet = false;
+    //     });
+    //   } else {
+    //     print(json['message']);
+    //     User user = User.fromJson(json['data']);
+    //     print(user.toString());
+    //     setState(() {
+          // _saveInfoUser(user: user);
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (BuildContext context) => HomeScreen(),
+              builder: (BuildContext context) => MainApplication(),
             ),
             (route) => false,
           );
-        });
-      }
-      print("${json.toString()}");
-    } else {
-      print("Fail");
-    }
+        // });
+      // }
+      // print("${json.toString()}");
+    //   Navigator.pop(context);
+    // } else {
+    //   Navigator.pop(context);
+    //   MySnackBar.snackBar("Error!", context);
+    //   print("Error");
+    // }
   }
 
   _saveInfoUser({required User user}) async {

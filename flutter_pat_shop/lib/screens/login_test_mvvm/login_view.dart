@@ -32,6 +32,7 @@ class _BodyWidgetState extends State<BodyWidget> {
   final loginViewModel = LoginViewModel();
 
   @override
+  // ignore: must_call_super
   void initState() {
     phoneNumberController.addListener(() {
       loginViewModel.phoneNumberSink.add(phoneNumberController.text);
@@ -43,7 +44,6 @@ class _BodyWidgetState extends State<BodyWidget> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
 
     loginViewModel.dispose();
@@ -97,6 +97,7 @@ class _BodyWidgetState extends State<BodyWidget> {
             child: StreamBuilder<bool>(
                 stream: loginViewModel.buttonLoginStream,
                 builder: (context, snapshot) {
+                  // ignore: deprecated_member_use
                   return RaisedButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
