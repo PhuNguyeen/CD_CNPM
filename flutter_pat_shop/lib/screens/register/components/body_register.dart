@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_pat_shop/screens/enter_otp/enter_opt_screen.dart';
 import 'package:flutter_pat_shop/screens/login/login_screen.dart';
 import 'package:flutter_pat_shop/screens/register/components/socal_icon.dart';
+import 'package:flutter_pat_shop/until/constants.dart';
 import 'package:flutter_pat_shop/until/my_snack_bar.dart';
 import 'package:flutter_pat_shop/until/show_dialog_loading.dart';
 import 'package:flutter_pat_shop/until/validation.dart';
@@ -13,6 +16,7 @@ import 'package:flutter_pat_shop/widgets/rounded_button.dart';
 import 'package:flutter_pat_shop/widgets/rounded_phone_field.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
+import 'package:http/http.dart' as http;
 
 import 'background_register.dart';
 import 'or_divider.dart';
@@ -31,6 +35,7 @@ class _BodyRegisterState extends State<BodyRegister> {
   final controllerPhoneNumber = TextEditingController();
   String _verificationId = "";
   FirebaseAuth? auth;
+  bool incorrecet = true;
 
   @override
   void initState() {
@@ -60,7 +65,7 @@ class _BodyRegisterState extends State<BodyRegister> {
                       text: "Enter your phone number to ",
                       children: [
                         TextSpan(
-                            text: "regiter",
+                            text: "register",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -80,9 +85,18 @@ class _BodyRegisterState extends State<BodyRegister> {
                   setState(() {
                     PhoneNumber pn = value;
                     phoneNumber = pn.international.substring(1);
+                    
                   });
                 },
                 errorText: Validation.validateMobile(phoneNumber),
+              ),
+              Container(
+                child: incorrecet
+                    ? null
+                    : Text(
+                        "This user already exists. Try again",
+                        style: TextStyle(color: Colors.red),
+                      ),
               ),
               SizedBox(
                 height: size.height * 0.01,
@@ -91,21 +105,8 @@ class _BodyRegisterState extends State<BodyRegister> {
                 text: "SIGNUP",
                 press: Validation.isValidatedMobile(phoneNumber)
                     ? () {
-                        // showDialog(
-                        //     context: context,
-                        //     barrierDismissible: false,
-                        //     builder: (context) => AlertDialog(
-                        //           content: Row(
-                        //             children: [
-                        //               CircularProgressIndicator(),
-                        //               Container(
-                        //                   margin: EdgeInsets.only(left: 7),
-                        //                   child: Text("Loading...")),
-                        //             ],
-                        //           ),
-                        //         ));
                         ShowDialogLoading.showDialogLoading(context);
-                        _sentOTP();
+                        _checkExists();
                         print(phoneNumber);
                       }
                     : null,
@@ -132,7 +133,6 @@ class _BodyRegisterState extends State<BodyRegister> {
                     press: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) {
-                          //TODO
                           return EnterOtpScreen(
                             phoneNumber: phoneNumber,
                             verificationId: _verificationId,
@@ -178,7 +178,6 @@ class _BodyRegisterState extends State<BodyRegister> {
         print(verificationId);
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) {
-            //TODO
             return EnterOtpScreen(
               phoneNumber: phoneNumber,
               verificationId: _verificationId,
@@ -193,5 +192,27 @@ class _BodyRegisterState extends State<BodyRegister> {
       },
       timeout: const Duration(seconds: 60),
     );
+  }
+
+  _checkExists() async {
+    Uri apiLink = Uri.parse(LINK_API + "user/read_single_signup.php?userPhone=$phoneNumber");
+    final response = await http.get(apiLink);
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json["message"]
+          .toString()
+          .toUpperCase()
+          .contains("User exists".toUpperCase())) {
+        setState(() {
+          incorrecet = false;
+          Navigator.pop(context);
+        });
+      } else {
+        _sentOTP();
+      }
+    } else {
+      print("Error!");
+      MySnackBar.snackBar("Error!", context);
+    }
   }
 }

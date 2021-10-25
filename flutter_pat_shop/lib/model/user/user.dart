@@ -6,13 +6,12 @@ class User {
   String userID;
   String userName;
   final String userPhone;
-  String userPass;
   String userEmail;
   String userAvatar;
   String userRole;
 
-  User(this.userID, this.userName, this.userPhone, this.userPass,
-      this.userEmail, this.userAvatar, this.userRole);
+  User(this.userID, this.userName, this.userPhone, this.userEmail,
+      this.userAvatar, this.userRole);
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -21,7 +20,6 @@ class User {
 
   @override
   String toString() {
-    return 'User{userID: $userID, userName: $userName, userPhone: $userPhone, userPass: $userPass, userEmail: $userEmail, userAvatar: $userAvatar, userRole: $userRole}';
+    return 'User{userID: $userID, userName: $userName, userPhone: $userPhone, userEmail: $userEmail, userAvatar: $userAvatar, userRole: $userRole}';
   }
-
 }

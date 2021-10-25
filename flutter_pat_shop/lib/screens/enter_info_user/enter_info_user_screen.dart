@@ -19,7 +19,7 @@ class EnterInfoUserScreen extends StatelessWidget {
           },
         ),
       ),
-      body: BodyEnterInfoUser(phoneNumber: phoneNumber,),
+      body: BodyEnterInfoUser(phoneNumber: phoneNumber),
     );
   }
 }
