@@ -27,8 +27,6 @@ class EnterOtpScreen extends StatefulWidget {
 class _EnterOtpScreenState extends State<EnterOtpScreen> {
   TextEditingController textEditingController = TextEditingController();
 
-  // ..text = "123456";
-
   // ignore: close_sinks
   StreamController<ErrorAnimationType>? errorController;
 

@@ -27,17 +27,17 @@ class _MainApplicationState extends State<MainApplication> {
         actions: [
           Icon(
             Icons.mail,
-            color: Colors.white,
+            color: Colors.white.withOpacity(0.8),
           ),
           SizedBox(
-            width: 10,
+            width: 20,
           ),
           Icon(
             Icons.notifications,
-            color: Colors.white,
+            color: Colors.white.withOpacity(0.8),
           ),
           SizedBox(
-            width: 10,
+            width: 20,
           ),
         ],
       ),

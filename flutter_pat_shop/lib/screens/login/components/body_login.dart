@@ -1,9 +1,12 @@
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/main/main_application.dart';
+import 'package:flutter_pat_shop/model/user/user.dart';
 import 'package:flutter_pat_shop/until/constants.dart';
-import 'package:flutter_pat_shop/model/user.dart';
 import 'package:flutter_pat_shop/screens/register/register_screen.dart';
+import 'package:flutter_pat_shop/until/my_snack_bar.dart';
 import 'package:flutter_pat_shop/until/show_dialog_loading.dart';
 import 'package:flutter_pat_shop/widgets/already_have_an_account.dart';
 import 'package:flutter_pat_shop/widgets/rounded_button.dart';
@@ -11,7 +14,7 @@ import 'package:flutter_pat_shop/widgets/rounded_password_field.dart';
 import 'package:flutter_pat_shop/widgets/rounded_phone_field.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
 import '../../../until/validation.dart';
 import 'background_login.dart';
 
@@ -114,26 +117,20 @@ class _BodyLoginState extends State<BodyLogin> {
   }
 
   void getDataUser() async {
-    //TODO fix link
-    // String url = LINK_API +
-    //     "user/read_single_login.php?userPhone=${phoneNumber.trim()}&userPass=${password.trim()}";
-    // final response = await http.get(Uri.parse(url));
-    // if (response.statusCode == 200) {
-    //   var json = jsonDecode(response.body);
-    //   if (json['message']
-    //       .toString()
-    //       .toUpperCase()
-    //       .contains("No User found.".toUpperCase())) {
-    //     print(json['message']);
-    //     setState(() {
-    //       incorrecet = false;
-    //     });
-    //   } else {
-    //     print(json['message']);
-    //     User user = User.fromJson(json['data']);
-    //     print(user.toString());
-    //     setState(() {
-          // _saveInfoUser(user: user);
+    String url = LINK_API +
+        "user/read_single_login.php?userPhone=${phoneNumber.trim()}&userPass=${password.trim()}";
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json['message']
+          .toString()
+          .toUpperCase()
+          .contains("Have data".toUpperCase())) {
+        print(json['message']);
+        User user = User.fromJson(json['data']);
+        print(user.toString());
+        setState(() {
+          _saveInfoUser(user: user);
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -141,20 +138,27 @@ class _BodyLoginState extends State<BodyLogin> {
             ),
             (route) => false,
           );
-        // });
-      // }
-      // print("${json.toString()}");
-    //   Navigator.pop(context);
-    // } else {
-    //   Navigator.pop(context);
-    //   MySnackBar.snackBar("Error!", context);
-    //   print("Error");
-    // }
+          MySnackBar.snackBar("Login Successful!", context);
+        });
+      }else {
+        print(json['message']);
+        MySnackBar.snackBar(json['message'], context);
+        setState(() {
+          incorrecet = false;
+        });
+      } 
+      print("${json.toString()}");
+    } else {
+      Navigator.pop(context);
+      MySnackBar.snackBar("Error!", context);
+      print("Error");
+    }
   }
 
   _saveInfoUser({required User user}) async {
     final saveData = await SharedPreferences.getInstance();
     saveData.setBool(IS_LOGIN, true);
+    saveData.setString(USER_ID, user.userID);
     saveData.setString(USER_NAME, user.userName);
     saveData.setString(USER_PHONE, user.userPhone);
     saveData.setString(USER_EMAIL, user.userEmail);

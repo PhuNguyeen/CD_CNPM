@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/model/user.dart';
+import 'package:flutter_pat_shop/model/user/user.dart';
 import 'package:flutter_pat_shop/screens/enter_info_user/components/background_enter_info_user.dart';
 import 'package:flutter_pat_shop/screens/login/login_screen.dart';
 import 'package:flutter_pat_shop/until/constants.dart';
@@ -36,7 +36,7 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
 
   @override
   void initState() {
-    _user = User("", "", widget.phoneNumber, "", "", "abc.png", "");
+    _user = User("", "", widget.phoneNumber, "", "abc.png", "");
     super.initState();
   }
 
@@ -110,7 +110,6 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
             press: isValidateAll()
                 ? () {
                     _user.userName = userName!;
-                    _user.userPass = userPass!;
                     _user.userAvatar = "abc.png";
 
                     Map<String, dynamic> jsonData = _user.toJson();
@@ -144,24 +143,23 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
     var request = http.MultipartRequest("POST", apiLink);
     request.fields['data'] = jsonEncode(jsonData);
 
-    if (_image == null) {
-      // _image = await _fileFromImageUrl();
-    } else {
+    if (_image != null) {
       var pic = await http.MultipartFile.fromPath("file", _image!.path,
           contentType: new MediaType("image", "jpg"));
       request.files.add(pic);
       print(_image!.path);
     }
+
     http.Response response =
         await http.Response.fromStream(await request.send());
 
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      MySnackBar.snackBar(json['message'], context);
-      if (json['message']
+      MySnackBar.snackBar(json['message']['create'], context);
+      if (json['message']['create']
           .toString()
           .toUpperCase()
-          .contains("Create User successful".toUpperCase())) {
+          .contains("Successful.".toUpperCase())) {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -177,18 +175,6 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
     } else {
       MySnackBar.snackBar("Error!", context);
     }
-  }
-
-  Future<File> _fileFromImageUrl() async {
-    final response = await http.get(Uri.parse(LINK_IMAGE_TEST));
-
-    final documentDirectory = await getApplicationDocumentsDirectory();
-
-    final file = File(documentDirectory.path + 'imagetest.png');
-
-    file.writeAsBytesSync(response.bodyBytes);
-
-    return file;
   }
 
   choiceImage() async {
