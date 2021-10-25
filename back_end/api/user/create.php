@@ -8,18 +8,29 @@ $model = 'User';
 $bridge = new Bridge($model);
 $user = new User();
 // get raw posted data
-$data = json_decode($_POST['data']);
-//
-$user->userName 	= $data->userName;
-$user->userPhone 	= $data->userPhone;
-$user->userPass 	= $data->userPass;
-$user->userEmail 	= $data->userEmail;
-$user->userAvatar 	= $data->userAvatar;
-$user->userRole 	= $data->userRole;
-
-if ($user->create()) {
-	$bridge->message('Create '.$model.' successful.');
-}else{
-	$bridge->message('Create '.$model.' fail.');
+if (isset($_POST['data'])) {
+	$data = json_decode($_POST['data']);
+	// get data
+	$user->userName 	= $data->userName;
+	$user->userPhone 	= $data->userPhone;
+	$user->userPass 	= $data->userPass;
+	$user->userEmail 	= $data->userEmail;
+	$user->userAvatar 	= $data->userAvatar;
+	$user->userRole 	= 0;
+	// create user
+	$message_image = 'Successful.';
+	if (!is_null($user->userAvatar)) {
+		// Upload file Image
+		$message_image = $user->uploadAvatar();
+	}
+	// create user
+	$message_create = $user->create();
+	if ($message_create == 'Successful.') {
+		$bridge->message(array('create' => $message_create, 'image' => $message_image));
+	} else {
+		$user->deleteAvatar();
+		$bridge->message(array('create' => $message_create, 'image' => ''));
+	}
+} else {
+	$bridge->message(array('create' => 'No data found.', 'image' => ''));
 }
-?>

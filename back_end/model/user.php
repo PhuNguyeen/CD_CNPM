@@ -87,7 +87,7 @@ class User extends Database
 
 		// prepare statement
 		$stmt = $this->conn->prepare($query);
-		if (!is_null($this->userAvatar)) {
+		if (is_null($this->userAvatar)) {
 			$this->userAvatar = "avatarTeam.png";
 		}
 		// Clean data
@@ -102,18 +102,9 @@ class User extends Database
 		$stmt->bindParam(':userRole', $this->userRole);
 
 		if ($stmt->execute()) {
-			if (!is_null($this->userAvatar)) {
-				$message = $this->uploadAvatar();
-				if ($message == 'Success') {
-					return true;
-				} else {
-					echo $message;
-				}
-			}
-			return true;
+			return 'Successful.';
 		}
-		echo 'Error: ' . $stmt->error;
-		return false;
+		return 'Error: ' . $stmt->error;
 	}
 	// Update User
 	public function update()
@@ -144,46 +135,51 @@ class User extends Database
 		$stmt->bindParam(':userID', $this->userID);
 
 		if ($stmt->execute()) {
-			if (!is_null($this->userAvatar)) {
-				$message = $this->uploadAvatar();
-				if ($message == 'Success') {
-					return true;
-				} else {
-					echo $message;
-				}
-			}
 			return true;
 		}
-		echo 'Error: ' . $stmt->error;
+		// echo 'Error: ' . $stmt->error;
 		return false;
 	}
 	// Update User
 	public function uploadAvatar()
 	{
 		$allowedExts = array("gif", "jpeg", "jpg", "png");
-		$temp = explode(".", $_FILES["file"]["name"]);
-		$extension = end($temp);
-		if ((($_FILES["file"]["type"] == "image/gif")
-				|| ($_FILES["file"]["type"] == "image/jpeg")
-				|| ($_FILES["file"]["type"] == "image/jpg")
-				|| ($_FILES["file"]["type"] == "image/pjpeg")
-				|| ($_FILES["file"]["type"] == "image/x-png")
-				|| ($_FILES["file"]["type"] == "image/png"))
-			&& in_array($extension, $allowedExts)
-		) {
-
-			if ($_FILES["file"]["error"] > 0) {
-				return 'Error: ' . $_FILES["file"]["error"];
+		if (isset($_FILES["file"])) {
+			$temp = explode(".", $_FILES["file"]["name"]);
+			$setfilename =  'avatar' . $this->userPhone . '.' . end($temp);
+			$this->userAvatar = $setfilename;
+			$extension = end($temp);
+			if ((($_FILES["file"]["type"] == "image/gif")
+					|| ($_FILES["file"]["type"] == "image/jpeg")
+					|| ($_FILES["file"]["type"] == "image/jpg")
+					|| ($_FILES["file"]["type"] == "image/pjpeg")
+					|| ($_FILES["file"]["type"] == "image/x-png")
+					|| ($_FILES["file"]["type"] == "image/png"))
+				&& in_array($extension, $allowedExts)
+			) {
+				if ($_FILES["file"]["error"] > 0) {
+					return 'Error: ' . $_FILES["file"]["error"];
+				} else {
+					//Move the file to the uploads folder
+					move_uploaded_file($_FILES["file"]["tmp_name"], "./../..//public/avatar/" . $setfilename);
+					return "Successful.";
+				}
 			} else {
-				//Move the file to the uploads folder
-				move_uploaded_file($_FILES["file"]["tmp_name"], "./../..//public/image/" . $_FILES["file"]["name"]);
-				return "Success";
+				//File type was invalid, so throw up a red flag!
+				return "Invalid File Type";
 			}
 		} else {
 			//File type was invalid, so throw up a red flag!
-			return "Invalid File Type";
+			return "No file found.";
 		}
 	}
+
+	// Delete Avatar
+	public function deleteAvatar()
+	{
+		unlink("./../..//public/image/" . $this->userAvatar);
+	}
+
 	// Delete User
 	public function delete()
 	{

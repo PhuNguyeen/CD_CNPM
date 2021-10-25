@@ -13,12 +13,12 @@ if (is_null($user->userID)) {
 	$bridge->message('Login fail.');
 } else {
 	$user_item = array(
-		'userID' => $userID,
-		'userName' => $userName,
-		'userPhone' => $userPhone,
-		'userEmail' => $userEmail,
-		'userAvatar' => $userAvatar,
-		'userRole' => $userRole
+		'userID' => $user->userID,
+		'userName' => $user->userName,
+		'userPhone' => $user->userPhone,
+		'userEmail' => $user->userEmail,
+		'userAvatar' => $user->userAvatar,
+		'userRole' => $user->userRole
 	);
-	echo json_encode(array("message" => "Have data", "data" => $user_arr));
+	echo json_encode(array("message" => "Have data", "data" => $user_item));
 }
