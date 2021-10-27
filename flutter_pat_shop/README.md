@@ -11,7 +11,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our [online documentation](https://flutter.dev/docs "online documentation"), which offers tutorials, samples, guidance on mobile development, and a full API reference.
 - [Link flutter self-taught](https://cafedev.vn/series-tu-hoc-flutter-tu-co-ban-toi-nang-cao/)
 
-[========]
 # Uses Library
 [firebase_core](https://pub.dev/packages/firebase_core)
 [firebase_auth](https://pub.dev/packages/firebase_auth)
@@ -38,7 +37,6 @@ For help getting started with Flutter, view our [online documentation](https://f
 [provider](https://pub.dev/packages/provider/install)
 [scoped_model]()
 
-[========]
 # Tutorial Link
 1. [Login/ SignUp](https://www.youtube.com/watch?v=ExKYjqgswJg&t=578s)
 2. [Call API](https://www.youtube.com/watch?v=4swhVu-ZomI&t=15s)
@@ -56,3 +54,6 @@ For help getting started with Flutter, view our [online documentation](https://f
 14. [blog - model MVVM 2019](https://viblo.asia/p/flutter-va-mvvm-L4x5xk4alBM)
 15. [Source Code - model MVVM 2021](https://github.com/trantan97/flutter_mvvm_demo)
 16. [blog - model MVVM 2021](https://viblo.asia/p/mvvm-trong-flutter-yMnKMz6DZ7P)
+
+#
+![FolderStructureInFlutterProject](https://user-images.githubusercontent.com/54834124/139104471-c20cc84d-2d16-4e51-9a71-90eea6a10536.png)
