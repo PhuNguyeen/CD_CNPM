@@ -137,7 +137,7 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
   }
 
   createUser(Map<String, dynamic> jsonData) async {
-    final apiLink = Uri.parse(LINK_API + "user/create.php");
+    final apiLink = Uri.parse("$LINK_API/user/create.php");
 
     var request = http.MultipartRequest("POST", apiLink);
     request.fields['data'] = jsonEncode(jsonData);

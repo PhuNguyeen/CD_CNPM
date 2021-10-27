@@ -55,7 +55,7 @@ class _CategoryProductState extends State<CategoryProduct> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.network(
-            LINK_AVATAR_CATEGORY + category.categoryAvatar,
+            "$LINK_AVATAR_CATEGORY/${category.categoryAvatar}",
             fit: BoxFit.fill,
             errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
             width: 40,
@@ -74,7 +74,7 @@ class _CategoryProductState extends State<CategoryProduct> {
   }
 
   loadCategory() async {
-    Uri apiLink = Uri.parse(LINK_API + "category/read.php");
+    Uri apiLink = Uri.parse("$LINK_API/category/read.php");
     var response = await http.get(apiLink);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);

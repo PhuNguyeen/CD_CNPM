@@ -66,7 +66,7 @@ class _HomeTabState extends State<HomeTab> {
       
   loadListRecomenedProduct() async {
     Uri apiLink =
-        Uri.parse(LINK_API + "product/read_limit.php?start=0&limit=5");
+        Uri.parse("$LINK_API/product/read_limit.php?start=0&limit=5");
     var response = await http.get(apiLink);
 
     if (response.statusCode == 200) {

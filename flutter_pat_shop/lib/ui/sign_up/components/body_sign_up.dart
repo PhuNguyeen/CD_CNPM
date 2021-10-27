@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_pat_shop/ui/enter_otp/enter_opt_screen.dart';
 import 'package:flutter_pat_shop/ui/login/login_screen.dart';
-import 'package:flutter_pat_shop/ui/register/components/socal_icon.dart';
+import 'package:flutter_pat_shop/ui/sign_up/components/socal_icon.dart';
+import 'package:flutter_pat_shop/ui/sign_up/sign_up_viewmodel.dart';
 import 'package:flutter_pat_shop/util/constants.dart';
 import 'package:flutter_pat_shop/util/my_snack_bar.dart';
 import 'package:flutter_pat_shop/util/show_dialog_loading.dart';
@@ -17,20 +19,21 @@ import 'package:flutter_pat_shop/util/widgets/rounded_phone_field.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 import 'package:http/http.dart' as http;
+import 'package:scoped_model/scoped_model.dart';
 
-import 'background_register.dart';
+import 'background_sign_up.dart';
 import 'or_divider.dart';
 
-class BodyRegister extends StatefulWidget {
-  BodyRegister({
+class BodySignUp extends StatefulWidget {
+  BodySignUp({
     Key? key,
   }) : super(key: key);
 
   @override
-  _BodyRegisterState createState() => _BodyRegisterState();
+  _BodySignUpState createState() => _BodySignUpState();
 }
 
-class _BodyRegisterState extends State<BodyRegister> {
+class _BodySignUpState extends State<BodySignUp> {
   var phoneNumber = "";
   final controllerPhoneNumber = TextEditingController();
   String _verificationId = "";
@@ -49,7 +52,7 @@ class _BodyRegisterState extends State<BodyRegister> {
       child: Container(
         height: size.height,
         width: double.infinity,
-        child: BackgroundRegister(
+        child: BackgroundSignUp(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -66,7 +69,7 @@ class _BodyRegisterState extends State<BodyRegister> {
                       text: "Enter your phone number to ",
                       children: [
                         TextSpan(
-                            text: "register",
+                            text: "sign_up",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -101,15 +104,21 @@ class _BodyRegisterState extends State<BodyRegister> {
               SizedBox(
                 height: size.height * 0.01,
               ),
-              RoundedButton(
-                text: "SIGNUP",
-                press: Validation.isValidatedMobile(phoneNumber)
-                    ? () {
-                        ShowDialogLoading.showDialogLoading(context);
-                        _checkExists();
-                        print(phoneNumber);
-                      }
-                    : null,
+              ScopedModelDescendant<SignUpViewModel>(
+                builder: (context, child, model) => RoundedButton(
+                  text: "SIGNUP",
+                  press: Validation.isValidatedMobile(phoneNumber)
+                      ? () {
+                          ShowDialogLoading.showDialogLoading(context);
+                          Future.delayed(Duration(seconds: 3), () async {
+                            model.signUp(phoneNumber);
+                            if(model.userExist){
+                              print("No");
+                            }
+                          });
+                        }
+                      : null,
+                ),
               ),
               SizedBox(
                 height: size.height * 0.03,
@@ -196,7 +205,7 @@ class _BodyRegisterState extends State<BodyRegister> {
 
   _checkExists() async {
     Uri apiLink = Uri.parse(
-        LINK_API + "user/read_single_signup.php?userPhone=$phoneNumber");
+        "$LINK_API/user/read_single_signup.php?userPhone=$phoneNumber");
     final response = await http.get(apiLink);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);

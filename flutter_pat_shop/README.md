@@ -35,10 +35,12 @@ For help getting started with Flutter, view our [online documentation](https://f
 [flutter_staggered_grid_view](https://pub.dev/packages/flutter_staggered_grid_view)
 [flutter_rating_bar](https://pub.dev/packages/flutter_rating_bar/)
 [intl](https://pub.dev/packages/intl/)
+[provider](https://pub.dev/packages/provider/install)
+[scoped_model]()
 
 [========]
 # Tutorial Link
-1. [Login/ Register](https://www.youtube.com/watch?v=ExKYjqgswJg&t=578s)
+1. [Login/ SignUp](https://www.youtube.com/watch?v=ExKYjqgswJg&t=578s)
 2. [Call API](https://www.youtube.com/watch?v=4swhVu-ZomI&t=15s)
 3. [Flutter-Firebase](https://firebase.flutter.dev/docs/auth/phone/#verificationCompleted)
 4. [Tutorial Firebase](https://www.youtube.com/watch?v=W19IfZ-nqB8)
