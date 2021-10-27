@@ -99,7 +99,7 @@ class _BodyLoginState extends State<BodyLogin> {
                           // MySnackBar.snackBar(
                           //   model.isLogin ? "Login Successful" : "Login Error!",
                           //   context);
-                          //   Navigator.pop(context);
+                            Navigator.pop(context);
                         });
                       }
                     : null,
