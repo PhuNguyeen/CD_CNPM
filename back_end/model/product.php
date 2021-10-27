@@ -1,5 +1,4 @@
 <?php
-
 class Product extends Database
 {
     // db 
@@ -11,11 +10,14 @@ class Product extends Database
     public $categoryID;
     public $manufacturerID;
     public $productPrice;
+    public $category;
+    public $manufacturer;
 
     public function __construct()
     {
         $this->connect();
     }
+
     // Select All User
     public function read($start, $limit)
     {
@@ -33,7 +35,7 @@ class Product extends Database
     public function price($proID)
     {
         // Create query
-        $query = 'SELECT MAX(a.price + b.priceRamRom + c.priceColor) max_price, MIN(a.price + b.priceRamRom + c.priceColor) min_price FROM specifications a INNER JOIN specifications_has_ramrom b ON a.specificationsID = b.specificationsID INNER JOIN specifications_has_color c ON c.specificationsID = a.specificationsID WHERE a.productID = ?;';
+        $query = 'SELECT MIN(a.price + b.priceRamRom + c.priceColor) min_price FROM specifications a INNER JOIN specifications_has_ramrom b ON a.specificationsID = b.specificationsID INNER JOIN specifications_has_color c ON c.specificationsID = a.specificationsID WHERE a.productID = ?;';
         // prepare statement
         $stmt = $this->conn->prepare($query);
         // bindParam
@@ -43,10 +45,7 @@ class Product extends Database
         //
         if ($stmt->rowCount() == 1) {
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            if ($row['max_price'] == $row['min_price']) {
-                return $row['max_price'];
-            }
-            return $row['min_price'] . "->" . $row['max_price'];
+            return $row['min_price'];
         }
         return null;
     }
