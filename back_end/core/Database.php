@@ -19,7 +19,7 @@ class Database
 			// set the PDO error mode to exception
 			$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->conn->query("SET CHARACTER SET UTF8");
-			define('APP_NAME', 'PHP REST API');
+
 			// echo "Connected successfully";
 		} catch (PDOException $e) {
 			// echo "Connection failed: " . $e->getMessage();

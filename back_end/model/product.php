@@ -50,6 +50,43 @@ class Product extends Database
         return null;
     }
 
+    // Select Price
+    public function countUserRate($proID)
+    {
+        // Create query
+        $query = 'SELECT COUNT(a.rate) countUser, IFNULL(SUM(a.rate),0) sumRate FROM reviews a INNER JOIN product b ON a.productID = b.productID WHERE a.productID = ?;';
+        // prepare statement
+        $stmt = $this->conn->prepare($query);
+        // bindParam
+        $stmt->bindParam(1, $proID);
+        // execute query
+        $stmt->execute();
+        //
+        if ($stmt->rowCount() == 1) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return array('countUser' => $row['countUser'], 'sumRate' => $row['sumRate']);
+        }
+        return null;
+    }
+
+    // Select Price
+    public function countProductBill($proID)
+    {
+        // Create query
+        $query = 'SELECT IFNULL(SUM(b.quantily),0) countProductBill FROM specifications a INNER JOIN billdetail b ON a.specificationsID = b.specificationsID WHERE a.productID = ?;';
+        // prepare statement
+        $stmt = $this->conn->prepare($query);
+        // bindParam
+        $stmt->bindParam(1, $proID);
+        // execute query
+        $stmt->execute();
+        //
+        if ($stmt->rowCount() == 1) {
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $row['countProductBill'];
+        }
+        return null;
+    }
 
     // // Select user by userPhone and userPass
     // public function read_single_signup()
