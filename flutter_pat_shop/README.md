@@ -49,3 +49,8 @@ For help getting started with Flutter, view our [online documentation](https://f
 9. [Slider 1](https://www.youtube.com/watch?v=JEMx2ax0734)
 10. [Navigator](https://www.youtube.com/watch?v=DlArCl8jvlo)
 11. [All Type Button](https://cafedev.vn/tu-hoc-flutter-tim-hieu-ve-widget-button-trong-flutter/#36_Nut_Inkwell)
+12. [prevent BottomNavigationBar rebuilds Page on change of tab](https://www.codegrepper.com/code-examples/javascript/BottomNavigationBar+rebuilds+Page+on+change+of+tab)
+13. [Source Code - model MVVM 2019](https://github.com/tungtd95/weather-flutter/tree/mvvm)
+14. [blog - model MVVM 2019](https://viblo.asia/p/flutter-va-mvvm-L4x5xk4alBM)
+15. [Source Code - model MVVM 2021](https://github.com/trantan97/flutter_mvvm_demo)
+16. [blog - model MVVM 2021](https://viblo.asia/p/mvvm-trong-flutter-yMnKMz6DZ7P)
