@@ -35,10 +35,12 @@ For help getting started with Flutter, view our [online documentation](https://f
 [flutter_staggered_grid_view](https://pub.dev/packages/flutter_staggered_grid_view)
 [flutter_rating_bar](https://pub.dev/packages/flutter_rating_bar/)
 [intl](https://pub.dev/packages/intl/)
+[provider](https://pub.dev/packages/provider/install)
+[scoped_model]()
 
 [========]
 # Tutorial Link
-1. [Login/ Register](https://www.youtube.com/watch?v=ExKYjqgswJg&t=578s)
+1. [Login/ SignUp](https://www.youtube.com/watch?v=ExKYjqgswJg&t=578s)
 2. [Call API](https://www.youtube.com/watch?v=4swhVu-ZomI&t=15s)
 3. [Flutter-Firebase](https://firebase.flutter.dev/docs/auth/phone/#verificationCompleted)
 4. [Tutorial Firebase](https://www.youtube.com/watch?v=W19IfZ-nqB8)
@@ -49,3 +51,8 @@ For help getting started with Flutter, view our [online documentation](https://f
 9. [Slider 1](https://www.youtube.com/watch?v=JEMx2ax0734)
 10. [Navigator](https://www.youtube.com/watch?v=DlArCl8jvlo)
 11. [All Type Button](https://cafedev.vn/tu-hoc-flutter-tim-hieu-ve-widget-button-trong-flutter/#36_Nut_Inkwell)
+12. [prevent BottomNavigationBar rebuilds Page on change of tab](https://www.codegrepper.com/code-examples/javascript/BottomNavigationBar+rebuilds+Page+on+change+of+tab)
+13. [Source Code - model MVVM 2019](https://github.com/tungtd95/weather-flutter/tree/mvvm)
+14. [blog - model MVVM 2019](https://viblo.asia/p/flutter-va-mvvm-L4x5xk4alBM)
+15. [Source Code - model MVVM 2021](https://github.com/trantan97/flutter_mvvm_demo)
+16. [blog - model MVVM 2021](https://viblo.asia/p/mvvm-trong-flutter-yMnKMz6DZ7P)

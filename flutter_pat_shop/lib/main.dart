@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/main/main_application.dart';
-import 'package:flutter_pat_shop/screens/login/login_screen.dart';
-import 'package:flutter_pat_shop/until/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:scoped_model/scoped_model.dart';
+
+import 'package:flutter_pat_shop/ui/login/login_screen.dart';
+import 'package:flutter_pat_shop/ui/login/login_viewmodel.dart';
+import 'package:flutter_pat_shop/ui/main/main_application.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,30 +15,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isLogin = false;
 
   @override
   void initState() {
     super.initState();
-    setState(() {
-      _setData();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: isLogin ? MainApplication() : LoginScreen(),
-    );
-  }
-
-  _setData() async {
-    final saveData = await SharedPreferences.getInstance();
-    isLogin = saveData.getBool(IS_LOGIN) ?? false;
-    print(isLogin.toString());
+    LoginViewModel loginViewModel = LoginViewModel.getInstance();
+    return ScopedModel<LoginViewModel>(
+        model: loginViewModel,
+        child: MaterialApp(
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.orange,
+            ),
+            home: ScopedModelDescendant<LoginViewModel>(
+              builder: (context, child, model) {
+                return model.isLogin ? MainApplication() : LoginScreen();
+              },
+            )
+            ));
   }
 }
