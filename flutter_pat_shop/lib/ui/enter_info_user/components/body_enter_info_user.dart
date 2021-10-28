@@ -3,10 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/model/user/user.dart';
-import 'package:flutter_pat_shop/ui/enter_info_user/components/background_enter_info_user.dart';
+import 'package:flutter_pat_shop/ui/enter_info_user/enter_info_user_view_model.dart';
 import 'package:flutter_pat_shop/ui/login/login_screen.dart';
 import 'package:flutter_pat_shop/util/constants.dart';
 import 'package:flutter_pat_shop/util/my_snack_bar.dart';
+import 'package:flutter_pat_shop/util/show_dialog_loading.dart';
 import 'package:flutter_pat_shop/util/validation.dart';
 import 'package:flutter_pat_shop/util/widgets/profile_widget.dart';
 import 'package:flutter_pat_shop/util/widgets/rounded_button.dart';
@@ -15,6 +16,7 @@ import 'package:flutter_pat_shop/util/widgets/rounded_password_field.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class BodyEnterInfoUser extends StatefulWidget {
   final String phoneNumber;
@@ -35,15 +37,19 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
 
   @override
   void initState() {
-    _user = User("", "", widget.phoneNumber, "", "abc.png", "");
+    _user = User(
+        userID: "", userName: "", userPhone: widget.phoneNumber, userEmail: "");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    EnterInfoUserViewModel enterInfoUserViewModel =
+        EnterInfoUserViewModel.getInstace();
 
-    return BackgroundEnterInfoUser(
+    return ScopedModel(
+      model: enterInfoUserViewModel,
       child: ListView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.symmetric(vertical: 32, horizontal: 32),
@@ -107,13 +113,35 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
           RoundedButton(
             text: "Save",
             press: isValidateAll()
-                ? () {
+                ? () async {
+                    ShowDialogLoading.showDialogLoading(context);
                     _user.userName = userName!;
-                    _user.userAvatar = "abc.png";
-
-                    Map<String, dynamic> jsonData = _user.toJson();
-                    createUser(jsonData);
-                    print(_user.toJson());
+                    Map<String, dynamic> data = _user.toJson();
+                    print(data);
+                    Future.delayed(
+                      Duration(seconds: 3),
+                      () async {
+                        final result = await enterInfoUserViewModel
+                            .updateMessage(data, _image);
+                        if (result) {
+                          Navigator.pop(context);
+                          MySnackBar.snackBar("Successful!", context);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return LoginScreen();
+                              },
+                            ),
+                            (route) => false,
+                          );
+                        } else {
+                          Navigator.pop(context);
+                          MySnackBar.snackBar(
+                              "Create account failed!", context);
+                        }
+                      },
+                    );
                   }
                 : null,
           ),
@@ -158,17 +186,7 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
       if (json['message']['create']
           .toString()
           .toUpperCase()
-          .contains("Successful.".toUpperCase())) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return LoginScreen();
-            },
-          ),
-          (route) => false,
-        );
-      }
+          .contains("Successful.".toUpperCase())) {}
       print(json['message']);
       MySnackBar.snackBar("Successful!", context);
     } else {
