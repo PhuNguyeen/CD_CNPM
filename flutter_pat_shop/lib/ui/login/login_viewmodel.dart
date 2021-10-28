@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_pat_shop/data/UserRepoImpl.dart';
 import 'package:flutter_pat_shop/model/user/user.dart';
 import 'package:flutter_pat_shop/repo/UserRepo.dart';
 import 'package:flutter_pat_shop/util/constants.dart';
+import 'package:flutter_pat_shop/util/my_snack_bar.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,8 +36,10 @@ class LoginViewModel extends Model {
     notifyListeners();
   }
 
-  void loginByPhoneNumber(String userPhone, String userPass) async {
+  void loginByPhoneNumber(String userPhone, String userPass, BuildContext context) async {
     user = await userRepo.loginByPhoneNumber(userPhone, userPass);
     updateLogin();
+    MySnackBar.snackBar(
+        isLogin ? "Login Successful" : "Login Error!", context);
   }
 }
