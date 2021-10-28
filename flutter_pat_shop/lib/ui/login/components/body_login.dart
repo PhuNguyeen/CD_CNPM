@@ -95,11 +95,8 @@ class _BodyLoginState extends State<BodyLogin> {
                     ? () {
                         ShowDialogLoading.showDialogLoading(context);
                         Future.delayed(Duration(seconds: 3), () async {
-                          model.loginByPhoneNumber(phoneNumber, password);
-                          // MySnackBar.snackBar(
-                          //   model.isLogin ? "Login Successful" : "Login Error!",
-                          //   context);
-                          //   Navigator.pop(context);
+                          model.loginByPhoneNumber(phoneNumber, password, context);
+                          Navigator.pop(context);
                         });
                       }
                     : null,
