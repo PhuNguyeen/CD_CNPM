@@ -1,11 +1,6 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_pat_shop/data/UserRepoImpl.dart';
-import 'package:flutter_pat_shop/model/user/user.dart';
+import 'package:flutter_pat_shop/data/remote/UserAPI.dart';
 import 'package:flutter_pat_shop/repo/UserRepo.dart';
-import 'package:flutter_pat_shop/util/constants.dart';
-import 'package:flutter_pat_shop/util/my_snack_bar.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginViewModel extends Model {
   static LoginViewModel? _instance;
@@ -17,29 +12,23 @@ class LoginViewModel extends Model {
     return _instance;
   }
 
-  UserRepo userRepo = UserRepoImpl();
-  bool isLogin = false;
-  User? user;
-  bool incorrecet = true;
+  UserRepo userRepo = UserAPI();
+  String? message;
 
   static void destroyInstance() {
     _instance = null;
   }
 
-  LoginViewModel() {
-    updateLogin();
-  }
-
-  void updateLogin() async {
-    var sharePref = await SharedPreferences.getInstance();
-    isLogin = sharePref.getBool(IS_LOGIN) ?? false;
+  Future<bool> updateMessage(String userPhone, String userPass) async {
+    var result = await userRepo.loginByPhoneNumber(userPhone, userPass);
+    if (result == null) {
+      message = "There was a problem, please try again!";
+    } else if (!result) {
+      message = "The username or password is incorrect, please try again!";
+    } else {
+      message = null;
+    }
     notifyListeners();
-  }
-
-  void loginByPhoneNumber(String userPhone, String userPass, BuildContext context) async {
-    user = await userRepo.loginByPhoneNumber(userPhone, userPass);
-    updateLogin();
-    MySnackBar.snackBar(
-        isLogin ? "Login Successful" : "Login Error!", context);
+    return result?? false;
   }
 }

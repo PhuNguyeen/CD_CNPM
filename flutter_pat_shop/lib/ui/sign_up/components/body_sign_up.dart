@@ -48,120 +48,125 @@ class _BodySignUpState extends State<BodySignUp> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Container(
-        height: size.height,
-        width: double.infinity,
-        child: BackgroundSignUp(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/images/letgo.png",
-                height: size.height * 0.35,
-                errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
-                child: RichText(
-                  text: TextSpan(
-                      text: "Enter your phone number to ",
-                      children: [
-                        TextSpan(
-                            text: "sign_up",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15)),
-                      ],
-                      style: TextStyle(color: Colors.black54, fontSize: 15)),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              RoundedPhoneField(
-                textInputType: TextInputType.phone,
-                hintText: "123XXXX89",
-                onChanged: (value) {
-                  setState(() {
-                    PhoneNumber pn = value;
-                    phoneNumber = pn.international.substring(1);
-                  });
-                },
-                errorText: Validation.validateMobile(phoneNumber),
-              ),
-              Container(
-                child: incorrecet
-                    ? null
-                    : Text(
-                        "This user already exists. Try again",
-                        style: TextStyle(color: Colors.red),
-                      ),
-              ),
-              SizedBox(
-                height: size.height * 0.01,
-              ),
-              ScopedModelDescendant<SignUpViewModel>(
-                builder: (context, child, model) => RoundedButton(
-                  text: "SIGNUP",
-                  press: Validation.isValidatedMobile(phoneNumber)
-                      ? () {
-                          ShowDialogLoading.showDialogLoading(context);
-                          Future.delayed(Duration(seconds: 3), () async {
-                            model.signUp(phoneNumber);
-                            if(model.userExist){
-                              print("No");
-                            }
-                          });
-                        }
-                      : null,
-                ),
-              ),
-              SizedBox(
-                height: size.height * 0.03,
-              ),
-              AlreadyHaveAnAccountCheck(
-                login: false,
-                press: () {
-                  Navigator.pop(context, MaterialPageRoute(
-                    builder: (context) {
-                      return LoginScreen();
-                    },
-                  ));
-                },
-              ),
-              OrDivider(),
-              Row(
+    SignUpViewModel signUpViewModel = SignUpViewModel.getInstace();
+
+    return ScopedModel<SignUpViewModel>(
+        model: signUpViewModel,
+        child: SingleChildScrollView(
+          child: Container(
+            height: size.height,
+            width: double.infinity,
+            child: BackgroundSignUp(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SocalIcon(
-                    iconSrc: "assets/images/ic_facebook.svg",
+                  Image.asset(
+                    "assets/images/letgo.png",
+                    height: size.height * 0.35,
+                    errorBuilder: (context, error, stackTrace) =>
+                        Icon(Icons.error),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 8),
+                    child: RichText(
+                      text: TextSpan(
+                          text: "Enter your phone number to ",
+                          children: [
+                            TextSpan(
+                                text: "sign_up",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15)),
+                          ],
+                          style:
+                              TextStyle(color: Colors.black54, fontSize: 15)),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
+                  RoundedPhoneField(
+                    textInputType: TextInputType.phone,
+                    hintText: "123XXXX89",
+                    onChanged: (value) {
+                      setState(() {
+                        PhoneNumber pn = value;
+                        phoneNumber = pn.international.substring(1);
+                      });
+                    },
+                    errorText: Validation.validateMobile(phoneNumber),
+                  ),
+                  ScopedModelDescendant<SignUpViewModel>(
+                    builder: (context, child, model) => Container(
+                      child: signUpViewModel.message == null
+                          ? null
+                          : Text(
+                              model.message!,
+                              style: TextStyle(color: Colors.red),
+                            ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.01,
+                  ),
+                  RoundedButton(
+                    text: "SIGNUP",
+                    press: Validation.isValidatedMobile(phoneNumber)
+                        ? () {
+                            ShowDialogLoading.showDialogLoading(context);
+                            Future.delayed(Duration(seconds: 3), () async {
+                              final result = await signUpViewModel
+                                  .updateMessage(phoneNumber);
+                                  // TODO: tạm cho đoạn này nhảy sang otp
+                                  // _sentOTP();
+                              if (result) {
+                                _sentOTP();
+                              } else {
+                                Navigator.pop(context);
+                              }
+                            });
+                          }
+                        : null,
+                  ),
+                  SizedBox(
+                    height: size.height * 0.03,
+                  ),
+                  AlreadyHaveAnAccountCheck(
+                    login: false,
                     press: () {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.pop(context, MaterialPageRoute(
                         builder: (context) {
-                          return EnterOtpScreen(
-                            phoneNumber: phoneNumber,
-                            verificationId: _verificationId,
-                            auth: auth!,
-                          );
+                          return LoginScreen();
                         },
                       ));
                     },
                   ),
-                  SocalIcon(
-                    iconSrc: "assets/images/ic_google.svg",
-                    press: () {},
-                  ),
+                  OrDivider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SocalIcon(
+                        iconSrc: "assets/images/ic_facebook.svg",
+                        press: () {
+                          MySnackBar.snackBar("Chưa xong chờ update", context);
+                        },
+                      ),
+                      SocalIcon(
+                        iconSrc: "assets/images/ic_google.svg",
+                        press: () {
+                          MySnackBar.snackBar("Chưa xong chờ update", context);
+                        },
+                      ),
+                    ],
+                  )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        ));
   }
 
   _sentOTP() async {
