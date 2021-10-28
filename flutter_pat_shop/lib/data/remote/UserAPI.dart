@@ -1,14 +1,25 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:flutter_pat_shop/ui/login/login_viewmodel.dart';
+import 'package:flutter_pat_shop/repo/UserRepo.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_pat_shop/model/user/user.dart';
 import 'package:flutter_pat_shop/util/constants.dart';
 import 'package:http_parser/http_parser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class UserAPI {
-  Future<User?> loginByPhoneNumber(String userPhone, String userPass) async {
+class UserAPI with UserRepo {
+  static UserAPI? instance;
+
+  static UserRepo getInstance() {
+    if (instance == null) {
+      instance = UserAPI();
+    }
+    return instance!;
+  }
+
+  Future<bool?> loginByPhoneNumber(
+      String userPhone, String userPass) async {
     String url =
         "$LINK_API/user/read_single_login.php?userPhone=${userPhone.trim()}&userPass=${userPass.trim()}";
     var response;
@@ -25,21 +36,32 @@ class UserAPI {
           .toUpperCase()
           .contains("Have data".toUpperCase())) {
         User user = User.fromJson(json['data']);
+        _saveInfoUserToCache(user: user);
         print(user.toString());
-        return user;
+        return true;
       } else {
-        LoginViewModel loginViewModel = LoginViewModel.getInstance();
-        loginViewModel.incorrecet = false;
         print(json['message']);
-        return null;
+        return false;
       }
     }
   }
 
-  Future<bool> signUpByPhoneNumber(String userPhone) async {
+  /*
+   * return null nếu lỗi kết nối
+   * return true nếu sđt/gmail có thể được đang kí và ngược lại
+   */
+
+  Future<bool?> signUpByPhoneNumber(String userPhone) async {
     Uri apiLink =
         Uri.parse("$LINK_API/user/read_single_signup.php?userPhone=$userPhone");
-    final response = await http.get(apiLink);
+    var response;
+    try {
+      response = await http.get(apiLink);
+    } on Exception {
+      print("Http error!");
+      return null;
+    }
+
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json["message"]
@@ -54,7 +76,11 @@ class UserAPI {
     return false;
   }
 
-  Future<bool> createUser(Map<String, dynamic> data, File? fileAvatar) async {
+  /*
+   * return null nếu gặp lỗi server 
+   * return true true nếu đăng kí thành công 
+   */
+  Future<bool?> createUser(Map<String, dynamic> data, File? fileAvatar) async {
     final apiLink = Uri.parse("$LINK_API/user/create.php");
 
     var request = http.MultipartRequest("POST", apiLink);
@@ -72,7 +98,7 @@ class UserAPI {
       response = await http.Response.fromStream(await request.send());
     } on Exception {
       print("Http exception");
-      return false;
+      return null;
     }
 
     if (response.statusCode == 200) {
@@ -81,10 +107,33 @@ class UserAPI {
           .toString()
           .toUpperCase()
           .contains("Successful.".toUpperCase())) {
-            return true;
-          }
+        return true;
+      }
     }
-    
+
     return false;
+  }
+
+  @override
+  Future<void> deleteUserById(String id) {
+    // TODO: implement deleteUserById
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updaterUserById(String userPass) {
+    // TODO: implement updaterUserById
+    throw UnimplementedError();
+  }
+
+    _saveInfoUserToCache({required User user}) async {
+    final saveData = await SharedPreferences.getInstance();
+    saveData.setBool(IS_LOGIN, true);
+    saveData.setString(USER_ID, user.userID);
+    saveData.setString(USER_NAME, user.userName);
+    saveData.setString(USER_AVATAR, user.userPhone);
+    saveData.setString(USER_EMAIL, user.userEmail);
+    saveData.setString(USER_AVATAR, user.userAvatar);
+    print("Saved to cache!");
   }
 }
