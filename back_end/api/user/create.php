@@ -15,20 +15,14 @@ if (isset($_POST['data'])) {
 	$user->userPhone 	= $data->userPhone;
 	$user->userPass 	= $data->userPass;
 	$user->userEmail 	= $data->userEmail;
-	$user->userAvatar 	= $data->userAvatar;
+	$user->userAvatar 	= "avatarTeam.png";
 	$user->userRole 	= 0;
-	// create user
-	$message_image = 'Successful.';
-	if (!is_null($user->userAvatar)) {
-		// Upload file Image
-		$message_image = $user->uploadAvatar();
-	}
 	// create user
 	$message_create = $user->create();
 	if ($message_create == 'Successful.') {
+		$message_image = $user->uploadAvatar();
 		$bridge->message(array('create' => $message_create, 'image' => $message_image));
 	} else {
-		$user->deleteAvatar();
 		$bridge->message(array('create' => $message_create, 'image' => ''));
 	}
 } else {

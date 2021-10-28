@@ -30,7 +30,7 @@ if ($len > 0) {
         $product_item = array(
             'productID' => $productID,
             'productName' => $productName,
-            'productImage' => $productImage,
+            'productImage' => $productID . "1.png",
             'productPrice' => $productPrice,
             'manufacturerName' => $manufacturer->manufacturerName,
             'countUser' => $rate['countUser'],
