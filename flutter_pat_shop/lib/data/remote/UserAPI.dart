@@ -133,7 +133,7 @@ class UserAPI with UserRepo {
     saveData.setString(USER_NAME, user.userName);
     saveData.setString(USER_AVATAR, user.userPhone);
     saveData.setString(USER_EMAIL, user.userEmail);
-    saveData.setString(USER_AVATAR, user.userAvatar);
+    saveData.setString(USER_AVATAR, user.userAvatar!);
     print("Saved to cache!");
   }
 }

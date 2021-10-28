@@ -5,13 +5,18 @@ part 'user.g.dart';
 class User {
   String userID;
   String userName;
+  String? userPass;
   final String userPhone;
   String userEmail;
-  String userAvatar;
-  String userRole;
+  String? userAvatar;
 
-  User(this.userID, this.userName, this.userPhone, this.userEmail,
-      this.userAvatar, this.userRole);
+  User(
+      {required this.userID,
+      required this.userName,
+      required this.userPhone,
+      this.userPass,
+      required this.userEmail,
+      this.userAvatar});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
@@ -20,6 +25,6 @@ class User {
 
   @override
   String toString() {
-    return 'User{userID: $userID, userName: $userName, userPhone: $userPhone, userEmail: $userEmail, userAvatar: $userAvatar, userRole: $userRole}';
+    return 'User{userID: $userID, userName: $userName, userPhone: $userPhone, userPass: $userPass, userEmail: $userEmail, userAvatar: $userAvatar,}';
   }
 }

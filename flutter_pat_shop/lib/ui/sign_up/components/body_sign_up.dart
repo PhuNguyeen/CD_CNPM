@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_pat_shop/ui/enter_otp/enter_opt_screen.dart';
 import 'package:flutter_pat_shop/ui/login/login_screen.dart';
 import 'package:flutter_pat_shop/ui/sign_up/components/socal_icon.dart';
 import 'package:flutter_pat_shop/ui/sign_up/sign_up_viewmodel.dart';
-import 'package:flutter_pat_shop/util/constants.dart';
 import 'package:flutter_pat_shop/util/my_snack_bar.dart';
 import 'package:flutter_pat_shop/util/show_dialog_loading.dart';
 import 'package:flutter_pat_shop/util/validation.dart';
@@ -18,7 +16,6 @@ import 'package:flutter_pat_shop/util/widgets/rounded_button.dart';
 import 'package:flutter_pat_shop/util/widgets/rounded_phone_field.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
-import 'package:http/http.dart' as http;
 import 'package:scoped_model/scoped_model.dart';
 
 import 'background_sign_up.dart';
@@ -121,12 +118,12 @@ class _BodySignUpState extends State<BodySignUp> {
                               final result = await signUpViewModel
                                   .updateMessage(phoneNumber);
                                   // TODO: tạm cho đoạn này nhảy sang otp
-                                  // _sentOTP();
-                              if (result) {
-                                _sentOTP();
-                              } else {
-                                Navigator.pop(context);
-                              }
+                                  _sentOTP();
+                              // if (result) {
+                              //   _sentOTP();
+                              // } else {
+                              //   Navigator.pop(context);
+                              // }
                             });
                           }
                         : null,
@@ -206,28 +203,5 @@ class _BodySignUpState extends State<BodySignUp> {
       },
       timeout: const Duration(seconds: 60),
     );
-  }
-
-  _checkExists() async {
-    Uri apiLink = Uri.parse(
-        "$LINK_API/user/read_single_signup.php?userPhone=$phoneNumber");
-    final response = await http.get(apiLink);
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      if (json["message"]
-          .toString()
-          .toUpperCase()
-          .contains("User exists".toUpperCase())) {
-        setState(() {
-          incorrecet = false;
-          Navigator.pop(context);
-        });
-      } else {
-        _sentOTP();
-      }
-    } else {
-      print("Error!");
-      MySnackBar.snackBar("Error!", context);
-    }
   }
 }
