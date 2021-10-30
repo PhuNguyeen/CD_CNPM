@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/model/product/product.dart';
-import 'package:flutter_pat_shop/util/constants.dart';
-import 'package:flutter_pat_shop/util/my_snack_bar.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_pat_shop/ui/main/tab/home/home_tab_viewmodel.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import 'components/list_category.dart';
 import 'components/recomended_product.dart';
@@ -18,41 +14,51 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  bool loading = true;
-  late ScrollController scrollController;
-  List<Product> listProduct = [];
-  @override
-  void initState() {
-    super.initState();
-    scrollController = ScrollController()
-      ..addListener(() {
-        if (scrollController.position.extentAfter == 0) {
-          loadListRecomenedProduct();
-        }
-      });
-    loadListRecomenedProduct();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      clipBehavior: Clip.antiAlias,
-      controller: scrollController,
-      shrinkWrap: true,
-      children: [
-        SliderADS(),
-        CategoryProduct(),
-        buildLabelForList(),
-        RecomendedProduct(
-          listProduct: listProduct,
-        ),
-        Container(
-          margin: EdgeInsets.all(12),
-          child: Center(
-            child: CircularProgressIndicator(),
+    HomeTabViewModel homeTabViewModel = HomeTabViewModel.getInstance();
+    ScrollController scrollController = ScrollController();
+    return ScopedModel<HomeTabViewModel>(
+      model: homeTabViewModel,
+      child: ListView(
+        padding: EdgeInsets.only(bottom: 48),
+        physics: BouncingScrollPhysics(),
+        clipBehavior: Clip.antiAlias,
+        controller: scrollController
+          ..addListener(() {
+            if (scrollController.position.extentAfter == 0 &&
+                !homeTabViewModel.isLoading) {
+              homeTabViewModel.updateRecomendedProductsList();
+              print("Load ${homeTabViewModel.start}");
+            }
+          }),
+        shrinkWrap: true,
+        children: [
+          SliderADS(),
+          CategoryProduct(),
+          buildLabelForList(),
+          RecomendedProduct(),
+          ScopedModelDescendant<HomeTabViewModel>(
+            builder: (context, child, model) => Container(
+              margin: EdgeInsets.all(12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(12),
+                    child: Center(
+                      child:
+                          model.isLoading ? CircularProgressIndicator() : null,
+                    ),
+                  ),
+                  buildImageNoProductFound(),
+                  buildBottomMessage(),
+                ],
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -63,33 +69,24 @@ class _HomeTabState extends State<HomeTab> {
           style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
         ),
       );
-      
-  loadListRecomenedProduct() async {
-    Uri apiLink =
-        Uri.parse("$LINK_API/product/read_limit.php?start=0&limit=5");
-    var response = await http.get(apiLink);
 
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      if (json['message']
-          .toString()
-          .toUpperCase()
-          .contains("Have data".toUpperCase())) {
-        List<dynamic> jsonListProduct = json['data']['Product'];
+  Widget buildBottomMessage() => ScopedModelDescendant<HomeTabViewModel>(
+        builder: (context, child, model) => Container(
+          margin: EdgeInsets.only(top: 20, bottom: 28),
+          child: model.message == null ? null : Text(model.message!),
+        ),
+      );
 
-        for (var i = 0; i < jsonListProduct.length; i++) {
-          listProduct.add(Product.fromJson(jsonListProduct[i]));
-        }
-        setState(() {
-          print(listProduct.length);
-        });
-      } else {
-        print('No data');
-      }
-      print(json['message']);
-    } else {
-      print("Error load recomended product!");
-      MySnackBar.snackBar("Error load recomended product!", context);
-    }
-  }
+  Widget buildImageNoProductFound() => ScopedModelDescendant<HomeTabViewModel>(
+        builder: (context, child, model) => Container(
+          child: model.noProductFound
+              ? Image.asset(
+                  "assets/images/no-product-found.png",
+                  fit: BoxFit.fill,
+                  height: 100,
+                  errorBuilder:(context, error, stackTrace) => Icon(Icons.error),
+                )
+              : null,
+        ),
+      );
 }

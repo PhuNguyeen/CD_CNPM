@@ -5,12 +5,11 @@ import 'package:intl/intl.dart';
 
 import 'package:flutter_pat_shop/model/product/product.dart';
 
-// ignore: must_be_immutable
-class CardRecomendedProduct extends StatelessWidget {
-  Product product;
+class CardProduct extends StatelessWidget {
+  final Product product;
   final VoidCallback onTap;
 
-  CardRecomendedProduct({Key? key, required this.product, required this.onTap})
+  CardProduct({Key? key, required this.product, required this.onTap})
       : super(key: key);
 
   @override
@@ -27,11 +26,12 @@ class CardRecomendedProduct extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: 12,
-            ),
             Image.network(
-              LINK_IMAGE_PRODUCT_TEST,
+              // TODO: update avatar link
+              // "$LINK_AVATAR_PRODUCT/${product.productImage}",
+              "$LINK_IMAGE_PRODUCT_TEST",
+              width: MediaQuery.of(context).size.width * 0.43,
+              height: MediaQuery.of(context).size.width * 0.35,
               fit: BoxFit.fitWidth,
               errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
             ),
@@ -56,7 +56,7 @@ class CardRecomendedProduct extends StatelessWidget {
                 product.productName,
                 maxLines: 2,
                 style: TextStyle(
-                  fontSize: 16,
+                  fontSize: 14,
                   fontWeight: FontWeight.w300,
                 ),
               ),
@@ -72,7 +72,7 @@ class CardRecomendedProduct extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "(200)",
+                    "(${product.countProductBill})",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w300,
@@ -84,10 +84,10 @@ class CardRecomendedProduct extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.location_pin,
-                    size: 16,
+                    size: 14,
                   ),
                   Text(
-                    "Ha Noi",
+                    "${product.manufacturerName}",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w300,
@@ -102,13 +102,13 @@ class CardRecomendedProduct extends StatelessWidget {
                       Icons.star,
                       color: Colors.amber,
                     ),
-                    rating: 3,
-                    itemSize: 16,
+                    rating: double.parse(product.sumRate),
+                    itemSize: 12,
                     direction: Axis.horizontal,
                     itemCount: 5,
                   ),
                   Text(
-                    "(2432)",
+                    "(${product.countUser})",
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w300,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/ui/login/login_screen.dart';
 import 'package:flutter_pat_shop/ui/login/login_viewmodel.dart';
 import 'package:flutter_pat_shop/ui/main/main_application.dart';
 import 'package:flutter_pat_shop/ui/sign_up/sign_up_screen.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_pat_shop/util/widgets/already_have_an_account.dart';
 import 'package:flutter_pat_shop/util/widgets/rounded_button.dart';
 import 'package:flutter_pat_shop/util/widgets/rounded_password_field.dart';
 import 'package:flutter_pat_shop/util/widgets/rounded_phone_field.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'background_login.dart';
