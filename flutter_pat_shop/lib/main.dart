@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pat_shop/ui/show_product/show_product_screen.dart';
 import 'package:flutter_pat_shop/util/constants.dart';
 
 import 'package:flutter_pat_shop/ui/login/login_screen.dart';
@@ -29,7 +30,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: isLogin ? MainApplication() : LoginScreen(),
+      home: ShowProductScreen()
+      // TODO: test show product isLogin ? MainApplication() : LoginScreen(),
     );
   }
 
