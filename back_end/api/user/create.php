@@ -15,7 +15,7 @@ if (isset($_POST['data'])) {
 	$user->userPhone 	= $data->userPhone;
 	$user->userPass 	= $data->userPass;
 	$user->userEmail 	= $data->userEmail;
-	$user->userAvatar 	= "avatarTeam.png";
+	$user->userAvatar 	= "avatar.png";
 	$user->userRole 	= 0;
 	// create user
 	$message_create = $user->create();
