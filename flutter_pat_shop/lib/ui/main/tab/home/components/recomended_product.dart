@@ -31,7 +31,13 @@ class _RecomendedProductState extends State<RecomendedProduct> {
               return CardProduct(
                 product: model.recomendedProductsList[index],
                 onTap: () {
-                  //TODO đến sản phẩm được chọn
+                  //TODO: đến sản phẩm được chọn
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => ShowProductScreen(),
+                  //   ),
+                  // );
                   print("Tap product");
                 },
               );

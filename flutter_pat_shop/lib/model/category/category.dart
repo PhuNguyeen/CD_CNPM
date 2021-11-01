@@ -5,9 +5,9 @@ part 'category.g.dart';
 class Category {
   String categoryID;
   String categoryName;
-  String categoryAvatar;
+  String categoryImage;
 
-  Category({required this.categoryID, required this.categoryName, required this.categoryAvatar});
+  Category({required this.categoryID, required this.categoryName, required this.categoryImage});
   
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 

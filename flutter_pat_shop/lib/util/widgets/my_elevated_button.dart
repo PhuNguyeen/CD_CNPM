@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyElevatedButton extends StatelessWidget {
-  final Color color;
+  final MaterialColor color;
   final VoidCallback onPressed;
   final double height;
   final double? width;
@@ -34,15 +34,15 @@ class MyElevatedButton extends StatelessWidget {
         ),
       ),
       decoration: BoxDecoration(
-          color: color.withOpacity(0.4),
+          color: color.shade400,
           borderRadius: borderRadius,
           boxShadow: [
             BoxShadow(
-                color: color.withOpacity(0.4),
+                color: color.shade300,
                 offset: Offset(1, -2),
                 blurRadius: 5),
             BoxShadow(
-                color: color.withOpacity(0.4),
+                color: color.shade300,
                 offset: Offset(-1, 2),
                 blurRadius: 5)
           ]),

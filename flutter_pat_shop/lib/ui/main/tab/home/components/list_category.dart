@@ -55,7 +55,7 @@ class _CategoryProductState extends State<CategoryProduct> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.network(
-            "$LINK_AVATAR_CATEGORY/${category.categoryAvatar}",
+            "$LINK_IMAGE_CATEGORY/${category.categoryImage}",
             fit: BoxFit.fill,
             errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
             width: 40,

@@ -20,7 +20,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    setLogin();
+    // TODO: tạm tắt để loại bỏ bug web
+    // setLogin();
   }
 
   @override
@@ -30,7 +31,8 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: ShowProductScreen()
+      home: MainApplication(),
+      //ShowProductScreen(),
       // TODO: test show product isLogin ? MainApplication() : LoginScreen(),
     );
   }

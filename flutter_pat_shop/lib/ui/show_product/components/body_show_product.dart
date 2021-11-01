@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/model/product/product.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/choose_option_paragraph.dart';
+import 'package:flutter_pat_shop/ui/show_product/components/description_product_paragraph.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/general_information_paragraph.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/information_product_paragraph.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/related_product_paragraph.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/review_product_paragraph.dart';
+import 'package:flutter_pat_shop/util/widgets/space_grey.dart';
 
 class BodyShowProduct extends StatefulWidget {
   const BodyShowProduct({Key? key}) : super(key: key);
@@ -30,24 +32,20 @@ class _BodyShowProductState extends State<BodyShowProduct> {
       child: Column(
         children: [
           GeneralInformationParagraph(),
-          buildSpace(),
+          SpaceGrey(),
           ChooseOptionParagraph(),
-          buildSpace(),
+          SpaceGrey(),
           InformationProductParagraph(),
-          buildSpace(),
+          SpaceGrey(),
+          SpaceGrey(),
+          DescriptionProductParagraph(),
+          SpaceGrey(),
           RelatedProductParagraph(product: product,),
-          buildSpace(),
+          SpaceGrey(),
           ReviewProductParagraph(product: product,),
-          buildSpace(),
+          SpaceGrey(),
         ],
       ),
     );
   }
-
-  Widget buildSpace() => SizedBox(
-        height: 12,
-        child: Container(
-          color: Colors.grey.shade100,
-        ),
-      );
 }
