@@ -13,7 +13,7 @@
   - Method: GET
   - Request: {domain}/api/v1/user?limit=2&page=2&column=userID&sort=desc
   - Response:
-
+    ```
 
      {
             "status": true,
@@ -44,6 +44,7 @@
                 "currentPage": 2
             }
         }
+    ```
 ---
 
 - Create user
