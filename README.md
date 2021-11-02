@@ -22,20 +22,20 @@
         "data": [
             {
                 "userID": 11,
-                "userName": "Nguyễn Văn An",
-                "userPhone": "0987191143",
-                "userPass": "42050e34e1a0f6bd5f65196022751667",
-                "userEmail": "akjzakj@gmail.com",
-                "userAvatar": "avatar0.jpg",
+                "userName": "Nguyễn Văn B",
+                "userPhone": "0987654321",
+                "userPass": "a123",
+                "userEmail": "a@gmail.com",
+                "userAvatar": "avatar11.jpg",
                 "userRole": 0
             },
             {
                 "userID": 10,
-                "userName": "Nguyễn Văn An",
+                "userName": "Nguyễn Văn A",
                 "userPhone": "0987191100",
-                "userPass": "an123",
-                "userEmail": "akjzakj@gmail.com",
-                "userAvatar": "avatar.png",
+                "userPass": "b123",
+                "userEmail": "b@gmail.com",
+                "userAvatar": "avatar10.png",
                 "userRole": 0
             }
         ],
@@ -57,11 +57,10 @@
 
     ```
     {
-        "userName": "Nguyễn Văn An",
-        "userPhone": "0987191143",
-        "userPass": "an123",
-        "userEmail": "akjzakj@gmail.com",
-        "userAvatar": "avatar0.jpg"
+        "userName": "Nguyễn Văn A",
+        "userPhone": "0987654322",
+        "userPass": "a123",
+        "userEmail": "a@gmail.com"
     }
     ```
 
