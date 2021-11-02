@@ -14,6 +14,7 @@
   - Method: GET
   - Request: {domain}/api/v1/user?limit=2&page=2&column=userID&sort=desc
   - Response:
+  ```javascript
     {
     "status": true,
     "code": 200,
@@ -43,6 +44,7 @@
     "currentPage": 2
     }
     }
+  ```
 
 ---
 
