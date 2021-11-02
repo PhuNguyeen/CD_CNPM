@@ -51,7 +51,7 @@
   - URI: api/v1/user
   - Method: POST
   - Request:
-  
+  ```
   
     {
         "userName": "Nguyễn Văn An",
@@ -60,13 +60,15 @@
         "userEmail": "akjzakj@gmail.com",
         "userAvatar": "avatar0.jpg"
     }
+```
 - Response:
-  
+  ```
   
     {
         "status": true,
         "code": 200
     }
+    ```
 ---
 
 - Update user
