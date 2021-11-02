@@ -137,42 +137,7 @@ class User extends Database
 		// echo 'Error: ' . $stmt->error;
 		return false;
 	}
-	// upload Avatar
-	public function uploadAvatar()
-	{
-		$allowedExts = array("gif", "jpeg", "jpg", "png");
-		if (isset($_FILES["file"])) {
-			// select userID
-			$this->read_single_signup();
-			// upload image
-			$temp = explode(".", $_FILES["file"]["name"]);
-			$setfilename =  'avatar' . $this->userID . '.' . end($temp);
-			$this->userAvatar = $setfilename;
-			$extension = end($temp);
-			if ((($_FILES["file"]["type"] == "image/gif")
-					|| ($_FILES["file"]["type"] == "image/jpeg")
-					|| ($_FILES["file"]["type"] == "image/jpg")
-					|| ($_FILES["file"]["type"] == "image/x-png")
-					|| ($_FILES["file"]["type"] == "image/png"))
-				&& in_array($extension, $allowedExts)
-			) {
-				if ($_FILES["file"]["error"] > 0) {
-					return 'Error: ' . $_FILES["file"]["error"];
-				} else {
-					// Move the file to the uploads folder
-					move_uploaded_file($_FILES["file"]["tmp_name"], "./../..//public/avatar/" . $setfilename);
-					$this->update();
-					return "Successful.";
-				}
-			} else {
-				// File type was invalid
-				return "Invalid File Type";
-			}
-		} else {
-			// File type was invalid
-			return "No file found.";
-		}
-	}
+	
 	// Delete Avatar
 	public function deleteAvatar()
 	{
