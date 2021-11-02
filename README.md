@@ -3,16 +3,17 @@
 - Ex: PS C:\xampp\htdocs\CD_CNPM\api.pat.com> php artisan serve
 - #### Domain: http://127.0.0.1:8000/
 
-
 # Mô tả API
 
 1. User
 
 - List user (include pagination)
+
   - URI: api/v1/user
   - Method: GET
   - Request: {domain}/api/v1/user?limit=2&page=2&column=userID&sort=desc
   - Response:
+
     ```
 
      {
@@ -45,14 +46,17 @@
             }
         }
     ```
+
 ---
 
 - Create user
+
   - URI: api/v1/user
   - Method: POST
   - Request:
+
   ```
-  
+
     {
         "userName": "Nguyễn Văn An",
         "userPhone": "0987191143",
@@ -60,15 +64,18 @@
         "userEmail": "akjzakj@gmail.com",
         "userAvatar": "avatar0.jpg"
     }
-```
-- Response:
   ```
-  
+
+  - Response:
+
+  ```
+
     {
         "status": true,
         "code": 200
     }
-    ```
+  ```
+
 ---
 
 - Update user
