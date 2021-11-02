@@ -17,34 +17,34 @@
     ```
 
      {
-            "status": true,
-            "code": 200,
-            "data": [
-                {
-                    "userID": 11,
-                    "userName": "Nguyễn Văn An",
-                    "userPhone": "0987191143",
-                    "userPass": "42050e34e1a0f6bd5f65196022751667",
-                    "userEmail": "akjzakj@gmail.com",
-                    "userAvatar": "avatar0.jpg",
-                    "userRole": 0
-                },
-                {
-                    "userID": 10,
-                    "userName": "Nguyễn Văn An",
-                    "userPhone": "0987191100",
-                    "userPass": "an123",
-                    "userEmail": "akjzakj@gmail.com",
-                    "userAvatar": "avatar.png",
-                    "userRole": 0
-                }
-            ],
-            "meta": {
-                "total": 11,
-                "perPage": "2",
-                "currentPage": 2
+        "status": true,
+        "code": 200,
+        "data": [
+            {
+                "userID": 11,
+                "userName": "Nguyễn Văn An",
+                "userPhone": "0987191143",
+                "userPass": "42050e34e1a0f6bd5f65196022751667",
+                "userEmail": "akjzakj@gmail.com",
+                "userAvatar": "avatar0.jpg",
+                "userRole": 0
+            },
+            {
+                "userID": 10,
+                "userName": "Nguyễn Văn An",
+                "userPhone": "0987191100",
+                "userPass": "an123",
+                "userEmail": "akjzakj@gmail.com",
+                "userAvatar": "avatar.png",
+                "userRole": 0
             }
+        ],
+        "meta": {
+            "total": 11,
+            "perPage": "2",
+            "currentPage": 2
         }
+    }
     ```
 
 ---
@@ -55,8 +55,7 @@
   - Method: POST
   - Request:
 
-  ```
-
+    ```
     {
         "userName": "Nguyễn Văn An",
         "userPhone": "0987191143",
@@ -64,17 +63,16 @@
         "userEmail": "akjzakj@gmail.com",
         "userAvatar": "avatar0.jpg"
     }
-  ```
+    ```
 
   - Response:
 
-  ```
-
+    ```
     {
         "status": true,
         "code": 200
     }
-  ```
+    ```
 
 ---
 
