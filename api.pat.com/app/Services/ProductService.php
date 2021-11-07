@@ -9,9 +9,9 @@ class ProductService
 {
     public function getAll($orderBys = [], $limit = 10)
     {
-        $product = Product::join('manufacturer', 'manufacturer.manufacturerID', '=', 'product.manufacturerID')
-            ->join('reviews', 'reviews.productID', '=', 'product.productID')
-            ->selectRaw('product.productID, productName, manufacturerName, AVG(rate) as sumRate, COUNT(userID) as countUser')
+        $product = Product::leftjoin('manufacturer', 'manufacturer.manufacturerID', '=', 'product.manufacturerID')
+            ->leftjoin('reviews', 'reviews.productID', '=', 'product.productID')
+            ->selectRaw('product.productID, productName, manufacturerName,IFNULL(AVG(rate), 0) as sumRate, COUNT(userID) as countUser')
             ->groupBy('product.productID', 'product.productName', 'manufacturer.manufacturerName');
         if ($orderBys) {
             $product->orderBy($orderBys['column'], $orderBys['sort']);
