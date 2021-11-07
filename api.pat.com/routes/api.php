@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::namespace('App\Http\Controllers\API')->prefix('v1')->group(function () {
     Route::resource('product', 'ProductController')->except('create', 'edit');
+    Route::resource('reviews', 'ReviewsController')->except('create', 'edit');
     Route::resource('user', 'UserController')->except('create', 'edit');
     Route::get('user/login/{user}', 'UserController@login');
     Route::get('user/signIn/{user}', 'UserController@findByUserPhone');

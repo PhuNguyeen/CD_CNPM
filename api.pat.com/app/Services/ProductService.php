@@ -23,7 +23,7 @@ class ProductService
         return $product->paginate($limit);
     }
 
-    public function getPrice($productID)
+    public function getMinPrice($productID)
     {
         $product = DB::table('specifications')
             ->leftJoin('specifications_has_color', 'specifications.specificationsID', '=', 'specifications_has_color.specificationsID')
@@ -33,6 +33,18 @@ class ProductService
             ->get();
 
         return $product[0]->priceMin;
+    }
+
+    public function getPrice($specificationsID)
+    {
+        $product = DB::table('specifications')
+            ->leftJoin('specifications_has_color', 'specifications.specificationsID', '=', 'specifications_has_color.specificationsID')
+            ->leftJoin('specifications_has_ramrom', 'specifications.specificationsID', '=', 'specifications_has_ramrom.specificationsID')
+            ->selectRaw('IFNULL(specifications.price, 0) + IFNULL(specifications_has_color.priceColor, 0) + IFNULL(specifications_has_ramrom.priceRamRom, 0) as price')
+            ->where('specifications.specificationsID', '=', $specificationsID)
+            ->get();
+
+        return $product[0]->price;
     }
 
     public function getCountDetailBill($productID)
@@ -65,6 +77,7 @@ class ProductService
 
     public function findById($id)
     {
+
         return Product::find($id);
     }
 
