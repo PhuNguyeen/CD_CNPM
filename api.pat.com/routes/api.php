@@ -21,10 +21,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::namespace('App\Http\Controllers\API')->prefix('v1')->group(function () {
+    // Product
     Route::resource('product', 'ProductController')->except('create', 'edit');
+    // Reviews
     Route::resource('reviews', 'ReviewsController')->except('create', 'edit');
+    // User
     Route::resource('user', 'UserController')->except('create', 'edit');
     Route::get('user/login/{user}', 'UserController@login');
     Route::get('user/signIn/{user}', 'UserController@findByUserPhone');
     Route::post('user/avatar/{user}', 'UserController@uploadAvatar');
+    // Category
+    Route::get('category/', 'CategoryController@index');
+    // specifications
+    Route::get('specifications/{specifications}', 'SpecificationsController@show');
 });

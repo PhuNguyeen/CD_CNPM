@@ -113,13 +113,15 @@ class UserController extends Controller
     {
         try {
             $user = $this->userService->findByUrePhone($userPhone);
+            $status = true;
             if (!sizeof($user) || $user[0]['userPass'] != $request->get('userPass')) {
                 $user  = 'Login fail';
+                $status = false;
             }else {
                 unset($user[0]['userPass']);
             }
             return response()->json([
-                'status'    => true,
+                'status'    => $status,
                 'code'      => Response::HTTP_OK,
                 'data'      => $user,
             ]);
