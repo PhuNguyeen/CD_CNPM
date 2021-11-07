@@ -33,8 +33,6 @@ class ProductController extends Controller
             foreach ($product->items() as $p) {
                 $rate = $this->productService->getRate($p['productID']);
                 $p['productPrice'] = $this->productService->getMinPrice($p['productID']);
-                $p['countUser'] = $rate[1];
-                $p['rate'] = $rate[0];
                 $p['countProductBill'] = $this->productService->getCountDetailBill($p['productID']);
                 $p['productImage'] = $p['productID'].'1.png';
                 unset($p['categoryID']);

@@ -34,4 +34,9 @@ Route::namespace('App\Http\Controllers\API')->prefix('v1')->group(function () {
     Route::get('category/', 'CategoryController@index');
     // specifications
     Route::get('specifications/{specifications}', 'SpecificationsController@show');
+    Route::get('specifications/option/{specifications}', 'SpecificationsController@showOption');
+    // images
+    Route::get('images/avatar/{img}', 'ImageController@getImageAvatar')->name('image');
+    Route::get('images/product/{img}', 'ImageController@getImageProduct')->name('image');
+    Route::get('images/general/{img}', 'ImageController@getImageGeneral')->name('image');
 });

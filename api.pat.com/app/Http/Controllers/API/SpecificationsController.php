@@ -14,11 +14,32 @@ class SpecificationsController extends Controller
     {
         $this->specificationsService = $specificationsService;
     }
-    public function index(Request $request)
+    public function show($productID)
     {
         try {
 
-            $specifications = $this->specificationsService->getByProductId($request->get('productID'));
+            $specifications = $this->specificationsService->getByProductId($productID);
+
+            return response()->json([
+                'status'    => true,
+                'code'      => Response::HTTP_OK,
+                'data'     => $specifications,
+
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'    => false,
+                'code'      => Response::HTTP_INTERNAL_SERVER_ERROR,
+                'message'   => $e->getMessage()
+            ]);
+        }
+    }
+    
+    public function showOption($productID)
+    {
+        try {
+
+            $specifications = $this->specificationsService->getOptionByProductId($productID);
 
             return response()->json([
                 'status'    => true,

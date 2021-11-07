@@ -9,17 +9,13 @@ class ProductService
 {
     public function getAll($orderBys = [], $limit = 10)
     {
-        $product = Product::query();
+        $product = Product::join('manufacturer', 'manufacturer.manufacturerID', '=', 'product.manufacturerID')
+            ->join('reviews', 'reviews.productID', '=', 'product.productID')
+            ->selectRaw('product.productID, productName, manufacturerName, AVG(rate) as sumRate, COUNT(userID) as countUser')
+            ->groupBy('product.productID', 'product.productName', 'manufacturer.manufacturerName');
         if ($orderBys) {
             $product->orderBy($orderBys['column'], $orderBys['sort']);
         }
-        // echo $product->manufacturer->manufacturerName;
-        // print_r($product);
-        // $product = DB::table('product')
-        //     ->join('manufacturer', 'product.manufacturerID', '=', 'manufacturer.manufacturerID')
-        //     ->select('product.productID', 'product.productName', 'product.productImage', 'manufacturer.manufacturerName')
-        //     ->get();
-
         return $product->paginate($limit);
     }
 
