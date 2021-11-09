@@ -5,8 +5,8 @@ import 'package:flutter_pat_shop/util/constants.dart';
 import 'package:http/http.dart' as http;
 
 class ProductAPI {
-  Future<List<Product>?> getRecomendedProduct(int start, int limit) async {
-    Uri apiLink = Uri.parse("$LINK_API/product/read_limit.php?start=$start&limit=$limit");
+  Future<List<Product>?> getRecomendedProduct(int page, int limit) async {
+    Uri apiLink = Uri.parse("$LINK_API/product?limit=$limit&page=$page");
     var response;
     try {
       response = await http.get(apiLink);
@@ -14,20 +14,68 @@ class ProductAPI {
       print("Http error!");
       return null;
     }
+    var json = jsonDecode(response.body);
     List<Product> listProduct = [];
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      if (json['message']
-          .toString()
-          .toUpperCase()
-          .contains("Have data".toUpperCase())) {
-        List<dynamic> jsonListProduct = json['data']['Product'];
-        for (var i = 0; i < jsonListProduct.length; i++) {
-          listProduct.add(Product.fromJson(jsonListProduct[i]));
-        }
-        return listProduct;
+    if (json['status']) {
+      List<dynamic> jsonListProduct = json['data'];
+      for (var i = 0; i < jsonListProduct.length; i++) {
+        listProduct.add(Product.fromJson(jsonListProduct[i]));
       }
       return listProduct;
     }
+  }
+
+  Future<List<Product>?> getCategoryProduct(
+      int page, int limit, int idCategory) async {
+    // TODO: call list sản phẩm theo từng loại
+    Uri apiLink = Uri.parse("$LINK_API/product?limit=$limit&page=$page");
+    var response;
+    try {
+      response = await http.get(apiLink);
+    } on Exception {
+      print("Http error!");
+      return null;
+    }
+    var json = jsonDecode(response.body);
+    List<Product> listProduct = [];
+    if (json['status']) {
+      List<dynamic> jsonListProduct = json['data'];
+      for (var i = 0; i < jsonListProduct.length; i++) {
+        listProduct.add(Product.fromJson(jsonListProduct[i]));
+      }
+      return listProduct;
+    }
+  }
+
+  Future<String?> getDescriptionProduct(int idProduct) async {
+    Uri apiLink = Uri.parse("$LINK_API/product?");
+    var response;
+    try {
+      response = await http.get(apiLink);
+    } on Exception {
+      print("Http error!");
+      return null;
+    }
+    var json = jsonDecode(response.body);
+    String description = "";
+    if (json['status']) {}
+    return description;
+  }
+}
+
+Future<List<Product>?> getInformationProduct(int page, int limit) async {
+  Uri apiLink = Uri.parse("$LINK_API/product?limit=$limit&page=$page");
+  var response;
+  try {
+    response = await http.get(apiLink);
+  } on Exception {
+    print("Http error!");
+    return null;
+  }
+  var json = jsonDecode(response.body);
+  
+  if (json['status']) {
+    
+    return null;
   }
 }

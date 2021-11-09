@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/ui/main/tab/home/home_tab_viewmodel.dart';
+import 'package:flutter_pat_shop/ui/show_product/show_product_screen.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -31,7 +32,11 @@ class _RecomendedProductState extends State<RecomendedProduct> {
               return CardProduct(
                 product: model.recomendedProductsList[index],
                 onTap: () {
-                  //TODO đến sản phẩm được chọn
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShowProductScreen(product: model.recomendedProductsList[index],)),
+                  );
                   print("Tap product");
                 },
               );

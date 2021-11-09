@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/text_head_show_product.dart';
-import 'package:flutter_pat_shop/util/constants.dart';
 
 class ChooseOptionParagraph extends StatefulWidget {
   const ChooseOptionParagraph({Key? key}) : super(key: key);

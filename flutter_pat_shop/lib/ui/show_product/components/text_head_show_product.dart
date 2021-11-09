@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TextHeadShowProduct extends StatelessWidget {
-  String? text;
+  final String? text;
   TextHeadShowProduct({Key? key, this.text}) : super(key: key);
 
   @override

@@ -55,7 +55,7 @@ class _CategoryProductState extends State<CategoryProduct> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.network(
-            "$LINK_AVATAR_CATEGORY/${category.categoryAvatar}",
+            "$LINK_IMAGE_CATEGORY/${category.categoryImage}",
             fit: BoxFit.fill,
             errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
             width: 40,
@@ -74,15 +74,11 @@ class _CategoryProductState extends State<CategoryProduct> {
   }
 
   loadCategory() async {
-    Uri apiLink = Uri.parse("$LINK_API/category/read.php");
+    Uri apiLink = Uri.parse("$LINK_API/category");
     var response = await http.get(apiLink);
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json['message']
-          .toString()
-          .toUpperCase()
-          .contains("Have data".toUpperCase())) {
-        List<dynamic> jsonList = json['data']['Category'];
+        List<dynamic> jsonList = json['data'];
         listCategory = [];
         for (var i = 0; i < jsonList.length; i++) {
           listCategory.add(Category.fromJson(jsonList[i]));
@@ -97,9 +93,5 @@ class _CategoryProductState extends State<CategoryProduct> {
         MySnackBar.snackBar("Error!", context);
         print("Error");
       }
-    } else {
-      print("Error query!");
-      MySnackBar.snackBar("Error!", context);
-    }
   }
 }

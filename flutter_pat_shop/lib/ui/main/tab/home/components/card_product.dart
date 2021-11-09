@@ -27,9 +27,7 @@ class CardProduct extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              // TODO: update avatar link
-              // "$LINK_AVATAR_PRODUCT/${product.productImage}",
-              "$LINK_IMAGE_PRODUCT_TEST",
+              "$LINK_IMAGE_PRODUCT/${product.productID}1.png",
               width: MediaQuery.of(context).size.width * 0.43,
               height: MediaQuery.of(context).size.width * 0.35,
               fit: BoxFit.fitWidth,
@@ -65,7 +63,7 @@ class CardProduct extends StatelessWidget {
                 children: [
                   Text(
                     NumberFormat.currency(locale: 'vi', decimalDigits: 0)
-                        .format(10000000),
+                        .format(product.productPrice ?? "100000000"),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w900,

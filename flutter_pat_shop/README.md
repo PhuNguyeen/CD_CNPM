@@ -35,7 +35,8 @@ For help getting started with Flutter, view our [online documentation](https://f
 [flutter_rating_bar](https://pub.dev/packages/flutter_rating_bar/)
 [intl](https://pub.dev/packages/intl/)
 [provider](https://pub.dev/packages/provider/install)
-[scoped_model]()
+[scoped_model](https://pub.dev/packages/scoped_model)
+[crypto](https://pub.dev/packages/crypto)
 
 # Tutorial Link
 1. [Login/ SignUp](https://www.youtube.com/watch?v=ExKYjqgswJg&t=578s)
