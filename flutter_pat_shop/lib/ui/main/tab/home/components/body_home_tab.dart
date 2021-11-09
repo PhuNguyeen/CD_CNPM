@@ -29,7 +29,7 @@ class _BodyHomeTabState extends State<BodyHomeTab> {
             if (scrollController.position.extentAfter == 0 &&
                 !homeTabViewModel.isLoading) {
               homeTabViewModel.updateRecomendedProductsList();
-              print("Load ${homeTabViewModel.start}");
+              print("Load ${homeTabViewModel.page}");
             }
           }),
         shrinkWrap: true,

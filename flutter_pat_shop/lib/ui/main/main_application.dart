@@ -3,9 +3,6 @@ import 'package:flutter_pat_shop/ui/main/tab/account/account_tab.dart';
 import 'package:flutter_pat_shop/ui/main/tab/cart/cart_tab.dart';
 import 'package:flutter_pat_shop/ui/main/tab/home/home_tab.dart';
 import 'package:flutter_pat_shop/ui/main/tab/wish_list/wish_list_tab.dart';
-import 'package:flutter_pat_shop/util/constants.dart';
-import 'package:flutter_pat_shop/util/my_snack_bar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MainApplication extends StatefulWidget {
   const MainApplication({Key? key}) : super(key: key);
@@ -35,7 +32,7 @@ class _MainApplicationState extends State<MainApplication> {
         currentIndex: _currentIndex,
         iconSize: 28,
         selectedItemColor: Colors.orange,
-        unselectedItemColor: Colors.grey,
+        unselectedItemColor: Colors.black87,
         showUnselectedLabels: true,
         selectedLabelStyle:
             TextStyle(fontSize: 12, fontWeight: FontWeight.w900),
@@ -47,6 +44,7 @@ class _MainApplicationState extends State<MainApplication> {
           buildBottomNavigationBar(icon: Icons.favorite, label: "Wishlist"),
           buildBottomNavigationBar(
               icon: Icons.shopping_cart_rounded, label: "Cart"),
+
           buildBottomNavigationBar(
               icon: Icons.person_rounded, label: "Account"),
         ],

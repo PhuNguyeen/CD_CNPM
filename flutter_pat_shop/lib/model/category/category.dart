@@ -3,7 +3,7 @@ part 'category.g.dart';
 
 @JsonSerializable()
 class Category {
-  String categoryID;
+  int categoryID;
   String categoryName;
   String categoryImage;
 

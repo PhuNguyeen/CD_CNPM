@@ -8,12 +8,12 @@ part of 'product.dart';
 
 Product _$ProductFromJson(Map<String, dynamic> json) {
   return Product(
-    productID: json['productID'] as String,
+    productID: json['productID'] as int,
     productName: json['productName'] as String,
-    productImage: json['productImage'] as String,
-    productPrice: json['productPrice'] as String?,
+    productImage: json['productImage'] as int,
+    productPrice: json['productPrice'] as int,
     manufacturerName: json['manufacturerName'] as String,
-    countUser: json['countUser'] as String,
+    countUser: json['countUser'] as int,
     sumRate: json['sumRate'] as String,
     countProductBill: json['countProductBill'] as String,
   );

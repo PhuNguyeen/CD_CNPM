@@ -18,10 +18,9 @@ class UserAPI with UserRepo {
     return instance!;
   }
 
-  Future<bool?> loginByPhoneNumber(
-      String userPhone, String userPass) async {
+  Future<bool?> loginByPhoneNumber(String userPhone, String userPass) async {
     String url =
-        "$LINK_API/user/read_single_login.php?userPhone=${userPhone.trim()}&userPass=${userPass.trim()}";
+        "$LINK_API/user/login/${userPhone.trim()}?userPass=${userPass.trim()}";
     var response;
     try {
       response = await http.get(Uri.parse(url));
@@ -29,20 +28,16 @@ class UserAPI with UserRepo {
       print("Http exception");
       return null;
     }
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-      if (json['message']
-          .toString()
-          .toUpperCase()
-          .contains("Have data".toUpperCase())) {
-        User user = User.fromJson(json['data']);
-        _saveInfoUserToCache(user: user);
-        print(user.toString());
-        return true;
-      } else {
-        print(json['message']);
-        return false;
-      }
+    var json = jsonDecode(response.body);
+    if (json['status']) {
+      //Sửa mảng user trả về
+      User user = User.fromJson(json['data'][0]);
+      _saveInfoUserToCache(user: user);
+      print(user.toString());
+      return true;
+    } else {
+      print(json['data']);
+      return false;
     }
   }
 
@@ -126,10 +121,10 @@ class UserAPI with UserRepo {
     throw UnimplementedError();
   }
 
-    _saveInfoUserToCache({required User user}) async {
+  _saveInfoUserToCache({required User user}) async {
     final saveData = await SharedPreferences.getInstance();
     saveData.setBool(IS_LOGIN, true);
-    saveData.setString(USER_ID, user.userID);
+    saveData.setInt(USER_ID, user.userID);
     saveData.setString(USER_NAME, user.userName);
     saveData.setString(USER_AVATAR, user.userPhone);
     saveData.setString(USER_EMAIL, user.userEmail);

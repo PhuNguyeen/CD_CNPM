@@ -6,46 +6,58 @@ import 'package:flutter_pat_shop/ui/show_product/components/general_information_
 import 'package:flutter_pat_shop/ui/show_product/components/information_product_paragraph.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/related_product_paragraph.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/review_product_paragraph.dart';
+import 'package:flutter_pat_shop/ui/show_product/show_product_viewmodel.dart';
 import 'package:flutter_pat_shop/util/widgets/space_grey.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class BodyShowProduct extends StatefulWidget {
-  const BodyShowProduct({Key? key}) : super(key: key);
+  final Product product;
+
+  BodyShowProduct({Key? key, required this.product}) : super(key: key);
 
   @override
   _BodyShowProductState createState() => _BodyShowProductState();
 }
 
 class _BodyShowProductState extends State<BodyShowProduct> {
-  Product product = Product(
-      productID: "1",
-      productName: "iPhone 12 Pro Max",
-      productImage: "11.png",
-      productPrice: null,
-      manufacturerName: "Apple",
-      countUser: "0",
-      sumRate: "0",
-      countProductBill: "0");
+  ShowProductViewModel showProductViewModel =
+      ShowProductViewModel.getInstance();
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: ScrollPhysics(),
-      child: Column(
-        children: [
-          GeneralInformationParagraph(),
-          SpaceGrey(),
-          ChooseOptionParagraph(),
-          SpaceGrey(),
-          InformationProductParagraph(),
-          SpaceGrey(),
-          SpaceGrey(),
-          DescriptionProductParagraph(),
-          SpaceGrey(),
-          RelatedProductParagraph(product: product,),
-          SpaceGrey(),
-          ReviewProductParagraph(product: product,),
-          SpaceGrey(),
-        ],
+    return ScopedModel<ShowProductViewModel>(
+      model: showProductViewModel,
+      child: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Column(
+          children: [
+            GeneralInformationParagraph(
+              product: widget.product,
+            ),
+            SpaceGrey(),
+            ChooseOptionParagraph(),
+            SpaceGrey(),
+            InformationProductParagraph(),
+            SpaceGrey(),
+            SpaceGrey(),
+            DescriptionProductParagraph(),
+            SpaceGrey(),
+            RelatedProductParagraph(
+              product:widget.product,
+            ),
+            SpaceGrey(),
+            ReviewProductParagraph(
+              product: widget.product,
+            ),
+            SpaceGrey(),
+          ],
+        ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    showProductViewModel.dispose();
+    super.dispose();
   }
 }

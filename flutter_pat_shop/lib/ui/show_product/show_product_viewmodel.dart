@@ -12,6 +12,14 @@ class ShowProductViewModel extends Model{
   }
 
   ProductAPI productAPI = ProductAPI();
+  bool isLike = false;
 
-  
+  void updateIsLike(){
+    isLike = !isLike;
+    notifyListeners();
+  }
+
+  void dispose() {
+    _instance = null;
+  }
 }

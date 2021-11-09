@@ -63,7 +63,7 @@ class CardProduct extends StatelessWidget {
                 children: [
                   Text(
                     NumberFormat.currency(locale: 'vi', decimalDigits: 0)
-                        .format(int.parse(product.productPrice??"100000000")),
+                        .format(product.productPrice ?? "100000000"),
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w900,

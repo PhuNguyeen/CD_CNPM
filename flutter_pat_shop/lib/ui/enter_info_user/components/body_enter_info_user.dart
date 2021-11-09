@@ -38,7 +38,7 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
   @override
   void initState() {
     _user = User(
-        userID: "", userName: "", userPhone: widget.phoneNumber, userEmail: "");
+        userID: 0, userName: "", userPhone: widget.phoneNumber, userEmail: "");
     super.initState();
   }
 

@@ -1,23 +1,24 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pat_shop/model/product/product.dart';
+import 'package:flutter_pat_shop/ui/show_product/show_product_viewmodel.dart';
+import 'package:flutter_pat_shop/util/constants.dart';
 import 'package:intl/intl.dart';
+import 'package:scoped_model/scoped_model.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class GeneralInformationParagraph extends StatefulWidget {
-  const GeneralInformationParagraph({Key? key}) : super(key: key);
+  final Product product;
+  GeneralInformationParagraph({Key? key, required this.product})
+      : super(key: key);
 
   @override
-  _GeneralInformationParagraphState createState() => _GeneralInformationParagraphState();
+  _GeneralInformationParagraphState createState() =>
+      _GeneralInformationParagraphState();
 }
 
-class _GeneralInformationParagraphState extends State<GeneralInformationParagraph> {
-  List<String> listImageProduct = [
-    'assets/images/ads_demo1.jpg',
-    'assets/images/ads_demo2.jpg',
-    'assets/images/ads_demo3.jpg',
-    'assets/images/ads_demo4.jpg',
-    'assets/images/ads_demo5.jpg',
-  ];
+class _GeneralInformationParagraphState
+    extends State<GeneralInformationParagraph> {
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -38,43 +39,50 @@ class _GeneralInformationParagraphState extends State<GeneralInformationParagrap
     );
   }
 
-  Widget buildSlideImageProduct(Size size) => CarouselSlider.builder(
-        itemCount: listImageProduct.length,
-        itemBuilder: (context, index, realIndex) {
-          return Image.asset(
-            listImageProduct[index],
-            fit: BoxFit.cover,
-          );
-        },
-        options: CarouselOptions(
-          height: size.height * 0.4,
-          autoPlay: false,
-          scrollPhysics: BouncingScrollPhysics(),
-          initialPage: 1,
-          viewportFraction: 1,
-          onPageChanged: (index, reason) {
-            setState(() {
-              activeIndex = index;
-            });
+  Widget buildSlideImageProduct(Size size) =>
+      ScopedModelDescendant<ShowProductViewModel>(
+        builder: (context, child, model) => CarouselSlider.builder(
+          itemCount: widget.product.productImage,
+          itemBuilder: (context, index, realIndex) {
+            return Image.network(
+              "$LINK_IMAGE_PRODUCT/${widget.product.productID}${index + 1}.png",
+              fit: BoxFit.cover,
+            );
           },
+          options: CarouselOptions(
+            height: size.height * 0.4,
+            autoPlay: true,
+            scrollPhysics: BouncingScrollPhysics(),
+            initialPage: 1,
+            autoPlayInterval: Duration(seconds: 10),
+            viewportFraction: 1,
+            onPageChanged: (index, reason) {
+              setState(() {
+                activeIndex = index;
+              });
+            },
+          ),
         ),
       );
 
-  Widget buildIndicator(Size size) => Positioned(
-        width: size.width,
-        bottom: 10,
-        child: Center(
-          child: AnimatedSmoothIndicator(
-            activeIndex: activeIndex,
-            count: listImageProduct.length,
-            effect: WormEffect(
-                activeDotColor: Colors.orange,
-                dotColor: Colors.white,
-                type: WormType.thin,
-                dotWidth: 10,
-                dotHeight: 10,
-                paintStyle: PaintingStyle.fill,
-                spacing: 4),
+  Widget buildIndicator(Size size) =>
+      ScopedModelDescendant<ShowProductViewModel>(
+        builder: (context, child, model) => Positioned(
+          width: size.width,
+          bottom: 10,
+          child: Center(
+            child: AnimatedSmoothIndicator(
+              activeIndex: activeIndex,
+              count: widget.product.productImage,
+              effect: WormEffect(
+                  activeDotColor: Colors.orange,
+                  dotColor: Colors.white,
+                  type: WormType.thin,
+                  dotWidth: 10,
+                  dotHeight: 10,
+                  paintStyle: PaintingStyle.fill,
+                  spacing: 4),
+            ),
           ),
         ),
       );
@@ -89,19 +97,21 @@ class _GeneralInformationParagraphState extends State<GeneralInformationParagrap
               children: [
                 Text(
                   NumberFormat.currency(locale: 'vi', decimalDigits: 0)
-                      .format(10000000),
+                      .format(widget.product.productPrice),
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w900,
                   ),
                 ),
-                InkWell(
-                  child: Icon(
-                    Icons.favorite,
-                    size: 32,
-                    color: Colors.red,
+                ScopedModelDescendant<ShowProductViewModel>(
+                  builder: (context, child, model) => IconButton(
+                    icon: Icon(
+                      Icons.favorite,
+                      size: 32,
+                      color: model.isLike? Colors.red: Colors.grey,
+                    ),
+                    onPressed: () => model.updateIsLike(),
                   ),
-                  onTap: () {},
                 ),
               ],
             ),
@@ -109,7 +119,7 @@ class _GeneralInformationParagraphState extends State<GeneralInformationParagrap
               height: 8.0,
             ),
             Text(
-              "Samsung Galaxy Z Fold3 5G",
+              widget.product.productName,
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w300,
@@ -133,7 +143,7 @@ class _GeneralInformationParagraphState extends State<GeneralInformationParagrap
                         width: 4.0,
                       ),
                       Text(
-                        "4.0",
+                        widget.product.sumRate,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w900,
@@ -143,7 +153,7 @@ class _GeneralInformationParagraphState extends State<GeneralInformationParagrap
                         width: 4.0,
                       ),
                       Text(
-                        "(1062)",
+                        "(${widget.product.countUser})",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w300,
@@ -161,7 +171,7 @@ class _GeneralInformationParagraphState extends State<GeneralInformationParagrap
                   Row(
                     children: [
                       Text(
-                        "4797 Sale",
+                        "${widget.product.countProductBill} Sale",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -186,7 +196,7 @@ class _GeneralInformationParagraphState extends State<GeneralInformationParagrap
                         width: 4.0,
                       ),
                       Text(
-                        "Samsung",
+                        widget.product.manufacturerName,
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,

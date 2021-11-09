@@ -12,12 +12,12 @@ class ProductListCart extends StatefulWidget {
 
 class _ProductListCartState extends State<ProductListCart> {
   Product product = Product(
-      productID: "1",
+      productID: 1,
       productName: "iPhone 12 Pro Max",
-      productImage: "11.png",
-      productPrice: null,
+      productImage: 1,
+      productPrice: 0,
       manufacturerName: "Apple",
-      countUser: "0",
+      countUser: 0,
       sumRate: "0",
       countProductBill: "0");
   @override
@@ -75,8 +75,8 @@ class _CardProdutInCartState extends State<CardProdutInCart> {
                   ),
                 ),
                 Text(
-                  NumberFormat.currency(locale: 'vi', decimalDigits: 0).format(
-                      int.parse(widget.product.productPrice ?? "100000000")),
+                  NumberFormat.currency(locale: 'vi', decimalDigits: 0)
+                      .format(widget.product.productPrice),
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
@@ -107,7 +107,7 @@ class _CardProdutInCartState extends State<CardProdutInCart> {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         InkWell(
-                      borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8),
                           child: Container(
                             padding: const EdgeInsets.all(4.0),
                             decoration: BoxDecoration(
@@ -123,7 +123,7 @@ class _CardProdutInCartState extends State<CardProdutInCart> {
                           child: Text("10"),
                         ),
                         InkWell(
-                      borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8),
                           child: Container(
                             padding: const EdgeInsets.all(4.0),
                             decoration: BoxDecoration(

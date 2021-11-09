@@ -1,10 +1,12 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pat_shop/model/product/product.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/body_show_product.dart';
 import 'package:flutter_pat_shop/util/widgets/my_elevated_button.dart';
 
 class ShowProductScreen extends StatelessWidget {
-  const ShowProductScreen({Key? key}) : super(key: key);
+  final Product product;
+  ShowProductScreen({Key? key, required this.product}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -36,7 +38,7 @@ class ShowProductScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: BodyShowProduct(),
+      body: BodyShowProduct(product: product,),
       bottomNavigationBar: bottomNavBarShowProduct(size, context),
     );
   }

@@ -4,12 +4,12 @@ part 'product.g.dart';
 
 @JsonSerializable()
 class Product {
-  String productID;
+  int productID;
   String productName;
-  String productImage;
-  String? productPrice;
+  int productImage;
+  int? productPrice;
   String manufacturerName;
-  String countUser;
+  int countUser;
   String sumRate;
   String countProductBill;
 

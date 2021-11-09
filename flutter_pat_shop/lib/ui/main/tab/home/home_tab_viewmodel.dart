@@ -17,7 +17,7 @@ class HomeTabViewModel extends Model {
   bool isLoading = true;
   bool noProductFound = true;
   String? message;
-  int start = 0;
+  int page = 0;
   final _limit = 5;
 
   HomeTabViewModel() {
@@ -28,7 +28,7 @@ class HomeTabViewModel extends Model {
     updateIsLoading(true);
     updateNoProductFound(false);
     updateMessage("Loading...");
-    var result = await productAPI.getRecomendedProduct(this.start, this._limit);
+    var result = await productAPI.getRecomendedProduct(this.page, this._limit);
     Future.delayed(Duration(seconds: 2), () {
       if (result == null) {
         updateMessage("There was a problem, please try again!");
@@ -40,7 +40,7 @@ class HomeTabViewModel extends Model {
         updateNoProductFound(true);
       } else {
         recomendedProductsList += result;
-        this.start += this._limit;
+        this.page += 1;
         updateMessage(null);
         updateIsLoading(false);
         updateNoProductFound(false);

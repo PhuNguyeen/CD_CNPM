@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/ui/show_product/show_product_screen.dart';
 import 'package:flutter_pat_shop/util/constants.dart';
 
 import 'package:flutter_pat_shop/ui/login/login_screen.dart';
@@ -20,8 +19,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // TODO: tạm tắt để loại bỏ bug web
-    // setLogin();
+    // !tạm tắt để loại bỏ bug web
+    setLogin();
   }
 
   @override
@@ -31,9 +30,10 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: MainApplication(),
-      //ShowProductScreen(),
-      // TODO: test show product isLogin ? MainApplication() : LoginScreen(),
+      home: isLogin ? MainApplication() : LoginScreen(),
+      //! MainApplication(),
+      //! ShowProductScreen(),
+      //! test show product isLogin ? MainApplication() : LoginScreen(),
     );
   }
 
