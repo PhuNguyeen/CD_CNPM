@@ -11,8 +11,8 @@ class ProductService
     {
         $product = Product::leftjoin('manufacturer', 'manufacturer.manufacturerID', '=', 'product.manufacturerID')
             ->leftjoin('reviews', 'reviews.productID', '=', 'product.productID')
-            ->selectRaw('product.productID, productName, manufacturerName,IFNULL(AVG(rate), 0) as sumRate, COUNT(userID) as countUser')
-            ->groupBy('product.productID', 'product.productName', 'manufacturer.manufacturerName');
+            ->selectRaw('product.productID, productName, productImage, manufacturerName,ROUND(IFNULL(AVG(rate), 0),1) as sumRate, COUNT(userID) as countUser')
+            ->groupBy('product.productID', 'product.productName', 'manufacturer.manufacturerName', 'productImage');
         if ($orderBys) {
             $product->orderBy($orderBys['column'], $orderBys['sort']);
         }
