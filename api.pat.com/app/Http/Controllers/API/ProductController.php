@@ -31,9 +31,39 @@ class ProductController extends Controller
             foreach ($product->items() as $p) {
                 $p['productPrice'] = $this->productService->getMinPrice($p['productID']);
                 $p['countProductBill'] = $this->productService->getCountDetailBill($p['productID']);
-                unset($p['categoryID']);
-                unset($p['manufacturerID']);
-                unset($p['productDescription']);
+            }
+            return response()->json([
+                'status'    => true,
+                'code'      => Response::HTTP_OK,
+                'data'     => $product->items(),
+
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'    => false,
+                'code'      => Response::HTTP_INTERNAL_SERVER_ERROR,
+                'message'   => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function getByCategory(Request $request, $categoryID)
+    {
+        try {
+            $limit = $request->get('limit') ?? 10;
+            $orders = [];
+            if ($request->get('column') && $request->get('sort')) {
+                $orders = [
+                    'column' => $request->get('column'),
+                    'sort' => $request->get('sort'),
+                ];
+            }
+
+            $product = $this->productService->ByCategory($orders, $limit, $categoryID);
+            
+            foreach ($product->items() as $p) {
+                $p['productPrice'] = $this->productService->getMinPrice($p['productID']);
+                $p['countProductBill'] = $this->productService->getCountDetailBill($p['productID']);
             }
             return response()->json([
                 'status'    => true,

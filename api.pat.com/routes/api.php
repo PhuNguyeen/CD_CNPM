@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::namespace('App\Http\Controllers\API')->prefix('v1')->group(function () {
     // Product
     Route::resource('product', 'ProductController')->except('create', 'edit');
+    Route::get('/product/category/{id}', 'ProductController@getByCategory');
     // Reviews
     Route::resource('reviews', 'ReviewsController')->except('create', 'edit');
     // User

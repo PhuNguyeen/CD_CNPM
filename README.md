@@ -75,32 +75,59 @@
 
 ---
 
-- Update user
-  - URI: api/v1/user/{user}
-  - Method: PUT
-  - Request:
-  - Response:
-
----
-
 - Login user
-  - URI: api/v1/user/login/{user}
+  - URI: api/v1/user/login/{userPhone}
   - Method: GET
-  - Request:
+  - Request: userPass
   - Response:
+  ```
+  {
+		"status": true,
+		"code": 200,
+		"data": [
+			{
+				"userID": 0,
+				"userName": "Nguyễn Văn An",
+				"userPhone": "84987191143",
+				"userEmail": "akjzakj@gmail.com",
+				"userAvatar": "avatar0.png",
+				"userRole": 1
+			}
+		]
+}```
 
 ---
 
-- CheckSignIn user
-  - URI: api/v1/user/signIn/{user}
+- CheckSignUp user
+  - URI: api/v1/user/signUp/{userPhone}
   - Method: GET
   - Request:
   - Response:
+  ```
+  {
+		"status": true,
+		"code": 200,
+		"message": "User exists"
+}```
 
 ---
 
 - UploadAvatar user
-  - URI: api/v1/user/avatar/{user}
+  - URI: api/v1/user/avatar/{userPhone}
   - Method: POST
-  - Request:
+  - Request: key=>'file'
+  - Response:
+  ```
+  {
+		"status": true,
+		"code": 200,
+		"message": "Successful."
+}```
+---
+2. Product
+
+- List product (include pagination)
+  - URI: api/v1/user/avatar/{userPhone}
+  - Method: POST
+  - Request: 
   - Response:
