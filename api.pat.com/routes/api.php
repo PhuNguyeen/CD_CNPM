@@ -28,7 +28,7 @@ Route::namespace('App\Http\Controllers\API')->prefix('v1')->group(function () {
     // User
     Route::resource('user', 'UserController')->except('create', 'edit');
     Route::get('user/login/{user}', 'UserController@login');
-    Route::get('user/signIn/{user}', 'UserController@findByUserPhone');
+    Route::get('user/signUp/{user}', 'UserController@findByUserPhone');
     Route::post('user/avatar/{user}', 'UserController@uploadAvatar');
     // Category
     Route::get('category/', 'CategoryController@index');

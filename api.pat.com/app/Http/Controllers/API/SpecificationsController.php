@@ -39,12 +39,13 @@ class SpecificationsController extends Controller
     {
         try {
 
-            $specifications = $this->specificationsService->getOptionByProductId($productID);
+            $optionRamRom = $this->specificationsService->getOptionRamRomByProductId($productID);
+            $optionColor = $this->specificationsService->getOptionColorByProductId($productID);
 
             return response()->json([
                 'status'    => true,
                 'code'      => Response::HTTP_OK,
-                'data'     => $specifications->items(),
+                'data'     => array('RamRom'=>$optionRamRom->items(), 'Color'=>$optionColor->items(),)
 
             ]);
         } catch (\Exception $e) {

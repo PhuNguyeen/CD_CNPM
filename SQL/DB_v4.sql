@@ -246,7 +246,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `userName` varchar(50) NOT NULL,
   `userPhone` varchar(12) NOT NULL,
   `userPass` varchar(100) NOT NULL,
-  `userEmail` varchar(50) NOT NULL,
+  `userEmail` varchar(50) NULL,
   `userAvatar` varchar(50) NOT NULL,
   `userRole` tinyint(4) NOT NULL,
   PRIMARY KEY (`userID`)

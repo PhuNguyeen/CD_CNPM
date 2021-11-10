@@ -28,7 +28,7 @@ USE `db_app`;
 --
 
 INSERT INTO `category` (`categoryID`, `categoryAvatar`, `categoryName`) VALUES
-(1, NULL, 'Smartphone'),
+(1, NULL, 'Điện thoại'),
 (2, NULL, 'Tablet'),
 (3, NULL, 'Watch');
 
@@ -109,12 +109,12 @@ INSERT INTO `specifications` (`specificationsID`, `price`, `screen`, `fontCamera
 --
 
 INSERT INTO `user` (`userID`, `userName`, `userPhone`, `userPass`, `userEmail`, `userAvatar`, `userRole`) VALUES
-(0, 'Nguyễn Văn An', '0987191143', 'an123', 'akjzakj@gmail.com', '', 1),
-(1, 'Nguyễn Đức Phú', '0971618116', 'phu123', 'phunguyen@gmail.com', '', 1),
-(2, 'Lê Quang Thọ', '0973271208', 'tho123', 'thole@gmail.com', '', 1),
-(3, 'Lê Quang Thọ1', '0973271990', 'tho123a', 'thole@gmail.com', '', 0),
-(4, 'Lê Quang Thọ2', '0973271298', 'tho123b', 'thole@gmail.com', '', 0),
-(5, 'Lê Quang Thọ3', '0973271288', 'tho123c', 'thole@gmail.com', '', 0);
+(0, 'Nguyễn Văn An', '0987191143', 'an123', NULL, '', 1),
+(1, 'Nguyễn Đức Phú', '0971618116', 'phu123', NULL, '', 1),
+(2, 'Lê Quang Thọ', '0973271208', 'tho123', NULL, '', 1),
+(3, 'Lê Quang Thọ1', '0973271990', 'tho123a', NULL, '', 0),
+(4, 'Lê Quang Thọ2', '0973271298', 'tho123b', NULL, '', 0),
+(5, 'Lê Quang Thọ3', '0973271288', 'tho123c', NULL, '', 0);
 
 --
 -- Đang đổ dữ liệu cho bảng `voucher`

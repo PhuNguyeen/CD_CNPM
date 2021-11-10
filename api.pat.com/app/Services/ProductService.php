@@ -31,18 +31,6 @@ class ProductService
         return $product[0]->priceMin;
     }
 
-    public function getPrice($specificationsID)
-    {
-        $product = DB::table('specifications')
-            ->leftJoin('specifications_has_color', 'specifications.specificationsID', '=', 'specifications_has_color.specificationsID')
-            ->leftJoin('specifications_has_ramrom', 'specifications.specificationsID', '=', 'specifications_has_ramrom.specificationsID')
-            ->selectRaw('IFNULL(specifications.price, 0) + IFNULL(specifications_has_color.priceColor, 0) + IFNULL(specifications_has_ramrom.priceRamRom, 0) as price')
-            ->where('specifications.specificationsID', '=', $specificationsID)
-            ->get();
-
-        return $product[0]->price;
-    }
-
     public function getCountDetailBill($productID)
     {
         $product = DB::table('specifications')
@@ -52,15 +40,6 @@ class ProductService
             ->get();
 
         return $product[0]->countProductBill;
-    }
-
-    public function getRate($productID)
-    {
-        $rate = DB::table('reviews')
-            ->selectRaw('IFNULL(SUM(rate), 0) as rate, IFNULL(COUNT(rate), 0) as countRate')
-            ->where('productID', '=', $productID)
-            ->get();
-        return [$rate[0]->rate, $rate[0]->countRate];
     }
 
     public function save(array $data, int $id = null)
@@ -81,4 +60,5 @@ class ProductService
     {
         return Product::where('userPhone', '=', $userPhone)->limit(1)->get();
     }
+    
 }
