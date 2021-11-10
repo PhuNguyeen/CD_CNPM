@@ -31,11 +31,9 @@ class BodySignUp extends StatefulWidget {
 }
 
 class _BodySignUpState extends State<BodySignUp> {
-  var phoneNumber = "";
   final controllerPhoneNumber = TextEditingController();
   String _verificationId = "";
   FirebaseAuth? auth;
-  bool incorrecet = true;
 
   @override
   void initState() {
@@ -47,130 +45,131 @@ class _BodySignUpState extends State<BodySignUp> {
     Size size = MediaQuery.of(context).size;
     SignUpViewModel signUpViewModel = SignUpViewModel.getInstace();
 
-    return ScopedModel<SignUpViewModel>(
-        model: signUpViewModel,
-        child: SingleChildScrollView(
-          child: Container(
-            height: size.height,
-            width: double.infinity,
-            child: BackgroundSignUp(
-              child: Column(
+    return SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: Container(
+        height: size.height,
+        width: double.infinity,
+        child: BackgroundSignUp(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/letgo.png",
+                height: size.height * 0.35,
+                errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+                child: RichText(
+                  text: TextSpan(
+                      text: "Enter your phone number to ",
+                      children: [
+                        TextSpan(
+                            text: "sign_up",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15)),
+                      ],
+                      style: TextStyle(color: Colors.black54, fontSize: 15)),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              ScopedModelDescendant<SignUpViewModel>(
+                builder: (context, child, model) => RoundedPhoneField(
+                  textInputType: TextInputType.phone,
+                  hintText: "123XXXX89",
+                  onChanged: (value) {
+                    PhoneNumber pn = value;
+                    model.updateUserPhone(pn.international.substring(1));
+                  },
+                  errorText: Validation.validateMobile(model.userPhone),
+                ),
+              ),
+              ScopedModelDescendant<SignUpViewModel>(
+                builder: (context, child, model) => Container(
+                  child: signUpViewModel.message == null
+                      ? null
+                      : Text(
+                          model.message!,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.01,
+              ),
+              ScopedModelDescendant<SignUpViewModel>(
+                builder: (context, child, model) => RoundedButton(
+                  text: "SIGNUP",
+                  press: model.isValidateUserPhone
+                      ? () {
+                          ShowDialogLoading.showDialogLoading(context);
+                          Future.delayed(Duration(seconds: 3), () async {
+                            final result = await signUpViewModel
+                                .checkUserIsExist(model.userPhone);
+                            // TODO: tạm cho đoạn này nhảy sang otp
+                            // _sentOTP(model.userPhone);
+
+                            if (result) {
+                              _sentOTP(model.userPhone);
+                            } else {
+                              Navigator.pop(context);
+                            }
+                            
+                          });
+                        }
+                      : null,
+                ),
+              ),
+              SizedBox(
+                height: size.height * 0.03,
+              ),
+              AlreadyHaveAnAccountCheck(
+                login: false,
+                press: () {
+                  Navigator.pop(context, MaterialPageRoute(
+                    builder: (context) {
+                      return LoginScreen();
+                    },
+                  ));
+                },
+              ),
+              OrDivider(),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    "assets/images/letgo.png",
-                    height: size.height * 0.35,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Icon(Icons.error),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 30.0, vertical: 8),
-                    child: RichText(
-                      text: TextSpan(
-                          text: "Enter your phone number to ",
-                          children: [
-                            TextSpan(
-                                text: "sign_up",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15)),
-                          ],
-                          style:
-                              TextStyle(color: Colors.black54, fontSize: 15)),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.03,
-                  ),
-                  RoundedPhoneField(
-                    textInputType: TextInputType.phone,
-                    hintText: "123XXXX89",
-                    onChanged: (value) {
-                      setState(() {
-                        PhoneNumber pn = value;
-                        phoneNumber = pn.international.substring(1);
-                      });
-                    },
-                    errorText: Validation.validateMobile(phoneNumber),
-                  ),
-                  ScopedModelDescendant<SignUpViewModel>(
-                    builder: (context, child, model) => Container(
-                      child: signUpViewModel.message == null
-                          ? null
-                          : Text(
-                              model.message!,
-                              style: TextStyle(color: Colors.red),
-                            ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: size.height * 0.01,
-                  ),
-                  RoundedButton(
-                    text: "SIGNUP",
-                    press: Validation.isValidatedMobile(phoneNumber)
-                        ? () {
-                            ShowDialogLoading.showDialogLoading(context);
-                            Future.delayed(Duration(seconds: 3), () async {
-                              final result = await signUpViewModel
-                                  .updateMessage(phoneNumber);
-                                  // TODO: tạm cho đoạn này nhảy sang otp
-                                  _sentOTP();
-                              // if (result) {
-                              //   _sentOTP();
-                              // } else {
-                              //   Navigator.pop(context);
-                              // }
-                            });
-                          }
-                        : null,
-                  ),
-                  SizedBox(
-                    height: size.height * 0.03,
-                  ),
-                  AlreadyHaveAnAccountCheck(
-                    login: false,
+                  SocalIcon(
+                    iconSrc: "assets/images/ic_facebook.svg",
                     press: () {
-                      Navigator.pop(context, MaterialPageRoute(
-                        builder: (context) {
-                          return LoginScreen();
-                        },
-                      ));
+                      MySnackBar.snackBar("Chưa xong chờ update", context);
                     },
                   ),
-                  OrDivider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SocalIcon(
-                        iconSrc: "assets/images/ic_facebook.svg",
-                        press: () {
-                          MySnackBar.snackBar("Chưa xong chờ update", context);
-                        },
-                      ),
-                      SocalIcon(
-                        iconSrc: "assets/images/ic_google.svg",
-                        press: () {
-                          MySnackBar.snackBar("Chưa xong chờ update", context);
-                        },
-                      ),
-                    ],
-                  )
+                  SocalIcon(
+                    iconSrc: "assets/images/ic_google.svg",
+                    press: () {
+                      MySnackBar.snackBar("Chưa xong chờ update", context);
+                    },
+                  ),
                 ],
-              ),
-            ),
+              )
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
-  _sentOTP() async {
+  _sentOTP(String userPhone) async {
     await Firebase.initializeApp();
     auth = FirebaseAuth.instance;
     await auth!.verifyPhoneNumber(
-      phoneNumber: "+" + phoneNumber,
+      phoneNumber: "+" + userPhone,
       verificationCompleted: (credential) async {
         // if (Platform.isAndroid) {
         //   // ANDROID ONLY!
@@ -190,7 +189,7 @@ class _BodySignUpState extends State<BodySignUp> {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) {
             return EnterOtpScreen(
-              phoneNumber: phoneNumber,
+              phoneNumber: userPhone,
               verificationId: _verificationId,
               auth: auth!,
             );

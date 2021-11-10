@@ -39,6 +39,7 @@ class _BodyLoginState extends State<BodyLogin> {
     return ScopedModel<LoginViewModel>(
       model: loginViewModel,
       child: SingleChildScrollView(
+        physics: ScrollPhysics(),
         child: BackgroundLogin(
             child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

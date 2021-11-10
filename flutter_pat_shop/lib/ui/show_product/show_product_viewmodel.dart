@@ -1,4 +1,5 @@
-import 'package:flutter_pat_shop/data/remote/ProductAPI.dart';
+import 'package:flutter_pat_shop/data/ProductRepoImpl.dart';
+import 'package:flutter_pat_shop/repo/ProductRepo.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class ShowProductViewModel extends Model{
@@ -11,7 +12,7 @@ class ShowProductViewModel extends Model{
     return _instance;
   }
 
-  ProductAPI productAPI = ProductAPI();
+  ProductRepo productRepo = ProductRepoImpl.getInstance();
   bool isLike = false;
 
   void updateIsLike(){
@@ -20,6 +21,7 @@ class ShowProductViewModel extends Model{
   }
 
   void dispose() {
+    productRepo.dispose();
     _instance = null;
   }
 }

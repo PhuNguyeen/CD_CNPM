@@ -48,6 +48,7 @@ class ProductAPI {
   }
 
   Future<String?> getDescriptionProduct(int idProduct) async {
+    // TODO: lấy description của sản phẩm
     Uri apiLink = Uri.parse("$LINK_API/product?");
     var response;
     try {
@@ -63,8 +64,9 @@ class ProductAPI {
   }
 }
 
-Future<List<Product>?> getInformationProduct(int page, int limit) async {
-  Uri apiLink = Uri.parse("$LINK_API/product?limit=$limit&page=$page");
+Future<List<Product>?> getInformationProduct(int idProduct) async {
+  //TODO: lấy bảng thông số kĩ thuật của snar phẩm
+  Uri apiLink = Uri.parse("$LINK_API/product?");
   var response;
   try {
     response = await http.get(apiLink);

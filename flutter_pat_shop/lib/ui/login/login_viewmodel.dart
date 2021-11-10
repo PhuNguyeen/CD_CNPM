@@ -1,4 +1,4 @@
-import 'package:flutter_pat_shop/data/remote/UserAPI.dart';
+import 'package:flutter_pat_shop/data/UserRepoImple.dart';
 import 'package:flutter_pat_shop/repo/UserRepo.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -12,10 +12,10 @@ class LoginViewModel extends Model {
     return _instance;
   }
 
-  UserRepo userRepo = UserAPI();
+  UserRepo userRepo = UserRepoImpl.getInstance();
   String? message;
 
-  static void destroyInstance() {
+  static void dispose() {
     _instance = null;
   }
 

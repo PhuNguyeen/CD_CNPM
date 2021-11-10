@@ -21,4 +21,27 @@ class ProductRepoImpl with ProductRepo{
     return listProduct;
   }
 
+  @override
+  Future<List<Product>?> getCategoryProduct(int page, int limit, int idCategory) {
+    // TODO: implement getCategoryProduct
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<String?> getDescriptionProduct(int idProduct) async{
+    // TODO: implement getDescriptionProduct
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Product>?> getInformationProduct(int idProduct) async{
+    // TODO: implement getInformationProduct
+    throw UnimplementedError();
+  }
+
+  @override
+  void dispose() {
+    instance = null;
+  }
+  
 }

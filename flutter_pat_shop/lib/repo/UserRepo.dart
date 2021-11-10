@@ -1,7 +1,7 @@
 import 'dart:io';
 
 abstract class UserRepo{
-  Future<bool?> createUser(Map<String, dynamic> data, File? fileAvatar);
+  Future<bool?> createUser(Map<String, dynamic> data);
 
   Future<void> deleteUserById(String id);
 
@@ -9,5 +9,9 @@ abstract class UserRepo{
 
   Future<bool?> signUpByPhoneNumber(String userPhone);
 
-  Future<void> updaterUserById(String userPass); 
+  Future<void> updateUserById(String userPass); 
+
+  Future<void> updateAvatar(File file, String userPhone);
+
+  dispose();
 }

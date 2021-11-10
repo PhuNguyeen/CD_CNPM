@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/model/category/category.dart';
+import 'package:flutter_pat_shop/ui/main/tab/home/home_tab_viewmodel.dart';
 import 'package:flutter_pat_shop/util/constants.dart';
-import 'package:flutter_pat_shop/util/my_snack_bar.dart';
-import 'package:http/http.dart' as http;
+import 'package:scoped_model/scoped_model.dart';
 
 class CategoryProduct extends StatefulWidget {
   const CategoryProduct({Key? key}) : super(key: key);
@@ -14,33 +12,23 @@ class CategoryProduct extends StatefulWidget {
 }
 
 class _CategoryProductState extends State<CategoryProduct> {
-  List<Category> listCategory = [];
-  bool isLoaded = false;
-
-  @override
-  void dispose() {
-    isLoaded = false;
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (!isLoaded) {
-      loadCategory();
-    }
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 4),
-      child: GridView.builder(
-        itemCount: listCategory.length,
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        gridDelegate:
-            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
-        itemBuilder: (context, index) {
-          return listCategory.length == 0
-              ? Container()
-              : buildItemCategory(category: listCategory[index]);
-        },
+    return ScopedModelDescendant<HomeTabViewModel>(
+      builder: (context, child, model) => Container(
+        margin: EdgeInsets.symmetric(vertical: 4),
+        child: GridView.builder(
+          itemCount: model.listCategory.length,
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate:
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4),
+          itemBuilder: (context, index) {
+            return model.listCategory.length == 0
+                ? Container()
+                : buildItemCategory(category: model.listCategory[index]);
+          },
+        ),
       ),
     );
   }
@@ -71,27 +59,5 @@ class _CategoryProductState extends State<CategoryProduct> {
         ],
       ),
     );
-  }
-
-  loadCategory() async {
-    Uri apiLink = Uri.parse("$LINK_API/category");
-    var response = await http.get(apiLink);
-    if (response.statusCode == 200) {
-      var json = jsonDecode(response.body);
-        List<dynamic> jsonList = json['data'];
-        listCategory = [];
-        for (var i = 0; i < jsonList.length; i++) {
-          listCategory.add(Category.fromJson(jsonList[i]));
-        }
-        if (mounted) {
-          setState(() {
-            isLoaded = true;
-            print("Load category successful!");
-          });
-        }
-      } else {
-        MySnackBar.snackBar("Error!", context);
-        print("Error");
-      }
   }
 }

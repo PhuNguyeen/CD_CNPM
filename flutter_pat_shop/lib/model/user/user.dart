@@ -7,7 +7,7 @@ class User {
   String userName;
   String? userPass;
   final String userPhone;
-  String userEmail;
+  String? userEmail;
   String? userAvatar;
 
   User(

@@ -1,5 +1,9 @@
-import 'package:flutter_pat_shop/data/remote/ProductAPI.dart';
+import 'package:flutter_pat_shop/data/CategoryRepoImpl.dart';
+import 'package:flutter_pat_shop/data/ProductRepoImpl.dart';
+import 'package:flutter_pat_shop/model/category/category.dart';
 import 'package:flutter_pat_shop/model/product/product.dart';
+import 'package:flutter_pat_shop/repo/CategoryRepo.dart';
+import 'package:flutter_pat_shop/repo/ProductRepo.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 class HomeTabViewModel extends Model {
@@ -12,8 +16,11 @@ class HomeTabViewModel extends Model {
     return _instance;
   }
 
-  ProductAPI productAPI = ProductAPI();
+  ProductRepo productRepo = ProductRepoImpl.getInstance();
+  CategoryRepo categoryRepo = CategoryRepoImpl.getInstance();
+
   List<Product> recomendedProductsList = [];
+  List<Category> listCategory = [];
   bool isLoading = true;
   bool noProductFound = true;
   String? message;
@@ -21,31 +28,33 @@ class HomeTabViewModel extends Model {
   final _limit = 5;
 
   HomeTabViewModel() {
+    updateListCategory();
     updateRecomendedProductsList();
   }
 
   updateRecomendedProductsList() async {
-    updateIsLoading(true);
-    updateNoProductFound(false);
+    isLoading = true;
+    noProductFound= false;
     updateMessage("Loading...");
-    var result = await productAPI.getRecomendedProduct(this.page, this._limit);
-    Future.delayed(Duration(seconds: 2), () {
+    var result = await productRepo.getRecomendedProduct(this.page, this._limit);
+    Future.delayed(Duration(seconds: 1), () {
       if (result == null) {
         updateMessage("There was a problem, please try again!");
-        updateIsLoading(false);
-        updateNoProductFound(true);
+        isLoading = false;
+        noProductFound = true;
       } else if (result.length == 0) {
         updateMessage("No other products found!");
-        updateIsLoading(false);
-        updateNoProductFound(true);
+        isLoading = false;
+        noProductFound = true;
       } else {
         recomendedProductsList += result;
         this.page += 1;
         updateMessage(null);
-        updateIsLoading(false);
-        updateNoProductFound(false);
+        isLoading = false;
+        noProductFound = false;
       }
     });
+    notifyListeners();
   }
 
   updateIsLoading(bool isLoading) {
@@ -60,5 +69,17 @@ class HomeTabViewModel extends Model {
 
   updateNoProductFound(bool noProductFound) {
     this.noProductFound = noProductFound;
+  }
+
+  updateListCategory() async {
+    listCategory = await categoryRepo.getAllCategory();
+    notifyListeners();
+  }
+
+  dispose() {
+    categoryRepo.dispose();
+    productRepo.dispose();
+
+    _instance = null;
   }
 }
