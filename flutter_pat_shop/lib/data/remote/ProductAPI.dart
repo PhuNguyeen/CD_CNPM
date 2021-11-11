@@ -27,8 +27,7 @@ class ProductAPI {
 
   Future<List<Product>?> getCategoryProduct(
       int page, int limit, int idCategory) async {
-    // TODO: call list sản phẩm theo từng loại
-    Uri apiLink = Uri.parse("$LINK_API/product?limit=$limit&page=$page");
+    Uri apiLink = Uri.parse("$LINK_API/product/category/$idCategory?limit=$limit&page=$page");
     var response;
     try {
       response = await http.get(apiLink);
@@ -42,6 +41,7 @@ class ProductAPI {
       List<dynamic> jsonListProduct = json['data'];
       for (var i = 0; i < jsonListProduct.length; i++) {
         listProduct.add(Product.fromJson(jsonListProduct[i]));
+        print('ok');
       }
       return listProduct;
     }

@@ -14,6 +14,8 @@ class CardProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double maxWidth = MediaQuery.of(context).size.width * 0.43;
+    double maxHeight = MediaQuery.of(context).size.width * 0.35;
     return GestureDetector(
       onTap: onTap,
       child: Card(
@@ -28,34 +30,37 @@ class CardProduct extends StatelessWidget {
           children: [
             Image.network(
               "$LINK_IMAGE_PRODUCT/${product.productID}1.png",
-              width: MediaQuery.of(context).size.width * 0.43,
-              height: MediaQuery.of(context).size.width * 0.35,
+              width: maxWidth,
+              height: maxHeight,
               fit: BoxFit.fitWidth,
               errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
             ),
             SizedBox(
               height: 12,
             ),
-            buildContentCardRecomendedProduct(),
+            buildContentCardRecomendedProduct(maxWidth),
           ],
         ),
       ),
     );
   }
 
-  Widget buildContentCardRecomendedProduct() => Expanded(
+  Widget buildContentCardRecomendedProduct(double maxWidth) => Expanded(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Text(
-                product.productName,
-                maxLines: 2,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w300,
+              Container(
+                width: maxWidth,
+                child: Text(
+                  product.productName,
+                  maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w300,
+                  ),
                 ),
               ),
               Row(

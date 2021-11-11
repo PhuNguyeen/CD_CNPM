@@ -32,13 +32,6 @@ class _BodyHomeTabState extends State<BodyHomeTab> {
               await model.updateRecomendedProductsList();
               print("Load ${model.page}");
             }
-            // Future.delayed(Duration(), () {
-            //   if (scrollController.position.extentAfter == 0 &&
-            //       !model.isLoading) {
-            //     model.updateRecomendedProductsList();
-            //     print("Load ${model.page}");
-            //   }
-            // });
           }),
         shrinkWrap: true,
         children: [
@@ -56,7 +49,7 @@ class _BodyHomeTabState extends State<BodyHomeTab> {
                     padding: EdgeInsets.all(12),
                     child: Center(
                       child:
-                          model.isLoading ? CircularProgressIndicator() : null,
+                          model.isLoading ? CircularProgressIndicator() : Container(),
                     ),
                   ),
                 ),
@@ -81,7 +74,7 @@ class _BodyHomeTabState extends State<BodyHomeTab> {
   Widget buildBottomMessage() => ScopedModelDescendant<HomeTabViewModel>(
         builder: (context, child, model) => Container(
           margin: EdgeInsets.only(top: 20, bottom: 28),
-          child: model.message == null ? null : Text(model.message!),
+          child: model.message == null ? Container() : Text(model.message!),
         ),
       );
 
@@ -95,7 +88,7 @@ class _BodyHomeTabState extends State<BodyHomeTab> {
                   errorBuilder: (context, error, stackTrace) =>
                       Icon(Icons.error),
                 )
-              : null,
+              : Container(),
         ),
       );
 }

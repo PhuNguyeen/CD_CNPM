@@ -20,12 +20,16 @@ class BodyShowProduct extends StatefulWidget {
 }
 
 class _BodyShowProductState extends State<BodyShowProduct> {
-  ShowProductViewModel showProductViewModel =
-      ShowProductViewModel.getInstance();
+  ShowProductViewModel? showProductViewModel;
   @override
   Widget build(BuildContext context) {
+    if (showProductViewModel == null) {
+      showProductViewModel =
+          ShowProductViewModel.getInstance(widget.product.productID);
+    }
+
     return ScopedModel<ShowProductViewModel>(
-      model: showProductViewModel,
+      model: showProductViewModel!,
       child: SingleChildScrollView(
         physics: ScrollPhysics(),
         child: Column(
@@ -42,7 +46,7 @@ class _BodyShowProductState extends State<BodyShowProduct> {
             DescriptionProductParagraph(),
             SpaceGrey(),
             RelatedProductParagraph(
-              product:widget.product,
+              product: widget.product,
             ),
             SpaceGrey(),
             ReviewProductParagraph(
@@ -57,7 +61,7 @@ class _BodyShowProductState extends State<BodyShowProduct> {
 
   @override
   void dispose() {
-    showProductViewModel.dispose();
+    showProductViewModel!.dispose();
     super.dispose();
   }
 }

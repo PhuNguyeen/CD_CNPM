@@ -113,7 +113,7 @@ class _BodySignUpState extends State<BodySignUp> {
                           Future.delayed(Duration(seconds: 3), () async {
                             final result = await signUpViewModel
                                 .checkUserIsExist(model.userPhone);
-                            // TODO: tạm cho đoạn này nhảy sang otp
+                            // ! tạm cho đoạn này nhảy sang otp
                             // _sentOTP(model.userPhone);
 
                             if (result) {

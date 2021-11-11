@@ -37,7 +37,6 @@ class _RecomendedProductState extends State<RecomendedProduct> {
                     MaterialPageRoute(
                       builder: (context) => ShowProductScreen(product: model.recomendedProductsList[index],)),
                   );
-                  print("Tap product");
                 },
               );
             },

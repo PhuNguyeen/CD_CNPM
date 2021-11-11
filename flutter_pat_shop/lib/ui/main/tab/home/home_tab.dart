@@ -21,6 +21,7 @@ class _HomeTabState extends State<HomeTab> {
         appBar: AppBar(
           title: TextField(
             cursorColor: Colors.black,
+            autofocus: false,
             //TODO search
           ),
           actions: [
@@ -56,11 +57,5 @@ class _HomeTabState extends State<HomeTab> {
           model: homeTabViewModel,
           child: BodyHomeTab(),
         ));
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
   }
 }

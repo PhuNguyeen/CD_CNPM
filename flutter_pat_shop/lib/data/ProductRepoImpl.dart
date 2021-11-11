@@ -16,15 +16,15 @@ class ProductRepoImpl with ProductRepo{
   ProductAPI productAPI = ProductAPI();
 
   @override
-  Future<List<Product>?> getRecomendedProduct(int start, int limit) async {
-    List<Product>? listProduct = await productAPI.getRecomendedProduct(start, limit);
+  Future<List<Product>?> getRecomendedProduct(int page, int limit) async {
+    List<Product>? listProduct = await productAPI.getRecomendedProduct(page, limit);
     return listProduct;
   }
 
   @override
-  Future<List<Product>?> getCategoryProduct(int page, int limit, int idCategory) {
-    // TODO: implement getCategoryProduct
-    throw UnimplementedError();
+  Future<List<Product>?> getCategoryProduct(int page, int limit, int idCategory) async{
+     List<Product>? listProduct = await productAPI.getCategoryProduct(page, limit, idCategory);
+    return listProduct;
   }
 
   @override
