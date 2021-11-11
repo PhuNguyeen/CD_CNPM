@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pat_shop/model/option/product_color/product_color.dart';
+import 'package:flutter_pat_shop/model/option/ram_rom/ram_rom.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/text_head_show_product.dart';
+import 'package:flutter_pat_shop/ui/show_product/show_product_viewmodel.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class ChooseOptionParagraph extends StatefulWidget {
   const ChooseOptionParagraph({Key? key}) : super(key: key);
@@ -9,8 +13,6 @@ class ChooseOptionParagraph extends StatefulWidget {
 }
 
 class _ChooseOptionParagraphState extends State<ChooseOptionParagraph> {
-  List<bool> isSelectRamRom = [true, false, false];
-  List<bool> isSelectColor = [true, false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class _ChooseOptionParagraphState extends State<ChooseOptionParagraph> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           TextHeadShowProduct(
-           text: "Option",
+            text: "Option",
           ),
           SizedBox(
             height: 16.0,
@@ -35,28 +37,18 @@ class _ChooseOptionParagraphState extends State<ChooseOptionParagraph> {
           SizedBox(
             height: 8.0,
           ),
-          ToggleButtons(
-            children: [
-              buildItemToggleButtons("8/128"),
-              buildItemToggleButtons("8/256"),
-              buildItemToggleButtons("12/512"),
-            ],
-            isSelected: isSelectRamRom,
-            renderBorder: true,
-            borderRadius: BorderRadius.circular(50),
-            fillColor: Colors.orange,
-            selectedColor: Colors.white,
-            onPressed: (index) {
-              setState(() {
-                for (var i = 0; i < isSelectRamRom.length; i++) {
-                  if(i == index){
-                    isSelectRamRom[i] = true;
-                  }else{
-                    isSelectRamRom[i] = false;
-                  }
-                }
-              });
-            },
+          ScopedModelDescendant<ShowProductViewModel>(
+            builder: (context, child, model) => ToggleButtons(
+              children: buildListToggleButtonsRamRom(model.ramRoms),                
+              isSelected: model.isSelectRamRoms,
+              renderBorder: true,
+              borderRadius: BorderRadius.circular(50),
+              fillColor: Colors.orange,
+              selectedColor: Colors.white,
+              onPressed: (index) {
+                model.updateIsSelectedRamRom(index);
+              },
+            ),
           ),
           SizedBox(
             height: 16.0,
@@ -71,36 +63,42 @@ class _ChooseOptionParagraphState extends State<ChooseOptionParagraph> {
           SizedBox(
             height: 8.0,
           ),
-          ToggleButtons(
-            children: [
-              buildItemToggleButtons("Red"),
-              buildItemToggleButtons("Blue"),
-              buildItemToggleButtons("Green"),
-            ],
-            isSelected: isSelectColor,
-            renderBorder: true,
-            borderRadius: BorderRadius.circular(50),
-            fillColor: Colors.orange,
-            selectedColor: Colors.white,
-            onPressed: (index) {
-              setState(() {
-                for (var i = 0; i < isSelectColor.length; i++) {
-                  if(i == index){
-                    isSelectColor[i] = true;
-                  }else{
-                    isSelectColor[i] = false;
-                  }
-                }
-              });
-            },
+          ScopedModelDescendant<ShowProductViewModel>(
+            builder: (context, child, model) =>  ToggleButtons(
+              children: buildListToggleButtonsColor(model.productColors),
+              isSelected: model.isSelectColors,
+              renderBorder: true,
+              borderRadius: BorderRadius.circular(50),
+              fillColor: Colors.orange,
+              selectedColor: Colors.white,
+              onPressed: (index) {
+                model.updateIsSelectedColor(index);
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget buildItemToggleButtons(String label) => Container(
-        child: Text(label),
+  List<Widget> buildListToggleButtonsRamRom(List<RamRom> data) {
+    List<Widget> listItem = []; 
+    for(int i = 0; i< data.length; i++){
+      listItem.add(Container(
+        child: Text("${data[i].ramdetail}/${data[i].romDetail}"),
         padding: EdgeInsets.symmetric(horizontal: 8),
-      );
+      ));
+    }
+    return listItem;
+  }
+  List<Widget> buildListToggleButtonsColor(List<ProductColor> data) {
+    List<Widget> listItem = []; 
+    for(int i = 0; i< data.length; i++){
+      listItem.add(Container(
+        child: Text("${data[i].colorName}"),
+        padding: EdgeInsets.symmetric(horizontal: 8),
+      ));
+    }
+    return listItem;
+  }
 }

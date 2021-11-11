@@ -15,9 +15,16 @@ class CategoryRepoImpl with CategoryRepo{
   CategoryAPI categoryAPI = CategoryAPI();
 
   @override
-  Future<List<Category>?> getAllCategory() async{
-    List<Category>? listCategory = await categoryAPI.getAllCategory();
+  Future<List<Category>> getAllCategory() async{
+    List<Category> listCategory = await categoryAPI.getAllCategory();
+
     return listCategory;
+  }
+
+  @override
+  dispose() {
+    instance = null;
+    throw UnimplementedError();
   }
 
 }

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/ui/enter_info_user/enter_info_user_screen.dart';
-import 'package:flutter_pat_shop/util/constants.dart';
 import 'package:flutter_pat_shop/util/my_snack_bar.dart';
 import 'package:flutter_pat_shop/util/show_dialog_loading.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -109,13 +108,12 @@ class _EnterOtpScreenState extends State<EnterOtpScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                       length: 6,
-                      obscureText: true,
-                      obscuringCharacter: '*',
-                      obscuringWidget: Icon(
-                        Icons.whatshot,
-                        color: kPrimaryColor,
-                      ),
-                      blinkWhenObscuring: true,
+                      // !icon obscuring (ẩn mã otp)
+                      // obscuringWidget: Icon(
+                      //   Icons.whatshot,
+                      //   color: kPrimaryColor,
+                      // ),
+                      blinkWhenObscuring: false,
                       animationType: AnimationType.fade,
                       validator: (v) {
                         if (v!.length < 3) {

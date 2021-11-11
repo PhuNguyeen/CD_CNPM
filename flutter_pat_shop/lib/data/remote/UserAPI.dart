@@ -1,24 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
-
-import 'package:flutter_pat_shop/repo/UserRepo.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_pat_shop/model/user/user.dart';
 import 'package:flutter_pat_shop/util/constants.dart';
 import 'package:http_parser/http_parser.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class UserAPI with UserRepo {
-  static UserAPI? instance;
-
-  static UserRepo getInstance() {
-    if (instance == null) {
-      instance = UserAPI();
-    }
-    return instance!;
-  }
-
-  Future<bool?> loginByPhoneNumber(String userPhone, String userPass) async {
+class UserAPI {
+  Future<Map<User?, bool>?> loginByPhoneNumber(
+      String userPhone, String userPass) async {
     String url =
         "$LINK_API/user/login/${userPhone.trim()}?userPass=${userPass.trim()}";
     var response;
@@ -32,12 +21,11 @@ class UserAPI with UserRepo {
     if (json['status']) {
       //Sửa mảng user trả về
       User user = User.fromJson(json['data'][0]);
-      _saveInfoUserToCache(user: user);
       print(user.toString());
-      return true;
+      return {user: true};
     } else {
       print(json['data']);
-      return false;
+      return {null: false};
     }
   }
 
@@ -48,7 +36,7 @@ class UserAPI with UserRepo {
 
   Future<bool?> signUpByPhoneNumber(String userPhone) async {
     Uri apiLink =
-        Uri.parse("$LINK_API/user/read_single_signup.php?userPhone=$userPhone");
+        Uri.parse("$LINK_API/user/signUp/$userPhone");
     var response;
     try {
       response = await http.get(apiLink);
@@ -75,20 +63,45 @@ class UserAPI with UserRepo {
    * return null nếu gặp lỗi server 
    * return true true nếu đăng kí thành công 
    */
-  Future<bool?> createUser(Map<String, dynamic> data, File? fileAvatar) async {
-    final apiLink = Uri.parse("$LINK_API/user/create.php");
+  Future<bool?> createUser(Map<String, dynamic> data) async {
+    final apiLink = Uri.parse("$LINK_API/user");
 
-    var request = http.MultipartRequest("POST", apiLink);
-    request.fields['data'] = jsonEncode(data);
+    var response;
 
-    if (fileAvatar != null) {
-      var pic = await http.MultipartFile.fromPath("file", fileAvatar.path,
-          contentType: new MediaType("image", "jpg"));
-      request.files.add(pic);
-      print(fileAvatar.path);
+    try {
+      response = await http.post(apiLink, body: data);
+    } on Exception {
+      print("Http error!");
+      return null;
     }
 
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      return jsonData['status'];
+    }
+    return null;
+  }
+
+  Future<void> deleteUserById(String id) {
+    // TODO: implement deleteUserById
+    throw UnimplementedError();
+  }
+
+  Future<void> updaterUserById(String userPass) {
+    // TODO: implement updaterUserById
+    throw UnimplementedError();
+  }
+
+  Future<bool?> updateAvatar(File file, String userPhone) async {
+    final apiLink = Uri.parse("$LINK_API/user/avatar/$userPhone");
+    var request = http.MultipartRequest("POST", apiLink);
+
+      var pic = await http.MultipartFile.fromPath("file", file.path,
+          contentType: new MediaType("image", "jpg"));
+      request.files.add(pic);
+
     http.Response response;
+
     try {
       response = await http.Response.fromStream(await request.send());
     } on Exception {
@@ -98,37 +111,14 @@ class UserAPI with UserRepo {
 
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (json['message']['create']
+      if (json['message']
           .toString()
           .toUpperCase()
           .contains("Successful.".toUpperCase())) {
         return true;
+      }else{
+        return false;
       }
     }
-
-    return false;
-  }
-
-  @override
-  Future<void> deleteUserById(String id) {
-    // TODO: implement deleteUserById
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> updaterUserById(String userPass) {
-    // TODO: implement updaterUserById
-    throw UnimplementedError();
-  }
-
-  _saveInfoUserToCache({required User user}) async {
-    final saveData = await SharedPreferences.getInstance();
-    saveData.setBool(IS_LOGIN, true);
-    saveData.setInt(USER_ID, user.userID);
-    saveData.setString(USER_NAME, user.userName);
-    saveData.setString(USER_AVATAR, user.userPhone);
-    saveData.setString(USER_EMAIL, user.userEmail);
-    saveData.setString(USER_AVATAR, user.userAvatar!);
-    print("Saved to cache!");
   }
 }

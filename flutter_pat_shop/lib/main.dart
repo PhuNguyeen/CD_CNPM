@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/util/constants.dart';
-
 import 'package:flutter_pat_shop/ui/login/login_screen.dart';
 import 'package:flutter_pat_shop/ui/main/main_application.dart';
+import 'package:flutter_pat_shop/util/constants.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

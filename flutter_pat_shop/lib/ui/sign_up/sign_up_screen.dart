@@ -10,7 +10,7 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SignUpViewModel signUpViewModel = SignUpViewModel.getInstace();
-    return ScopedModel(
+    return ScopedModel<SignUpViewModel>(
         model: signUpViewModel,
         child: Scaffold(
           body: BodySignUp(),

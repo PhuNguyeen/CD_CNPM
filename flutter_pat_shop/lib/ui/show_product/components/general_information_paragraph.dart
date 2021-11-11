@@ -95,12 +95,14 @@ class _GeneralInformationParagraphState
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  NumberFormat.currency(locale: 'vi', decimalDigits: 0)
-                      .format(widget.product.productPrice),
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
+                ScopedModelDescendant<ShowProductViewModel>(
+                  builder:(context, child, model) =>  Text(
+                    NumberFormat.currency(locale: 'vi', decimalDigits: 0)
+                        .format(model.produtPrice),
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
                 ),
                 ScopedModelDescendant<ShowProductViewModel>(

@@ -16,20 +16,21 @@ class BodyHomeTab extends StatefulWidget {
 class _BodyHomeTabState extends State<BodyHomeTab> {
   @override
   Widget build(BuildContext context) {
-    HomeTabViewModel homeTabViewModel = HomeTabViewModel.getInstance();
     ScrollController scrollController = ScrollController();
-    return ScopedModel<HomeTabViewModel>(
-      model: homeTabViewModel,
-      child: ListView(
+    return ScopedModelDescendant<HomeTabViewModel>(
+      builder: (context, child, model) => ListView(
         padding: EdgeInsets.only(bottom: 48),
         physics: BouncingScrollPhysics(),
         clipBehavior: Clip.antiAlias,
         controller: scrollController
-          ..addListener(() {
-            if (scrollController.position.extentAfter == 0 &&
-                !homeTabViewModel.isLoading) {
-              homeTabViewModel.updateRecomendedProductsList();
-              print("Load ${homeTabViewModel.page}");
+          ..addListener(() async {
+            if (scrollController.position.extentAfter ==
+                        scrollController.position.minScrollExtent &&
+                    !model.isLoading
+                // &&scrollController.position.extentAfter.toString()
+                ) {
+              await model.updateRecomendedProductsList();
+              print("Load ${model.page}");
             }
           }),
         shrinkWrap: true,
@@ -38,23 +39,23 @@ class _BodyHomeTabState extends State<BodyHomeTab> {
           CategoryProduct(),
           buildLabelForList(),
           RecomendedProduct(),
-          ScopedModelDescendant<HomeTabViewModel>(
-            builder: (context, child, model) => Container(
-              margin: EdgeInsets.all(12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
+          Container(
+            margin: EdgeInsets.all(12),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ScopedModelDescendant<HomeTabViewModel>(
+                  builder: (context, child, model) => Container(
                     padding: EdgeInsets.all(12),
                     child: Center(
                       child:
-                          model.isLoading ? CircularProgressIndicator() : null,
+                          model.isLoading ? CircularProgressIndicator() : Container(),
                     ),
                   ),
-                  buildImageNoProductFound(),
-                  buildBottomMessage(),
-                ],
-              ),
+                ),
+                buildImageNoProductFound(),
+                buildBottomMessage(),
+              ],
             ),
           ),
         ],
@@ -73,7 +74,7 @@ class _BodyHomeTabState extends State<BodyHomeTab> {
   Widget buildBottomMessage() => ScopedModelDescendant<HomeTabViewModel>(
         builder: (context, child, model) => Container(
           margin: EdgeInsets.only(top: 20, bottom: 28),
-          child: model.message == null ? null : Text(model.message!),
+          child: model.message == null ? Container() : Text(model.message!),
         ),
       );
 
@@ -84,9 +85,10 @@ class _BodyHomeTabState extends State<BodyHomeTab> {
                   "assets/images/no-product-found.png",
                   fit: BoxFit.fill,
                   height: 100,
-                  errorBuilder:(context, error, stackTrace) => Icon(Icons.error),
+                  errorBuilder: (context, error, stackTrace) =>
+                      Icon(Icons.error),
                 )
-              : null,
+              : Container(),
         ),
       );
 }

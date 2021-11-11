@@ -1,42 +1,37 @@
-import 'package:flutter_pat_shop/data/CategoryRepoImpl.dart';
 import 'package:flutter_pat_shop/data/ProductRepoImpl.dart';
-import 'package:flutter_pat_shop/model/category/category.dart';
 import 'package:flutter_pat_shop/model/product/product.dart';
-import 'package:flutter_pat_shop/repo/CategoryRepo.dart';
 import 'package:flutter_pat_shop/repo/ProductRepo.dart';
 import 'package:scoped_model/scoped_model.dart';
 
-class HomeTabViewModel extends Model {
-  static HomeTabViewModel? _instance;
+class ProductListByIdCategoryViewModel extends Model {
+  static ProductListByIdCategoryViewModel? _instance;
+  final int idCategory;
 
-  static getInstance() {
+  static ProductListByIdCategoryViewModel getInstance(int idCategory) {
     if (_instance == null) {
-      _instance = HomeTabViewModel();
+      _instance = ProductListByIdCategoryViewModel(idCategory);
     }
-    return _instance;
+    return _instance!;
   }
 
-  ProductRepo productRepo = ProductRepoImpl.getInstance();
-  CategoryRepo categoryRepo = CategoryRepoImpl.getInstance();
+  ProductRepo productRepo = ProductRepoImpl();
 
-  List<Product> recomendedProductsList = [];
-  List<Category> listCategory = [];
+  List<Product> products = [];
   bool isLoading = true;
   bool noProductFound = true;
   String? message;
-  int page = 0;
+  int page = 1;
   final _limit = 5;
 
-  HomeTabViewModel() {
-    updateListCategory();
-    updateRecomendedProductsList();
+  ProductListByIdCategoryViewModel(this.idCategory) {
+    updateProducts();
   }
 
-  updateRecomendedProductsList() async {
+  updateProducts() async {
     isLoading = true;
-    noProductFound= false;
+    noProductFound = false;
     updateMessage("Loading...");
-    var result = await productRepo.getRecomendedProduct(this.page, this._limit);
+    var result = await productRepo.getCategoryProduct(page, _limit, idCategory);
     Future.delayed(Duration(seconds: 1), () {
       if (result == null) {
         updateMessage("There was a problem, please try again!");
@@ -47,7 +42,7 @@ class HomeTabViewModel extends Model {
         isLoading = false;
         noProductFound = true;
       } else {
-        recomendedProductsList += result;
+        products += result;
         this.page += 1;
         updateMessage(null);
         isLoading = false;
@@ -71,15 +66,7 @@ class HomeTabViewModel extends Model {
     this.noProductFound = noProductFound;
   }
 
-  updateListCategory() async {
-    listCategory = await categoryRepo.getAllCategory();
-    notifyListeners();
-  }
-
-  dispose() {
-    categoryRepo.dispose();
-    productRepo.dispose();
-
+  dispose(){
     _instance = null;
   }
 }
