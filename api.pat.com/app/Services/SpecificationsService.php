@@ -9,8 +9,9 @@ class SpecificationsService
 {
     public function getByProductId($productID)
     {
-        $specifications = Specifications::where('productID', '=', $productID)
-            ->select('*')
+        $specifications = Specifications::join('product', 'product.productID', '=', 'specifications.productID')
+            ->where('product.productID', '=', $productID)
+            ->selectRaw('specificationsID, price, screen, fontCamera, rearCamera, cpu, simSlot, battery, design, especially, productDescription')
             ->get();
         return $specifications;
     }
@@ -20,7 +21,8 @@ class SpecificationsService
         $specifications = Specifications::leftJoin('specifications_has_ramrom', 'specifications.specificationsID', '=', 'specifications_has_ramrom.specificationsID')
             ->leftJoin('ramrom', 'ramrom.ramromID', '=', 'specifications_has_ramrom.ramromID')
             ->where('productID', '=', $productID)
-            ->selectRaw('ramrom.ramRomID, ramdetail, romDetail, (IFNULL(priceRamRom, 0) + IFNULL(price, 0)) as price'
+            ->selectRaw(
+                'ramrom.ramRomID, ramdetail, romDetail, (IFNULL(priceRamRom, 0) + IFNULL(price, 0)) as price'
             );
         return $specifications->paginate(10);
     }
@@ -28,8 +30,8 @@ class SpecificationsService
     public function getOptionColorByProductId($productID)
     {
         $specifications = Specifications::leftJoin('specifications_has_color', 'specifications.specificationsID', '=', 'specifications_has_color.specificationsID')
-        ->leftJoin('color', 'color.colorID', '=', 'specifications_has_color.colorID')
-        ->where('productID', '=', $productID)
+            ->leftJoin('color', 'color.colorID', '=', 'specifications_has_color.colorID')
+            ->where('productID', '=', $productID)
             ->selectRaw(
                 'color.colorID, colorName, IFNULL(priceColor, 0)  as price'
             );

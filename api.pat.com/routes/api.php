@@ -24,6 +24,7 @@ Route::namespace('App\Http\Controllers\API')->prefix('v1')->group(function () {
     // Product
     Route::resource('product', 'ProductController')->except('create', 'edit');
     Route::get('/product/category/{id}', 'ProductController@getByCategory');
+    Route::get('/product/manufacturer/{id}', 'ProductController@getByManufacturer');
     // Reviews
     Route::resource('reviews', 'ReviewsController')->except('create', 'edit');
     // User

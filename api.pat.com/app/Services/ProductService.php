@@ -11,8 +11,8 @@ class ProductService
     {
         $product = Product::leftjoin('manufacturer', 'manufacturer.manufacturerID', '=', 'product.manufacturerID')
             ->leftjoin('reviews', 'reviews.productID', '=', 'product.productID')
-            ->selectRaw('product.productID, productName, productImage, manufacturerName,ROUND(IFNULL(AVG(rate), 0),1) as sumRate, COUNT(userID) as countUser')
-            ->groupBy('product.productID', 'product.productName', 'manufacturer.manufacturerName', 'productImage');
+            ->selectRaw('product.productID, productName, productImage, manufacturerName,ROUND(IFNULL(AVG(rate), 0),1) as sumRate, COUNT(userID) as countUser, product.manufacturerID')
+            ->groupBy('product.productID', 'product.productName', 'manufacturer.manufacturerName', 'productImage', 'product.manufacturerID');
         if ($orderBys) {
             $product->orderBy($orderBys['column'], $orderBys['sort']);
         }
@@ -23,9 +23,22 @@ class ProductService
     {
         $product = Product::leftjoin('manufacturer', 'manufacturer.manufacturerID', '=', 'product.manufacturerID')
             ->leftjoin('reviews', 'reviews.productID', '=', 'product.productID')
-            ->where('product.categoryID','=', $categoryID)
-            ->selectRaw('product.productID, productName, productImage, manufacturerName,ROUND(IFNULL(AVG(rate), 0),1) as sumRate, COUNT(userID) as countUser')
-            ->groupBy('product.productID', 'product.productName', 'manufacturer.manufacturerName', 'productImage');
+            ->where('product.categoryID', '=', $categoryID)
+            ->selectRaw('product.productID, productName, productImage, manufacturerName,ROUND(IFNULL(AVG(rate), 0),1) as sumRate, COUNT(userID) as countUser, product.manufacturerID')
+            ->groupBy('product.productID', 'product.productName', 'manufacturer.manufacturerName', 'productImage', 'product.manufacturerID');
+        if ($orderBys) {
+            $product->orderBy($orderBys['column'], $orderBys['sort']);
+        }
+        return $product->paginate($limit);
+    }
+
+    public function ByManufacturer($orderBys = [], $limit = 10, $manufacturerID)
+    {
+        $product = Product::leftjoin('manufacturer', 'manufacturer.manufacturerID', '=', 'product.manufacturerID')
+            ->leftjoin('reviews', 'reviews.productID', '=', 'product.productID')
+            ->where('product.manufacturerID', '=', $manufacturerID)
+            ->selectRaw('product.productID, productName, productImage, manufacturerName,ROUND(IFNULL(AVG(rate), 0),1) as sumRate, COUNT(userID) as countUser, product.manufacturerID')
+            ->groupBy('product.productID', 'product.productName', 'manufacturer.manufacturerName', 'productImage', 'product.manufacturerID');
         if ($orderBys) {
             $product->orderBy($orderBys['column'], $orderBys['sort']);
         }
@@ -73,5 +86,4 @@ class ProductService
     {
         return Product::where('userPhone', '=', $userPhone)->limit(1)->get();
     }
-
 }
