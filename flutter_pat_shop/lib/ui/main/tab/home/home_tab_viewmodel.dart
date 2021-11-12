@@ -25,7 +25,7 @@ class HomeTabViewModel extends Model {
   bool noProductFound = true;
   String? message;
   int page = 0;
-  final _limit = 5;
+  final _limit = 10;
 
   HomeTabViewModel() {
     updateListCategory();

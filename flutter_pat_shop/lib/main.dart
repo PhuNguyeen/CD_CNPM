@@ -18,9 +18,9 @@ class _MyAppState extends State<MyApp> {
   bool isLogin = false;
   @override
   void initState() {
-    super.initState();
     // !tạm tắt để loại bỏ bug web
     setLogin();
+    super.initState();
   }
 
   @override

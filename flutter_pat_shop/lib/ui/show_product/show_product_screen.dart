@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/model/product/product.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/body_show_product.dart';
 import 'package:flutter_pat_shop/util/widgets/my_elevated_button.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ShowProductScreen extends StatelessWidget {
   final Product product;
@@ -11,34 +12,9 @@ class ShowProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: TextField(
-          cursorColor: Colors.black,
-          //TODO search
-        ),
-        leading: BackButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        actions: [
-          Icon(
-            Icons.shopping_cart,
-            color: Colors.white.withOpacity(0.8),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-          Icon(
-            Icons.notifications,
-            color: Colors.white.withOpacity(0.8),
-          ),
-          SizedBox(
-            width: 20,
-          ),
-        ],
+      body: BodyShowProduct(
+        product: product,
       ),
-      body: BodyShowProduct(product: product,),
       bottomNavigationBar: bottomNavBarShowProduct(size, context),
     );
   }
@@ -86,7 +62,11 @@ class ShowProductScreen extends StatelessWidget {
               MyElevatedButton(
                 magin: const EdgeInsets.symmetric(vertical: 8.0),
                 color: Colors.green,
-                onPressed: () {},
+                onPressed: () {
+                  Fluttertoast.showToast(
+                    msg: "Add to Shopping Cart",
+                  );
+                },
                 height: 50,
                 width: size.width * 0.7,
                 child: Text(

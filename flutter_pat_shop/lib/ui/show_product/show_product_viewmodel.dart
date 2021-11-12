@@ -1,4 +1,5 @@
 import 'package:flutter_pat_shop/data/SpecificationsRepoImpl.dart';
+import 'package:flutter_pat_shop/model/product/product.dart';
 import 'package:flutter_pat_shop/model/specifications/specifications.dart';
 import 'package:flutter_pat_shop/repo/SpecificationsRepo.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -12,15 +13,15 @@ import 'package:flutter_pat_shop/repo/ProductRepo.dart';
 
 class ShowProductViewModel extends Model {
   static ShowProductViewModel? _instance;
-  final int productID;
+  final Product product;
 
-  ShowProductViewModel(this.productID) {
+  ShowProductViewModel(this.product) {
     initShowProductViewModel();
   }
 
-  static getInstance(int productId) {
+  static getInstance(Product product) {
     if (_instance == null) {
-      _instance = ShowProductViewModel(productId);
+      _instance = ShowProductViewModel(product);
     }
     return _instance;
   }
@@ -32,6 +33,7 @@ class ShowProductViewModel extends Model {
   bool isLike = false;
   List<RamRom> ramRoms = [];
   List<ProductColor> productColors = [];
+  List<Product> relatedProducts = [];
   List<bool> isSelectRamRoms = [];
   List<bool> isSelectColors = [];
   int indexSelectedRamRom = 0;
@@ -47,11 +49,12 @@ class ShowProductViewModel extends Model {
 
   void initShowProductViewModel() async {
     Map<List<RamRom>, List<ProductColor>> option =
-        await optionRepo.getOptionByProductID(productID);
+        await optionRepo.getOptionByProductID(product.productID);
     updateListRamRom(option);
     updateListColor(option);
     updatePriceProduct();
     updateSpecifications();
+    updateRelatedProducts();
     notifyListeners();
   }
 
@@ -95,12 +98,17 @@ class ShowProductViewModel extends Model {
   }
 
   void updateSpecifications() async {
-    this.specifications = await specificationsRepo.getSpecificationsByProductID(productID);
+    this.specifications = await specificationsRepo.getSpecificationsByProductID(product.productID);
     notifyListeners();
   }
 
   void dispose() {
     productRepo.dispose();
     _instance = null;
+  }
+
+  void updateRelatedProducts() async{
+    relatedProducts = await productRepo.getProductListByManufacturerID(product.manufacturerID)?? [];
+    notifyListeners();
   }
 }

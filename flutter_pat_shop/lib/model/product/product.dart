@@ -8,6 +8,7 @@ class Product {
   String productName;
   int productImage;
   int? productPrice;
+  int manufacturerID;
   String manufacturerName;
   int countUser;
   String sumRate;
@@ -18,6 +19,7 @@ class Product {
     required this.productName,
     required this.productImage,
     this.productPrice,
+    required this.manufacturerID,
     required this.manufacturerName,
     required this.countUser,
     required this.sumRate,

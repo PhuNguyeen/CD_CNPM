@@ -12,7 +12,7 @@ class ReviewProductParagraph extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      
       children: [
         Padding(
           padding: EdgeInsets.only(left: 16, top: 16),
@@ -34,7 +34,7 @@ class ReviewProductParagraph extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 16, bottom: 16),
+          padding: EdgeInsets.only(left: 16),
           child: Row(
             children: [
               RatingBarIndicator(

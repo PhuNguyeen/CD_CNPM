@@ -37,6 +37,7 @@ For help getting started with Flutter, view our [online documentation](https://f
 [provider](https://pub.dev/packages/provider/install)
 [scoped_model](https://pub.dev/packages/scoped_model)
 [crypto](https://pub.dev/packages/crypto)
+[fluttertoast](https://pub.dev/packages/fluttertoast/versions)
 
 # Tutorial Link
 1. [Login/ SignUp](https://www.youtube.com/watch?v=ExKYjqgswJg&t=578s)
