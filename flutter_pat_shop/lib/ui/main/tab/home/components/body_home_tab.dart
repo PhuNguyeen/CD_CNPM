@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/ui/main/tab/home/home_tab_viewmodel.dart';
+import 'package:flutter_pat_shop/util/constants.dart';
+import 'package:flutter_pat_shop/util/widgets/space_grey.dart';
 import 'package:scoped_model/scoped_model.dart';
 
 import 'list_category.dart';
@@ -18,77 +20,115 @@ class _BodyHomeTabState extends State<BodyHomeTab> {
   Widget build(BuildContext context) {
     ScrollController scrollController = ScrollController();
     return ScopedModelDescendant<HomeTabViewModel>(
-      builder: (context, child, model) => ListView(
-        padding: EdgeInsets.only(bottom: 48),
-        physics: BouncingScrollPhysics(),
-        clipBehavior: Clip.antiAlias,
+      builder: (context, child, model) => CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 240,
+            backgroundColor: Colors.orange,
+            actions: [
+              Icon(
+                Icons.mail,
+                color: Colors.white,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              Icon(
+                Icons.notifications,
+                color: Colors.white,
+              ),
+              SizedBox(
+                width: 20,
+              ),
+            ],
+            title: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Icon(Icons.search),
+                  Text(
+                    "Tìm kiếm trong cửa hàng...",
+                    style: TextStyle(
+                      color: Colors.orange.shade900,
+                      fontWeight: FontWeight.normal,
+                      fontSize: 16
+                    ),
+                  ),
+                ],
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4.0),
+                color: Colors.white,
+              ),
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
+                children: [
+                  SliderADS(),
+                ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Column(
+              children: [
+                CategoryProduct(),
+                SpaceGrey(),
+                RecomendedProduct(),
+                Container(
+                  margin: EdgeInsets.all(12),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ScopedModelDescendant<HomeTabViewModel>(
+                        builder: (context, child, model) => Container(
+                          padding: EdgeInsets.all(12),
+                          height: 100,
+                          child: Center(
+                            child: model.isLoading
+                                ? CircularProgressIndicator()
+                                : (model.noProductFound
+                                    ? buildImageNoProductFound()
+                                    : SizedBox.expand()),
+                          ),
+                        ),
+                      ),
+                      model.message == null
+                          ? Container()
+                          : buildBottomMessage(model.message!),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+        physics: ScrollPhysics(),
         controller: scrollController
           ..addListener(() async {
             if (scrollController.position.extentAfter ==
-                        scrollController.position.minScrollExtent &&
-                    !model.isLoading
-                // &&scrollController.position.extentAfter.toString()
-                ) {
+                    scrollController.position.minScrollExtent &&
+                !model.isLoading) {
               await model.updateRecomendedProductsList();
               print("Load ${model.page}");
             }
           }),
         shrinkWrap: true,
-        children: [
-          SliderADS(),
-          CategoryProduct(),
-          buildLabelForList(),
-          RecomendedProduct(),
-          Container(
-            margin: EdgeInsets.all(12),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ScopedModelDescendant<HomeTabViewModel>(
-                  builder: (context, child, model) => Container(
-                    padding: EdgeInsets.all(12),
-                    child: Center(
-                      child:
-                          model.isLoading ? CircularProgressIndicator() : Container(),
-                    ),
-                  ),
-                ),
-                buildImageNoProductFound(),
-                buildBottomMessage(),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
 
-  Widget buildLabelForList() => Container(
-        padding: EdgeInsets.only(left: 16.0),
-        child: Text(
-          "Recomended Product",
-          style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
-        ),
+  Widget buildBottomMessage(String message) => Container(
+        margin: EdgeInsets.only(top: 20),
+        child: Text(message),
       );
 
-  Widget buildBottomMessage() => ScopedModelDescendant<HomeTabViewModel>(
-        builder: (context, child, model) => Container(
-          margin: EdgeInsets.only(top: 20, bottom: 28),
-          child: model.message == null ? Container() : Text(model.message!),
-        ),
-      );
-
-  Widget buildImageNoProductFound() => ScopedModelDescendant<HomeTabViewModel>(
-        builder: (context, child, model) => Container(
-          child: model.noProductFound
-              ? Image.asset(
-                  "assets/images/no-product-found.png",
-                  fit: BoxFit.fill,
-                  height: 100,
-                  errorBuilder: (context, error, stackTrace) =>
-                      Icon(Icons.error),
-                )
-              : Container(),
-        ),
-      );
+  Widget buildImageNoProductFound() => Container(
+          child: Image.asset(
+        "assets/images/no-product-found.png",
+        fit: BoxFit.fill,
+        errorBuilder: (context, error, stackTrace) => Icon(Icons.error),
+      ));
 }

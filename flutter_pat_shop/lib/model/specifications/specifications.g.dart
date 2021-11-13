@@ -17,7 +17,7 @@ Specifications _$SpecificationsFromJson(Map<String, dynamic> json) {
     battery: json['battery'] as String,
     design: json['design'] as String,
     especially: json['especially'] as String,
-    productID: json['productID'] as int,
+    productDescription: json['productDescription'] as String,
   );
 }
 
@@ -32,5 +32,5 @@ Map<String, dynamic> _$SpecificationsToJson(Specifications instance) =>
       'battery': instance.battery,
       'design': instance.design,
       'especially': instance.especially,
-      'productID': instance.productID,
+      'productDescription': instance.productDescription,
     };

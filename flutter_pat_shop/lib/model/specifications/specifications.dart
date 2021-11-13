@@ -13,7 +13,7 @@ class Specifications {
   String battery;
   String design;
   String especially;
-  int productID;
+  String productDescription;
   Specifications({
     required this.specificationsID,
     required this.screen,
@@ -24,7 +24,7 @@ class Specifications {
     required this.battery,
     required this.design,
     required this.especially,
-    required this.productID,
+    required this.productDescription,
   });
   factory Specifications.fromJson(Map<String, dynamic> json) =>
       _$SpecificationsFromJson(json);
@@ -34,6 +34,6 @@ class Specifications {
 
   @override
   String toString() {
-    return 'Specifications(specificationsID: $specificationsID, screen: $screen, fontCamera: $fontCamera, rearCamera: $rearCamera, cpu: $cpu, simSlot: $simSlot, battery: $battery, design: $design, especially: $especially, productID: $productID)';
+    return 'Specifications(specificationsID: $specificationsID, screen: $screen, fontCamera: $fontCamera, rearCamera: $rearCamera, cpu: $cpu, simSlot: $simSlot, battery: $battery, design: $design, especially: $especially, productID: $productDescription)';
   }
 }

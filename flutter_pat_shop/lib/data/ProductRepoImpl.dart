@@ -28,20 +28,13 @@ class ProductRepoImpl with ProductRepo{
   }
 
   @override
-  Future<String?> getDescriptionProduct(int idProduct) async{
-    // TODO: implement getDescriptionProduct
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Product>?> getInformationProduct(int idProduct) async{
-    // TODO: implement getInformationProduct
-    throw UnimplementedError();
-  }
-
-  @override
   void dispose() {
     instance = null;
+  }
+
+  @override
+  Future<List<Product>?> getProductListByManufacturerID(int manufacturerID) async{
+    return await productAPI.getProductListByManufacturerID(manufacturerID);
   }
   
 }

@@ -24,7 +24,7 @@ class _SliderADSState extends State<SliderADS> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
         CarouselSlider.builder(
           itemCount: listImageADS.length,
@@ -35,6 +35,7 @@ class _SliderADSState extends State<SliderADS> {
           options: CarouselOptions(
             autoPlay: true,
             viewportFraction: 1,
+            height: 280,
             autoPlayAnimationDuration: Duration(seconds: 1),
             onPageChanged: (index, reason) {
               setState(() {
@@ -46,7 +47,7 @@ class _SliderADSState extends State<SliderADS> {
         const SizedBox(
           height: 8,
         ),
-        buildIndicator()
+        buildIndicator(MediaQuery.of(context).size)
       ],
     );
   }
@@ -55,7 +56,7 @@ class _SliderADSState extends State<SliderADS> {
     return GestureDetector(
       child: Image.asset(
         listImageADS[index],
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
       ),
       onTap: () {
         //TODO đi đến địa chỉ quảng cáo
@@ -64,16 +65,22 @@ class _SliderADSState extends State<SliderADS> {
     );
   }
 
-  Widget buildIndicator() => AnimatedSmoothIndicator(
-        activeIndex: activeIndex,
-        count: listImageADS.length,
-        effect: WormEffect(
-          activeDotColor: Colors.orange,
-          type: WormType.thin,
-          dotWidth: 10,
-          dotHeight: 10,
-          paintStyle: PaintingStyle.fill,
-          spacing: 4
-        ),
-      );
+  Widget buildIndicator(Size size) => Positioned(
+    bottom: 5.0,
+    width: size.width,
+    child: Center(
+      child: AnimatedSmoothIndicator(
+            activeIndex: activeIndex,
+            count: listImageADS.length,
+            effect: WormEffect(
+              activeDotColor: Colors.orange,
+              type: WormType.thin,
+              dotWidth: 10,
+              dotHeight: 10,
+              paintStyle: PaintingStyle.fill,
+              spacing: 4
+            ),
+          ),
+    ),
+  );
 }

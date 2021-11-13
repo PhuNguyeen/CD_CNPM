@@ -1,11 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/model/product/product.dart';
 import 'package:flutter_pat_shop/ui/show_product/show_product_viewmodel.dart';
-import 'package:flutter_pat_shop/util/constants.dart';
 import 'package:intl/intl.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class GeneralInformationParagraph extends StatefulWidget {
   final Product product;
@@ -22,70 +19,10 @@ class _GeneralInformationParagraphState
   int activeIndex = 0;
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              buildSlideImageProduct(size),
-              buildIndicator(size),
-            ],
-          ),
-          _buildContent(),
-        ],
-      ),
+      child: _buildContent(),
     );
   }
-
-  Widget buildSlideImageProduct(Size size) =>
-      ScopedModelDescendant<ShowProductViewModel>(
-        builder: (context, child, model) => CarouselSlider.builder(
-          itemCount: widget.product.productImage,
-          itemBuilder: (context, index, realIndex) {
-            return Image.network(
-              "$LINK_IMAGE_PRODUCT/${widget.product.productID}${index + 1}.png",
-              fit: BoxFit.cover,
-            );
-          },
-          options: CarouselOptions(
-            height: size.height * 0.4,
-            autoPlay: true,
-            scrollPhysics: BouncingScrollPhysics(),
-            initialPage: 1,
-            autoPlayInterval: Duration(seconds: 10),
-            viewportFraction: 1,
-            onPageChanged: (index, reason) {
-              setState(() {
-                activeIndex = index;
-              });
-            },
-          ),
-        ),
-      );
-
-  Widget buildIndicator(Size size) =>
-      ScopedModelDescendant<ShowProductViewModel>(
-        builder: (context, child, model) => Positioned(
-          width: size.width,
-          bottom: 10,
-          child: Center(
-            child: AnimatedSmoothIndicator(
-              activeIndex: activeIndex,
-              count: widget.product.productImage,
-              effect: WormEffect(
-                  activeDotColor: Colors.orange,
-                  dotColor: Colors.white,
-                  type: WormType.thin,
-                  dotWidth: 10,
-                  dotHeight: 10,
-                  paintStyle: PaintingStyle.fill,
-                  spacing: 4),
-            ),
-          ),
-        ),
-      );
 
   Widget _buildContent() => Padding(
         padding: const EdgeInsets.all(16.0),
@@ -96,7 +33,7 @@ class _GeneralInformationParagraphState
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ScopedModelDescendant<ShowProductViewModel>(
-                  builder:(context, child, model) =>  Text(
+                  builder: (context, child, model) => Text(
                     NumberFormat.currency(locale: 'vi', decimalDigits: 0)
                         .format(model.produtPrice),
                     style: TextStyle(
@@ -110,7 +47,7 @@ class _GeneralInformationParagraphState
                     icon: Icon(
                       Icons.favorite,
                       size: 32,
-                      color: model.isLike? Colors.red: Colors.grey,
+                      color: model.isLike ? Colors.red : Colors.grey,
                     ),
                     onPressed: () => model.updateIsLike(),
                   ),

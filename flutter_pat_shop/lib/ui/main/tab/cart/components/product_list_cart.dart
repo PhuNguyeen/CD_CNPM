@@ -17,6 +17,7 @@ class _ProductListCartState extends State<ProductListCart> {
       productImage: 1,
       productPrice: 0,
       manufacturerName: "Apple",
+      manufacturerID: 1,
       countUser: 0,
       sumRate: "0",
       countProductBill: "0");

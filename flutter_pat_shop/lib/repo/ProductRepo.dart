@@ -4,11 +4,9 @@ abstract class ProductRepo {
   Future<List<Product>?> getRecomendedProduct(int start, int limit);
 
   Future<List<Product>?> getCategoryProduct(
-      int page, int limit, int idCategory);
+      int page, int limit, int categoryID);
 
-  Future<String?> getDescriptionProduct(int idProduct);
-
-  Future<List<Product>?> getInformationProduct(int idProduct);
+  Future<List<Product>?> getProductListByManufacturerID(int manufacturerID);
 
   void dispose();
 }

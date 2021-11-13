@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter_pat_shop/data/UserRepoImple.dart';
 import 'package:flutter_pat_shop/repo/UserRepo.dart';
 import 'package:flutter_pat_shop/util/validation.dart';
@@ -30,7 +32,7 @@ class EnterInfoUserViewModel extends Model {
     final result = await userRepo.createUser({
       "userName": userName,
       "userPhone": userPhone,
-      "userPass": userPass,
+      "userPass": sha256.convert(utf8.encode(userPass!)).toString(),
     });
     if (result == null) {
       message = "There was a problem, please try again!";

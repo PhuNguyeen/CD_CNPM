@@ -17,30 +17,9 @@ class _HomeTabState extends State<HomeTab> {
   HomeTabViewModel homeTabViewModel = HomeTabViewModel.getInstance();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: TextField(
-            cursorColor: Colors.black,
-            autofocus: false,
-            //TODO search
-          ),
-          actions: [
-            Icon(
-              Icons.mail,
-              color: Colors.white.withOpacity(0.8),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            Icon(
-              Icons.notifications,
-              color: Colors.white.withOpacity(0.8),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-          ],
-        ),
+    return ScopedModel<HomeTabViewModel>(
+      model: homeTabViewModel,
+      child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             final sharePref = await SharedPreferences.getInstance();
@@ -53,9 +32,8 @@ class _HomeTabState extends State<HomeTab> {
           child: Icon(Icons.phone),
           backgroundColor: Colors.green,
         ),
-        body: ScopedModel<HomeTabViewModel>(
-          model: homeTabViewModel,
-          child: BodyHomeTab(),
-        ));
+        body: BodyHomeTab(),
+      ),
+    );
   }
 }
