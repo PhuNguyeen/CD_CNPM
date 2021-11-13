@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pat_shop/model/product/product.dart';
 import 'package:flutter_pat_shop/ui/main/tab/home/components/card_product.dart';
 import 'package:flutter_pat_shop/ui/show_product/components/text_head_show_product.dart';
 import 'package:flutter_pat_shop/ui/show_product/show_product_screen.dart';

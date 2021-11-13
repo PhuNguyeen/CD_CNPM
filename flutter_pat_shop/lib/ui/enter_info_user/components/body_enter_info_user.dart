@@ -142,7 +142,6 @@ class _BodyEnterInfoUserState extends State<BodyEnterInfoUser> {
     var pickedImage = await picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
       return File(pickedImage.path);
-      // print(pickedImage!.path);
     }
     return null;
   }
