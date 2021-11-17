@@ -15,11 +15,11 @@ class _SliderADSState extends State<SliderADS> {
   var activeIndex = 0;
 
   final listImageADS = [
-    'assets/images/ads_demo1.jpg',
-    'assets/images/ads_demo2.jpg',
-    'assets/images/ads_demo3.jpg',
-    'assets/images/ads_demo4.jpg',
-    'assets/images/ads_demo5.jpg',
+    'assets/images/ads_demo1.png',
+    'assets/images/ads_demo2.png',
+    'assets/images/ads_demo3.png',
+    'assets/images/ads_demo4.png',
+    'assets/images/ads_demo5.png',
   ];
 
   @override
@@ -56,7 +56,7 @@ class _SliderADSState extends State<SliderADS> {
     return GestureDetector(
       child: Image.asset(
         listImageADS[index],
-        fit: BoxFit.cover,
+        fit: BoxFit.fill,
       ),
       onTap: () {
         //TODO đi đến địa chỉ quảng cáo
@@ -75,8 +75,8 @@ class _SliderADSState extends State<SliderADS> {
             effect: WormEffect(
               activeDotColor: Colors.orange,
               type: WormType.thin,
-              dotWidth: 10,
-              dotHeight: 10,
+              dotWidth: 8,
+              dotHeight: 8,
               paintStyle: PaintingStyle.fill,
               spacing: 4
             ),
