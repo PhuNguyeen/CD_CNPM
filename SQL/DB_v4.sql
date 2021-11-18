@@ -245,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `userID` int(11) NOT NULL AUTO_INCREMENT,
   `userName` varchar(50) NOT NULL,
   `userPhone` varchar(12) NOT NULL,
-  `userPass` varchar(100) NOT NULL,
+  `userPass` text NOT NULL,
   `userEmail` varchar(50) NULL,
   `userAvatar` varchar(50) NOT NULL,
   `userRole` tinyint(4) NOT NULL,
