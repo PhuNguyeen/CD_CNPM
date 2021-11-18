@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/ui/main/tab/home/home_tab_viewmodel.dart';
-import 'package:flutter_pat_shop/util/constants.dart';
 import 'package:flutter_pat_shop/util/widgets/space_grey.dart';
 import 'package:scoped_model/scoped_model.dart';
 
