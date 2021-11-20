@@ -80,6 +80,39 @@ class ProductController extends Controller
         }
     }
 
+    public function show(Request $request, $productName)
+    {
+        try {
+            $limit = $request->get('limit') ?? 10;
+            $orders = [];
+            if ($request->get('column') && $request->get('sort')) {
+                $orders = [
+                    'column' => $request->get('column'),
+                    'sort' => $request->get('sort'),
+                ];
+            }
+
+            $product = $this->productService->SearchByName($orders, $limit, $productName);
+            
+            foreach ($product->items() as $p) {
+                $p['productPrice'] = $this->productService->getMinPrice($p['productID']);
+                $p['countProductBill'] = $this->productService->getCountDetailBill($p['productID']);
+            }
+            return response()->json([
+                'status'    => true,
+                'code'      => Response::HTTP_OK,
+                'data'     => $product->items(),
+
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status'    => false,
+                'code'      => Response::HTTP_INTERNAL_SERVER_ERROR,
+                'message'   => $e->getMessage()
+            ]);
+        }
+    }
+
     public function getByManufacturer(Request $request, $manufacturerID)
     {
         try {
@@ -113,21 +146,5 @@ class ProductController extends Controller
         }
     }
 
-    public function show($productID)
-    {
-        try {
-            $product = $this->productService->findById($productID);
-            return response()->json([
-                'status'    => true,
-                'code'      => Response::HTTP_OK,
-                'user'      => $product,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status'    => false,
-                'code'      => Response::HTTP_INTERNAL_SERVER_ERROR,
-                'message'   => $e->getMessage()
-            ]);
-        }
-    }
+    
 }

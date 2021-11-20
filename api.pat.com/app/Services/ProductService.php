@@ -32,6 +32,19 @@ class ProductService
         return $product->paginate($limit);
     }
 
+    public function SearchByName($orderBys = [], $limit = 10, $productName)
+    {
+        $product = Product::leftjoin('manufacturer', 'manufacturer.manufacturerID', '=', 'product.manufacturerID')
+            ->leftjoin('reviews', 'reviews.productID', '=', 'product.productID')
+            ->where('product.productName', 'LIKE', '%'.$productName.'%')
+            ->selectRaw('product.productID, productName, productImage, manufacturerName,ROUND(IFNULL(AVG(rate), 0),1) as sumRate, COUNT(userID) as countUser, product.manufacturerID')
+            ->groupBy('product.productID', 'product.productName', 'manufacturer.manufacturerName', 'productImage', 'product.manufacturerID');
+        if ($orderBys) {
+            $product->orderBy($orderBys['column'], $orderBys['sort']);
+        }
+        return $product->paginate($limit);
+    }
+
     public function ByManufacturer($orderBys = [], $limit = 10, $manufacturerID)
     {
         $product = Product::leftjoin('manufacturer', 'manufacturer.manufacturerID', '=', 'product.manufacturerID')
