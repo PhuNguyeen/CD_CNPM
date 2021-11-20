@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pat_shop/ui/main/tab/home/home_tab_viewmodel.dart';
+import 'package:flutter_pat_shop/ui/search_product/search_screen.dart';
 import 'package:flutter_pat_shop/util/widgets/space_grey.dart';
 import 'package:scoped_model/scoped_model.dart';
 
@@ -41,25 +42,33 @@ class _BodyHomeTabState extends State<BodyHomeTab> {
                 width: 20,
               ),
             ],
-            title: Container(
-              width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(Icons.search),
-                  Text(
-                    "Tìm kiếm trong cửa hàng...",
-                    style: TextStyle(
-                      color: Colors.orange.shade900,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16
-                    ),
+            title: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => SearchScreen(),
                   ),
-                ],
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4.0),
-                color: Colors.white,
+                );
+              },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.search),
+                    Text(
+                      "Tìm kiếm trong cửa hàng...",
+                      style: TextStyle(
+                          color: Colors.orange.shade900,
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16),
+                    ),
+                  ],
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(4.0),
+                  color: Colors.white,
+                ),
               ),
             ),
             flexibleSpace: FlexibleSpaceBar(

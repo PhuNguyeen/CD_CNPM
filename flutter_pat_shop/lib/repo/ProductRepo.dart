@@ -8,5 +8,7 @@ abstract class ProductRepo {
 
   Future<List<Product>?> getProductListByManufacturerID(int manufacturerID);
 
+  Future<List<Product>?> findProductList(String content);
+
   void dispose();
 }

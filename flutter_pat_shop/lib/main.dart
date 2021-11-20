@@ -26,7 +26,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
@@ -39,7 +38,7 @@ class _MyAppState extends State<MyApp> {
 
   void setLogin() async {
     var sharedPref = await SharedPreferences.getInstance();
-    isLogin = sharedPref.getBool(IS_LOGIN)!;
+    isLogin = sharedPref.getBool(IS_LOGIN)?? false;
     setState(() {
       print("Login ${isLogin.toString()}");
     });
