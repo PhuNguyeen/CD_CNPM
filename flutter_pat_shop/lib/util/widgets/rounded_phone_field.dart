@@ -18,7 +18,7 @@ class RoundedPhoneField extends StatelessWidget {
       required this.onChanged,
       this.textInputType,
       this.controller,
-      this.errorText})
+      this.errorText,})
       : super(key: key);
 
   @override

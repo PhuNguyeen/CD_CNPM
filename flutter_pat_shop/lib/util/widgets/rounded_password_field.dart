@@ -10,8 +10,11 @@ class RoundedPasswordField extends StatefulWidget {
   final TextInputType? textInputType;
   final Icon? icon;
 
+  final FocusNode? focusNode;
   final ValueChanged<String> onChanged;
+  final ValueChanged<String>? onSubmitted;
   final TextEditingController? controller;
+  final TextInputAction? textInputAction;
 
   RoundedPasswordField(
       {required this.hintText,
@@ -21,7 +24,10 @@ class RoundedPasswordField extends StatefulWidget {
       this.textInputType,
       this.icon,
       required this.onChanged,
-      this.controller});
+      this.controller,
+      this.focusNode,
+      this.onSubmitted,
+      this.textInputAction});
 
   @override
   _RoundedPasswordFieldState createState() => _RoundedPasswordFieldState();
@@ -36,6 +42,9 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
       child: TextField(
         onChanged: widget.onChanged,
         obscureText: _obscureText,
+        focusNode: widget.focusNode,
+        onSubmitted: widget.onSubmitted,
+        textInputAction: widget.textInputAction,
         decoration: InputDecoration(
             hintText: widget.hintText,
             icon: Icon(Icons.lock),

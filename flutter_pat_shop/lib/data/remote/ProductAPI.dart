@@ -66,4 +66,24 @@ class ProductAPI {
       return listProduct;
     }
   }
+
+   Future<List<Product>?> findProductList(String content) async{
+     Uri apiLink = Uri.parse("$LINK_API/product/$content");
+    var response;
+    try {
+      response = await http.get(apiLink);
+    } on Exception {
+      print("Http error!");
+      return null;
+    }
+    var json = jsonDecode(response.body);
+    List<Product> listProduct = [];
+    if (json['status']) {
+      List<dynamic> jsonListProduct = json['data'];
+      for (var i = 0; i < jsonListProduct.length; i++) {
+        listProduct.add(Product.fromJson(jsonListProduct[i]));
+      }
+      return listProduct;
+    }
+   }
 }

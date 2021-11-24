@@ -36,5 +36,10 @@ class ProductRepoImpl with ProductRepo{
   Future<List<Product>?> getProductListByManufacturerID(int manufacturerID) async{
     return await productAPI.getProductListByManufacturerID(manufacturerID);
   }
+
+  @override
+  Future<List<Product>?> findProductList(String content) async{
+    return await productAPI.findProductList(content);
+  }
   
 }
