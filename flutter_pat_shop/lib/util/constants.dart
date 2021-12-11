@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 const kPrimaryColor = Colors.amberAccent;
-//php artisan serve --host 192.168.31.236 --port 8000
+// php artisan serve --host 192.168.31.236 --port 8000
+// cd F:\xampp\htdocs\CD_CNPM\api.pat.com
 
 // const LOCALHOST = "http://192.168.31.236:8080";
 // const LINK_API = "$LOCALHOST/CD_CNPM/back_end/api";
