@@ -9,7 +9,6 @@ import 'package:flutter_pat_shop/util/widgets/already_have_an_account.dart';
 import 'package:flutter_pat_shop/util/widgets/rounded_button.dart';
 import 'package:flutter_pat_shop/util/widgets/rounded_password_field.dart';
 import 'package:flutter_pat_shop/util/widgets/rounded_phone_field.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:phone_form_field/phone_form_field.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'background_login.dart';
